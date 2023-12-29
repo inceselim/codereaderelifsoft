@@ -137,39 +137,67 @@ export default function LoginScreen() {
         loading ?
           <LoadingCard />
           :
-          <View style={styles.content}>
-            <Text style={{
-              color: "#333",
-              fontSize: 15,
-              marginVertical: 12
-            }}>Giriş Yap</Text>
+          <View style={[styles.content, { justifyContent: "center" }]}>
+            <View style={{
+              paddingHorizontal: 12,
+              paddingVertical: 12,
+              borderRadius: 8,
+              justifyContent: "center",
+              shadowColor: "#000",
+              backgroundColor: "#eee",
+              shadowOffset: {
+                width: 0,
+                height: 5,
+              },
+              shadowOpacity: 0.36,
+              shadowRadius: 6.68,
 
-            <TextInput style={styles.textInput}
-              placeholder='Kullanıcı Adı Giriniz'
-              value={userName}
-              onChangeText={setUserName}
-              placeholderTextColor={"#666"} />
-
-            <TextInput style={styles.textInput}
-              placeholder='Parola Giriniz'
-              value={userPass}
-              onChangeText={setUserPass}
-              placeholderTextColor={"#666"} />
-            <TouchableOpacity onPress={() => setRemember(!remember)} style={{ flexDirection: "row", alignItems: "center" }}>
-              {remember ? <Text style={{
-                color: colors.blueDark,
-                fontWeight: "900",
-              }}>X</Text> : <Text style={{
-                fontWeight: "900",
-              }}>-</Text>}
+              elevation: 11,
+            }}>
               <Text style={{
-                color: colors.blueDark,
-                paddingStart: 8
-              }}>Beni Hatırla</Text>
-            </TouchableOpacity>
+                color: "#333",
+                fontSize: 25,
+                fontWeight: "800",
+                marginVertical: 12
+              }}>Giriş Yap</Text>
+              <Text style={{
+                color: "#333",
+                fontSize: 17,
+                fontWeight: "600",
+                marginVertical: 8
+              }}>Uygulamaya Hoşgeldiniz...</Text>
 
-            <ButtonPrimary onPress={() => handleUserLogin({ userName, userPass, })}
-              text={"Giriş Yap"} />
+              <TextInput style={styles.textInput}
+                placeholder='Kullanıcı Adı Giriniz'
+                value={userName}
+                onChangeText={setUserName}
+                placeholderTextColor={"#666"} />
+
+              <TextInput style={styles.textInput}
+                placeholder='Parola Giriniz'
+                value={userPass}
+                onChangeText={setUserPass}
+                placeholderTextColor={"#666"} />
+              <TouchableOpacity onPress={() => setRemember(!remember)} style={{ flexDirection: "row", alignItems: "center" }}>
+                {remember ? <Text style={{
+                  color: colors.orange,
+                  fontWeight: "900",
+                  fontSize: 16,
+                }}>X</Text> : <Text style={{
+                  color: colors.orange,
+                  fontWeight: "900",
+                  fontSize: 16,
+                }}> </Text>}
+                <Text style={{
+                  color: colors.orange,
+                  fontWeight: "500",
+                  paddingStart: 8
+                }}>Beni Hatırla</Text>
+              </TouchableOpacity>
+
+              <ButtonPrimary onPress={() => handleUserLogin({ userName, userPass, })}
+                text={"Giriş Yap"} />
+            </View>
           </View>
       }
     </SafeAreaView>

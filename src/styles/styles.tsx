@@ -8,13 +8,22 @@ export const styles = StyleSheet.create({
     content: {
         flex: 1,
         paddingHorizontal: 12,
-        backgroundColor:colors.white
+        backgroundColor: colors.white
     },
     textInput: {
         backgroundColor: "#eee",
         borderRadius: 8,
         paddingStart: 12,
         marginVertical: 14,
-        fontSize: 12
+        fontSize: 12,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.36,
+        shadowRadius: 6.68,
+
+        elevation: 11,
     }
 })
