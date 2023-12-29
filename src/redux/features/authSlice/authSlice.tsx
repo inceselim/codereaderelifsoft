@@ -60,13 +60,10 @@ const authSlice = createSlice({
             state.companies = payload
         },
         rememberUser: (state, { payload }) => {
-
             state.isLogin = true
             state.userToken = payload.token
             state.tokenExpires = payload.tokenExpires
             state.userName = payload.tokenUserName
-            state.mobileMenu = payload.mobileMenu
-            // state.appMenuYeni = payload.appMenuYeni
         },
         rememberUserId: (state, { payload }) => {
             state.userId = payload

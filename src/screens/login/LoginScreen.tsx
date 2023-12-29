@@ -6,6 +6,7 @@ import {
   Alert,
   TextInput,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 
 import LoadingCard from '../../components/LoadingCard/LoadingCard';
@@ -18,6 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQuery } from 'react-query';
 import { loginUser } from '../../redux/features/authSlice/authSlice';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
 
 
@@ -53,49 +55,52 @@ export default function LoginScreen() {
   //
   const handleUserLogin = async ({ userName, userPass, deviceId = "", platformName = "" }: any) => {
     if (userName !== '' && userPass !== '') {
+      setLoading(true)
       try {
         const formData = new FormData();
         formData.append('username', userName);
         formData.append('password', userPass);
+        await axios
+          .post(
+            API_URL.BASE_URL + API_URL.LOGIN_URL,
+            // formData,
+            {
+              username: userName,
+              password: userPass,
+              deviceId: "deviceId",
+              mobileType: "platformName",
+            },
+            {
+              headers: {
+                Accept: 'application/json',
+                'content-type': 'application/json',
+              },
+            }).then(async (result: any) => {
+              console.log("RESULT: ", result.data)
+              setData(result)
+              if (remember === true) {
+                await AsyncStorage.setItem('@token', result.data.token).catch((e) => console.log("token", e))
+                await AsyncStorage.setItem('@tokenExpires', result.data.expires);
+                await AsyncStorage.setItem(
+                  '@tokenUserName',
+                  result.data.displayName,
+                );
+                await AsyncStorage.setItem('@userName', userName);
+                // await AsyncStorage.setItem('@mobileMenu', JSON.stringify(result.data.mobileMenu));
+                // await AsyncStorage.setItem('@appMenuYeni', JSON.stringify(result.data.appMenuYeni));
+                // await AsyncStorage.setItem('@companies', JSON.stringify(result.data.companies));
+              }
+              await AsyncStorage.setItem('@userName', userName);
+              dispatch(loginUser(result.data));
+            })
+          .finally(() => setLoading(false))
 
-        console.log("username", userName)
-        console.log("password", userPass)
-        const response = await fetch('http://dev.elifsoft.io/api/AccountApi/Login', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            // İsteğe bağlı olarak başlıklar ekleyebilirsiniz
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+        // const result = await response.json()
 
-        const result = await response.json()
-        // console.log("RESULT: ", result)
-        setData(result)
-        console.log()
-        console.log()
-        console.log("TOKEN: ",result?.token)
-        console.log()
-        console.log()
-        console.log()
-        if (remember === true) {
-          await AsyncStorage.setItem('@token', result.token).catch((e) => console.log("token", e))
-          await AsyncStorage.setItem('@tokenExpires', result.expires);
-          await AsyncStorage.setItem(
-            '@tokenUserName',
-            result.displayName,
-          );
-          await AsyncStorage.setItem('@userName', userName);
-          // await AsyncStorage.setItem('@mobileMenu', JSON.stringify(result.data.mobileMenu));
-          // await AsyncStorage.setItem('@appMenuYeni', JSON.stringify(result.data.appMenuYeni));
-          // await AsyncStorage.setItem('@companies', JSON.stringify(result.data.companies));
-        }
-        await AsyncStorage.setItem('@userName', userName);
-        dispatch(loginUser(result));
       }
       catch (e: any) {
         console.log(e)
-        Alert.alert("Hata",e.message)
+        Alert.alert("Hata", e.message)
       }
     }
     else {
@@ -120,8 +125,14 @@ export default function LoginScreen() {
     getOldUser()
   }, [])
   // //-----------------------------------------------------
+  if (loading) {
+    return (
+      <LoadingCard />
+    )
+  }
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={colors.white} barStyle={"dark-content"} />
       {
         loading ?
           <LoadingCard />

@@ -11,14 +11,14 @@ const Stack = createNativeStackNavigator();
 
 export default function MainNavigation() {
     let userToken = useSelector((state: any) => state.auth.userToken)
-    let isFetching: any = false
+    let authVal = useSelector((state: any) => state.auth)
     let connect: any = true
     return (
         <Stack.Navigator
             initialRouteName={"Splash"}
             screenOptions={{ headerShown: false }}>
             {
-                isFetching ? (
+                authVal.isFetching ? (
                     <Stack.Screen
                         options={{ headerShown: false }}
                         name="Splash"
