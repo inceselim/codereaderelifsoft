@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     textInput: {
         backgroundColor: "#eee",
         borderRadius: 8,
+        paddingVertical: 12,
         paddingStart: 12,
         marginVertical: 14,
         fontSize: 12,

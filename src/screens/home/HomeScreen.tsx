@@ -89,7 +89,7 @@ export default function HomeScreen() {
                 <View style={{ alignContent: "center" }}>
                     {/* <Text style={{
                         fontSize: 18,
-                        color: colors.orange,
+                        color: colors.primaryColor,
                         fontWeight: "bold",
                         paddingVertical: 10,
                         borderBottomWidth: 1,
@@ -102,7 +102,7 @@ export default function HomeScreen() {
                         <TouchableOpacity onPress={() => setSegment(0)}>
                             <Text style={{
                                 fontSize: 19,
-                                color: colors.orange,
+                                color: colors.primaryColor,
                                 fontWeight: "bold",
                                 textAlign: "center",
                                 paddingVertical: 10,
@@ -111,7 +111,7 @@ export default function HomeScreen() {
                         <TouchableOpacity onPress={() => setSegment(1)}>
                             <Text style={{
                                 fontSize: 19,
-                                color: colors.orange,
+                                color: colors.primaryColor,
                                 fontWeight: "bold",
                                 textAlign: "center",
                                 paddingVertical: 10,
@@ -131,7 +131,7 @@ export default function HomeScreen() {
                                 <TouchableOpacity onPress={() => setBarcodeText("")}>
                                     <Text style={{
                                         fontSize: 15,
-                                        color: colors.orange,
+                                        color: colors.primaryColor,
                                         fontWeight: "bold",
                                         textAlign: "center",
                                         paddingVertical: 10,
@@ -150,7 +150,7 @@ export default function HomeScreen() {
                     <TouchableOpacity onPress={() => logoutDecide()}>
                         <Text style={{
                             fontSize: 15,
-                            color: colors.orange,
+                            color: colors.primaryColor,
                             fontWeight: "bold",
                             textAlign: "center",
                             paddingVertical: 10,

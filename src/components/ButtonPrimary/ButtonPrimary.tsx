@@ -6,7 +6,7 @@ export default function ButtonPrimary({ onPress, text }: any) {
     return (
         <TouchableOpacity onPress={onPress}
             style={{
-                backgroundColor: colors.orange,
+                backgroundColor: colors.primaryColor,
                 marginVertical: 12,
                 borderRadius: 8
             }}>

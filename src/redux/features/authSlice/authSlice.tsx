@@ -1,6 +1,5 @@
 import { createAsyncThunk, applyMiddleware, createSlice, PayloadAction, createAction } from '@reduxjs/toolkit'
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface LoginState {
     isLogin: boolean

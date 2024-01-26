@@ -180,16 +180,18 @@ export default function LoginScreen() {
                 placeholderTextColor={"#666"} />
               <TouchableOpacity onPress={() => setRemember(!remember)} style={{ flexDirection: "row", alignItems: "center" }}>
                 {remember ? <Text style={{
-                  color: colors.orange,
+                  color: colors.primaryColor,
+                  width: 10,
                   fontWeight: "900",
                   fontSize: 16,
                 }}>X</Text> : <Text style={{
-                  color: colors.orange,
+                  color: colors.primaryColor,
                   fontWeight: "900",
+                  width: 10,
                   fontSize: 16,
                 }}> </Text>}
                 <Text style={{
-                  color: colors.orange,
+                  color: colors.primaryColor,
                   fontWeight: "500",
                   paddingStart: 8
                 }}>Beni Hatırla</Text>
