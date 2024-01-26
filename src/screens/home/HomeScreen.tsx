@@ -12,10 +12,7 @@ import { ArrowRight2 } from 'iconsax-react-native';
 export default function HomeScreen() {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
-    const [barcodeText, setBarcodeText] = useState("")
     const userName = useSelector((state: any) => state.auth.userName)
-
-    const [segment, setSegment] = useState(0);
 
     async function logoutDecide() {
         Alert.alert('Oturum Kapat', 'Çıkış yapmak istediğinize emin misiniz?', [
@@ -34,55 +31,6 @@ export default function HomeScreen() {
                 }
             },
         ]);
-    }
-    useEffect(() => {
-        // Tts.voices().then(voices => console.log(voices));
-        Tts.setDefaultLanguage('tr-TR');
-        Tts.setDefaultRate(0.6);
-        Tts.speak('Hello, world!', {
-            iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-            rate: 0.5,
-            androidParams: {
-                KEY_PARAM_PAN: 0,
-                KEY_PARAM_VOLUME: 0.99,
-                KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
-            },
-        });
-        Tts.speak('Selam arkadaşlar uygulamamıza hoşgeldiniz!', {
-            // iosVoiceId: 'com.apple.ttsbundle.Moira-compact',
-            iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-            rate: 0.5,
-            androidParams: {
-                KEY_PARAM_PAN: 0,
-                KEY_PARAM_VOLUME: 1.0,
-                KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
-            },
-        });
-    }, []);
-    const handleBarcode = () => {
-        if (Platform.OS == "ios") {
-            Tts.speak('Hello, world!', {
-                iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-                rate: 0.5,
-                androidParams: {
-                    KEY_PARAM_PAN: 0,
-                    KEY_PARAM_VOLUME: 0.99,
-                    KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
-                },
-            });
-        }
-        else {
-            Tts.speak('Selam arkadaşlar uygulamamıza hoşgeldiniz!', {
-                // iosVoiceId: 'com.apple.ttsbundle.Moira-compact',
-                iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-                rate: 0.5,
-                androidParams: {
-                    KEY_PARAM_PAN: 0,
-                    KEY_PARAM_VOLUME: 1.0,
-                    KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
-                },
-            });
-        }
     }
     return (
         <SafeAreaView style={styles.container}>
@@ -130,11 +78,13 @@ export default function HomeScreen() {
                         }}>Çıkış</Text>
                     </TouchableOpacity>
                 </View>
+
+
                 <View style={{
                     flex: 1,
                     justifyContent: "center"
                 }}>
-                    <TouchableOpacity onPress={() => setSegment(0)} style={{
+                    <TouchableOpacity onPress={() => navigation.navigate("Barkod")} style={{
                         flexDirection: "row",
                         alignItems: "center",
                         marginVertical: 14,
@@ -167,7 +117,7 @@ export default function HomeScreen() {
                         paddingVertical: 10,
                         borderRadius: 8
                     }}>
-                        <Image source={require("../../assets/images/paperIcon.png")}
+                        <Image source={require("../../assets/images/arizaIcon1.png")}
                             style={{
                                 height: 40,
                                 width: 40,
@@ -185,64 +135,6 @@ export default function HomeScreen() {
                         <ArrowRight2 size="25" color={colors.primaryColor} style={{ marginEnd: 4 }} />
                     </TouchableOpacity>
                 </View>
-
-
-
-
-                <View style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    paddingTop: 10,
-                }}>
-
-                    <TouchableOpacity onPress={() => setSegment(0)}>
-                        <Text style={{
-                            fontSize: 19,
-                            color: colors.primaryColor,
-                            fontWeight: "bold",
-                            textAlign: "center",
-                            paddingVertical: 10,
-                        }}>Barkod Okut</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSegment(1)}>
-                        <Text style={{
-                            fontSize: 19,
-                            color: colors.primaryColor,
-                            fontWeight: "bold",
-                            textAlign: "center",
-                            paddingVertical: 10,
-                        }}>Okutulanlar</Text>
-                    </TouchableOpacity>
-                </View>
-
-                {
-                    segment == 0 ?
-                        <View>
-                            <TextInput
-                                style={styles.textInput}
-                                value={barcodeText}
-                                onChangeText={setBarcodeText}
-                                autoFocus
-                            />
-                            <TouchableOpacity onPress={() => setBarcodeText("")}>
-                                <Text style={{
-                                    fontSize: 15,
-                                    color: colors.primaryColor,
-                                    fontWeight: "bold",
-                                    textAlign: "center",
-                                    paddingVertical: 10,
-                                }}>Temizle</Text>
-                            </TouchableOpacity>
-                        </View>
-                        :
-                        <View>
-                            <ScrollView>
-                                <View>
-
-                                </View>
-                            </ScrollView>
-                        </View>
-                }
             </View>
         </SafeAreaView>
     );
