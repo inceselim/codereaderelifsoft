@@ -6,7 +6,6 @@ import Tts from 'react-native-tts';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { logoutUser } from '../../redux/features/authSlice/authSlice';
 import { ArrowRight2 } from 'iconsax-react-native';
 
 export default function BarkodScreen() {
