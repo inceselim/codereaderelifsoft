@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, Alert, TextInput, ScrollView, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, SafeAreaView, Alert, TextInput, ScrollView, TouchableOpacity, Platform, Image } from 'react-native';
 import { styles } from '../../styles/styles';
 import { colors } from '../../styles/colors';
 import Tts from 'react-native-tts';
@@ -86,77 +86,143 @@ export default function HomeScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                <View style={{ alignContent: "center" }}>
-                    {/* <Text style={{
-                        fontSize: 18,
+                <View style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    paddingVertical: 10,
+                    borderBottomWidth: 1,
+                }}>
+                    <Image source={require("../../assets/images/userIcon1.png")}
+                        style={{
+                            height: 28,
+                            width: 28,
+                        }} />
+                    <Text style={{
+                        fontSize: 16,
                         color: colors.primaryColor,
                         fontWeight: "bold",
-                        paddingVertical: 10,
-                        borderBottomWidth: 1,
-                    }}>Kullanıcı: {userName}</Text> */}
-                    <View style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        paddingTop:10,
+
                     }}>
-                        <TouchableOpacity onPress={() => setSegment(0)}>
-                            <Text style={{
-                                fontSize: 19,
-                                color: colors.primaryColor,
-                                fontWeight: "bold",
-                                textAlign: "center",
-                                paddingVertical: 10,
-                            }}>Barkod Okut</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setSegment(1)}>
-                            <Text style={{
-                                fontSize: 19,
-                                color: colors.primaryColor,
-                                fontWeight: "bold",
-                                textAlign: "center",
-                                paddingVertical: 10,
-                            }}>Okutulanlar</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    {
-                        segment == 0 ?
-                            <View>
-                                <TextInput
-                                    style={styles.textInput}
-                                    value={barcodeText}
-                                    onChangeText={setBarcodeText}
-                                    autoFocus
-                                />
-                                <TouchableOpacity onPress={() => setBarcodeText("")}>
-                                    <Text style={{
-                                        fontSize: 15,
-                                        color: colors.primaryColor,
-                                        fontWeight: "bold",
-                                        textAlign: "center",
-                                        paddingVertical: 10,
-                                    }}>Temizle</Text>
-                                </TouchableOpacity>
-                            </View>
-                            :
-                            <View>
-                                <ScrollView>
-                                    <View>
-
-                                    </View>
-                                </ScrollView>
-                            </View>
-                    }
-                    <TouchableOpacity onPress={() => logoutDecide()}>
+                        {userName?.toUpperCase()}</Text>
+                </View>
+                <View style={{
+                    flex: 1,
+                    justifyContent: "center"
+                }}>
+                    <TouchableOpacity onPress={() => setSegment(0)} style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginVertical: 14,
+                        backgroundColor: colors.gray,
+                        paddingVertical: 10,
+                        borderRadius: 8
+                    }}>
+                        <Image source={require("../../assets/images/qrScanIcon1.png")}
+                            style={{
+                                height: 40,
+                                width: 40,
+                                marginStart: 6,
+                            }} />
                         <Text style={{
-                            fontSize: 15,
+                            fontSize: 16,
                             color: colors.primaryColor,
                             fontWeight: "bold",
                             textAlign: "center",
                             paddingVertical: 10,
-                        }}>Çıkış Yap</Text>
+                            paddingStart: 8,
+                        }}>Barkod Okut</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSegment(0)} style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginVertical: 14,
+                        backgroundColor: colors.gray,
+                        paddingVertical: 10,
+                        borderRadius: 8
+                    }}>
+                        <Image source={require("../../assets/images/paperIcon.png")}
+                            style={{
+                                height: 40,
+                                width: 40,
+                                marginStart: 6,
+                            }} />
+                        <Text style={{
+                            fontSize: 16,
+                            color: colors.primaryColor,
+                            fontWeight: "bold",
+                            textAlign: "center",
+                            paddingVertical: 10,
+                            paddingStart: 8,
+                        }}>Arıza Talep</Text>
                     </TouchableOpacity>
                 </View>
+
+
+
+
+                <View style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    paddingTop: 10,
+                }}>
+
+                    <TouchableOpacity onPress={() => setSegment(0)}>
+                        <Text style={{
+                            fontSize: 19,
+                            color: colors.primaryColor,
+                            fontWeight: "bold",
+                            textAlign: "center",
+                            paddingVertical: 10,
+                        }}>Barkod Okut</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSegment(1)}>
+                        <Text style={{
+                            fontSize: 19,
+                            color: colors.primaryColor,
+                            fontWeight: "bold",
+                            textAlign: "center",
+                            paddingVertical: 10,
+                        }}>Okutulanlar</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {
+                    segment == 0 ?
+                        <View>
+                            <TextInput
+                                style={styles.textInput}
+                                value={barcodeText}
+                                onChangeText={setBarcodeText}
+                                autoFocus
+                            />
+                            <TouchableOpacity onPress={() => setBarcodeText("")}>
+                                <Text style={{
+                                    fontSize: 15,
+                                    color: colors.primaryColor,
+                                    fontWeight: "bold",
+                                    textAlign: "center",
+                                    paddingVertical: 10,
+                                }}>Temizle</Text>
+                            </TouchableOpacity>
+                        </View>
+                        :
+                        <View>
+                            <ScrollView>
+                                <View>
+
+                                </View>
+                            </ScrollView>
+                        </View>
+                }
+                <TouchableOpacity onPress={() => logoutDecide()}>
+                    <Text style={{
+                        fontSize: 15,
+                        color: colors.primaryColor,
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        paddingVertical: 10,
+                    }}>Çıkış Yap</Text>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     );
