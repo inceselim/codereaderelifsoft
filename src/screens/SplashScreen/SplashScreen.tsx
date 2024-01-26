@@ -10,9 +10,9 @@ export default function SplashScreen() {
     RefreshToken()
     GetUserData()
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: "#008" }]}>
-            <StatusBar backgroundColor={"#006"} barStyle={"light-content"} />
-            <View style={[styles.content, { backgroundColor: "#006" }]}>
+        <SafeAreaView style={[styles.container, { backgroundColor: "#002" }]}>
+            <StatusBar backgroundColor={"#002"} barStyle={"light-content"} />
+            <View style={[styles.content, { backgroundColor: "#002" }]}>
                 <Image
                     style={style.splashImage}
                     source={require('../../assets/images/MaviAktasLogo1.png')}
@@ -21,7 +21,7 @@ export default function SplashScreen() {
                     fontSize: 19,
                     fontWeight: "bold",
                     textAlign: "center",
-                    color: "#fff"
+                    color: "#ddd"
                 }}>AKTAŞ BİLGİ TEKNOLOJİLERİ</Text>
             </View>
         </SafeAreaView>

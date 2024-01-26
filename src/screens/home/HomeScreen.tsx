@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { logoutUser } from '../../redux/features/authSlice/authSlice';
+import { ArrowRight2 } from 'iconsax-react-native';
 
 export default function HomeScreen() {
     const navigation: any = useNavigation();
@@ -89,21 +90,45 @@ export default function HomeScreen() {
                 <View style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    paddingVertical: 10,
+                    paddingVertical: 8,
                     borderBottomWidth: 1,
+                    justifyContent: "space-between"
                 }}>
-                    <Image source={require("../../assets/images/userIcon1.png")}
-                        style={{
-                            height: 28,
-                            width: 28,
-                        }} />
-                    <Text style={{
-                        fontSize: 16,
-                        color: colors.primaryColor,
-                        fontWeight: "bold",
-
+                    <View style={{
+                        flexDirection: "row",
+                        alignItems: "center",
                     }}>
-                        {userName?.toUpperCase()}</Text>
+                        <Image source={require("../../assets/images/userIcon1.png")}
+                            style={{
+                                height: 28,
+                                width: 28,
+                            }} />
+                        <Text style={{
+                            fontSize: 16,
+                            color: colors.primaryColor,
+                            fontWeight: "bold",
+
+                        }}>
+                            {userName?.toUpperCase()}</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => logoutDecide()} style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                    }}>
+                        <Image source={require("../../assets/images/logoutIcon1.png")}
+                            style={{
+                                height: 33,
+                                width: 33,
+                            }} />
+                        <Text style={{
+                            fontSize: 16,
+                            color: colors.primaryColor,
+                            fontWeight: "bold",
+                            textAlign: "left",
+                            paddingVertical: 10,
+                            paddingStart: 4,
+                        }}>Çıkış</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={{
                     flex: 1,
@@ -127,10 +152,12 @@ export default function HomeScreen() {
                             fontSize: 16,
                             color: colors.primaryColor,
                             fontWeight: "bold",
-                            textAlign: "center",
+                            textAlign: "left",
                             paddingVertical: 10,
                             paddingStart: 8,
+                            flex: 1,
                         }}>Barkod Okut</Text>
+                        <ArrowRight2 size="25" color={colors.primaryColor} style={{ marginEnd: 4 }} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setSegment(0)} style={{
                         flexDirection: "row",
@@ -150,10 +177,12 @@ export default function HomeScreen() {
                             fontSize: 16,
                             color: colors.primaryColor,
                             fontWeight: "bold",
-                            textAlign: "center",
+                            textAlign: "left",
                             paddingVertical: 10,
                             paddingStart: 8,
+                            flex: 1,
                         }}>Arıza Talep</Text>
+                        <ArrowRight2 size="25" color={colors.primaryColor} style={{ marginEnd: 4 }} />
                     </TouchableOpacity>
                 </View>
 
@@ -214,15 +243,6 @@ export default function HomeScreen() {
                             </ScrollView>
                         </View>
                 }
-                <TouchableOpacity onPress={() => logoutDecide()}>
-                    <Text style={{
-                        fontSize: 15,
-                        color: colors.primaryColor,
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        paddingVertical: 10,
-                    }}>Çıkış Yap</Text>
-                </TouchableOpacity>
             </View>
         </SafeAreaView>
     );
