@@ -44,8 +44,15 @@ export default function ArizaTalepScreen() {
         setEndDate(date)
         hideDatePickerEndDate();
     };
-    const getArizaTalepList = async () => {
-        await axios.get(API_URL.DEV_URL + API_URL.ARIZA_LIST + "?begDate=" + begDate + "&endDate=" + "&DurumLogo=" + "0" + "&IsDeleted=false", {
+    const getArizaTalepList = async ({ begin, end }: any) => {
+        console.log("begDate", begDate?.toDateString())
+        console.log("endDate", end)
+        console.log(API_URL.DEV_URL + API_URL.ARIZA_LIST +
+            "?begDate=" + begin + "&endDate=" + end +
+            "&DurumLogo=" + "0" + "&IsDeleted=false")
+        await axios.get(API_URL.DEV_URL + API_URL.ARIZA_LIST +
+            "?begDate=" + begDate.toDateString("") + "&endDate=" + endDate.toDateString("") +
+            "&DurumLogo=" + "0" + "&IsDeleted=false", {
             headers: {
                 Authorization: "Bearer " + userToken
             }
@@ -55,28 +62,25 @@ export default function ArizaTalepScreen() {
             })
             .catch((error: any) => console.log("ERROR", error))
     }
-    useEffect(() => {
-        getArizaTalepList()
-    }, [])
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
                 <ViewColCard>
-                    <ButtonPrimary text={`Başlangıç Tarihi ${"\t"} ${begDate?.toLocaleDateString("tr-TR")}`} onPress={showDatePickerBegDate} />
+                    <ButtonPrimary text={`Başlangıç Tarihi ${"\t"} ${begDate != undefined ? begDate?.toLocaleDateString("tr-TR") : ""}`} onPress={showDatePickerBegDate} />
                     <DateTimePickerModal
                         isVisible={pickerShowBegDate}
                         mode="date"
                         onConfirm={handleBegDate}
                         onCancel={hideDatePickerBegDate}
                     />
-                    <ButtonPrimary text={`Bitiş Tarihi${"\t"} ${endDate?.toLocaleDateString("tr-TR")}`} onPress={showDatePickerEndDate} />
+                    <ButtonPrimary text={`Bitiş Tarihi${"\t"} ${endDate != undefined ? endDate?.toLocaleDateString("tr-TR") : ""}`} onPress={showDatePickerEndDate} />
                     <DateTimePickerModal
                         isVisible={pickerShowEndDate}
                         mode="date"
                         onConfirm={handleEndDate}
                         onCancel={hideDatePickerEndDate}
                     />
-                    <ButtonPrimary text={"Listele"} onPress={getArizaTalepList} />
+                    <ButtonPrimary text={"Listele"} onPress={() => getArizaTalepList({ begin: begDate, end: endDate })} />
                 </ViewColCard>
             </View>
         </SafeAreaView >
