@@ -11,11 +11,12 @@ export default function ButtonPrimary({ onPress, text }: any) {
                 borderRadius: 8
             }}>
             <Text style={{
-                fontSize: 14,
+                fontSize: 13,
                 color: colors.white,
                 fontWeight: "bold",
                 textAlign: "center",
                 paddingVertical: 10,
+                paddingHorizontal: 12,
             }}>{text}</Text>
         </TouchableOpacity>
     );
