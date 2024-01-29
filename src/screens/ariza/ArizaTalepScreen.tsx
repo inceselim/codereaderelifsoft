@@ -45,7 +45,7 @@ export default function ArizaTalepScreen() {
         hideDatePickerEndDate();
     };
     const getArizaTalepList = async () => {
-        await axios.get(API_URL.DEV_URL + API_URL.ARIZA_LIST + "?begDate=2023-12-01T00:00:00&endDate=2024-01-25T17:04:45&DurumLogo=0&IsDeleted=false", {
+        await axios.get(API_URL.DEV_URL + API_URL.ARIZA_LIST + "?begDate=" + begDate + "&endDate=" + "&DurumLogo=" + "0" + "&IsDeleted=false", {
             headers: {
                 Authorization: "Bearer " + userToken
             }
@@ -61,36 +61,23 @@ export default function ArizaTalepScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                <ViewTwoRowsCard>
-                    <ButtonPrimary text="Başlangıç Tarihi" onPress={showDatePickerBegDate} />
+                <ViewColCard>
+                    <ButtonPrimary text={`Başlangıç Tarihi ${"\t"} ${begDate?.toLocaleDateString("tr-TR")}`} onPress={showDatePickerBegDate} />
                     <DateTimePickerModal
                         isVisible={pickerShowBegDate}
                         mode="date"
                         onConfirm={handleBegDate}
                         onCancel={hideDatePickerBegDate}
                     />
-                    <ButtonPrimary text="Bitiş Tarihi" onPress={showDatePickerEndDate} />
+                    <ButtonPrimary text={`Bitiş Tarihi${"\t"} ${endDate?.toLocaleDateString("tr-TR")}`} onPress={showDatePickerEndDate} />
                     <DateTimePickerModal
                         isVisible={pickerShowEndDate}
                         mode="date"
                         onConfirm={handleEndDate}
                         onCancel={hideDatePickerEndDate}
                     />
-                </ViewTwoRowsCard>
-                {
-                    begDate || endDate ?
-                        <ViewColCard>
-                            <ViewTwoRow>
-                                <Text>Başlangıç: Tarihi:</Text>
-                                <Text>{begDate?.toLocaleDateString("tr-TR")}</Text>
-                            </ViewTwoRow>
-                            <ViewTwoRow>
-                                <Text>Bitiş: Tarihi:</Text>
-                                <Text>{endDate?.toLocaleDateString("tr-TR")}</Text>
-                            </ViewTwoRow>
-                        </ViewColCard>
-                        : null
-                }
+                    <ButtonPrimary text={"Listele"} onPress={getArizaTalepList} />
+                </ViewColCard>
             </View>
         </SafeAreaView >
     );

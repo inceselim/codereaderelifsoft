@@ -23,7 +23,6 @@ export default function HomeScreen() {
     useEffect(() => {
         getUserData()
     }, [])
-    console.log(useSelector((state: any) => state.auth))
 
     async function logoutDecide() {
         Alert.alert('Oturum Kapat', 'Çıkış yapmak istediğinize emin misiniz?', [
