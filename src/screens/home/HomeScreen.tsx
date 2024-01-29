@@ -13,6 +13,17 @@ export default function HomeScreen() {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
     const userName = useSelector((state: any) => state.auth.userName)
+    const [tokenUserName, setTokenUserName] = useState("");
+
+    const getUserData = async () => {
+        let tmpName: string | any = await AsyncStorage.getItem("@tokenUserName")
+        setTokenUserName(tmpName)
+    }
+
+    useEffect(() => {
+        getUserData()
+    }, [])
+    console.log(useSelector((state: any) => state.auth))
 
     async function logoutDecide() {
         Alert.alert('Oturum Kapat', 'Çıkış yapmak istediğinize emin misiniz?', [
@@ -109,7 +120,7 @@ export default function HomeScreen() {
                         }}>Barkod Okut</Text>
                         <ArrowRight2 size="25" color={colors.primaryColor} style={{ marginEnd: 4 }} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() =>navigation.navigate("Ariza")} style={{
+                    <TouchableOpacity onPress={() => navigation.navigate("Ariza")} style={{
                         flexDirection: "row",
                         alignItems: "center",
                         marginVertical: 14,

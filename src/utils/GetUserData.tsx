@@ -15,6 +15,7 @@ function GetUserData() {
 
         if (token || tokenExpires || tokenUserName) {
             dispatch(rememberUser({ token, tokenExpires, tokenUserName }))
+            console.log("object",tokenUserName)
         }
         else {
             dispatch(logoutUser())
