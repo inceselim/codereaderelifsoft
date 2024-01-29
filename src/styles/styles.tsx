@@ -26,5 +26,11 @@ export const styles = StyleSheet.create({
         shadowRadius: 6.68,
 
         elevation: 11,
+    },
+    textTitle: {
+        fontSize: 17,
+        fontWeight: "bold",
+        color: colors.primaryColor,
+        paddingBottom: 12,
     }
 })
