@@ -32,5 +32,11 @@ export const styles = StyleSheet.create({
         fontWeight: "bold",
         color: colors.primaryColor,
         paddingBottom: 12,
+    },
+    textNormal: {
+        fontSize: 14,
+        fontWeight: "normal",
+        color: colors.black,
+        paddingBottom: 2,
     }
 })
