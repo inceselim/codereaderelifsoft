@@ -13,6 +13,7 @@ import { ViewColCard } from '../../components/ViewColCard/ViewColCard';
 import LoadingCard from '../../components/LoadingCard/LoadingCard';
 import { NoData } from '../../components/NoData/NoData';
 import CardView from '../../components/CardView';
+import { ViewTwoRow } from '../../components/ViewTwoRow/ViewTwoRow';
 
 export default function ArizaTalepScreen() {
     const navigation: any = useNavigation();
@@ -132,7 +133,18 @@ export default function ArizaTalepScreen() {
                                             <Pressable
                                                 onPress={() => navigation.navigate("ArizaDetail", { id: item?.Id })}>
                                                 <CardView>
-                                                    <Text style={styles.textTitle}>Fiş Kodu: {item?.FisNo}</Text>
+                                                    <ViewTwoRow>
+                                                        <Text style={styles.textTitle}>Fiş Kodu: {item?.FisNo}</Text>
+                                                        <TouchableOpacity
+                                                            onPress={() => navigation.navigate("ArizaMalzemeEkle")}>
+                                                            <Image source={require("../../assets/images/plusIcon3.png")}
+                                                                style={{
+                                                                    width: 30,
+                                                                    height: 30,
+                                                                }}
+                                                            />
+                                                        </TouchableOpacity>
+                                                    </ViewTwoRow>
                                                     <Text style={styles.textNormal}>Durum: {item?.Durum}</Text>
                                                     <Text style={styles.textNormal}>Durum Logo: {item?.DurumLogo}</Text>
                                                     <Text style={styles.textNormal}>Garaj Id: {item?.GarajId}</Text>

@@ -6,6 +6,7 @@ export const ViewTwoRow = ({ children }: any) => {
         <View style={{
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "center",
             paddingVertical: 8,
         }}>
             {children}
