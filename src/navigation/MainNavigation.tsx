@@ -9,6 +9,7 @@ import HomeScreen from '../screens/home/HomeScreen';
 import BarkodScreen from '../screens/barkod/BarkodScreen';
 import { Image, TouchableOpacity } from 'react-native';
 import ArizaTalepScreen from '../screens/ariza/ArizaTalepScreen';
+import ArizaDetailScreen from '../screens/ariza/ArizaDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -77,6 +78,25 @@ export default function MainNavigation() {
                                 //         </TouchableOpacity>
                                 //     );
                                 // },
+                            }} />
+                            <Stack.Screen name="ArizaDetail" component={ArizaDetailScreen} options={{
+                                headerShown: true,
+                                title: "Arıza Detayları",
+                                headerTitleStyle: {
+                                    fontSize: 14
+                                },
+                                headerRight: () => {
+                                    return (
+                                        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                                            <Image source={require("../assets/images/homepageIcon1.png")}
+                                                style={{
+                                                    height: 26,
+                                                    width: 26,
+                                                    marginStart: 6,
+                                                }} />
+                                        </TouchableOpacity>
+                                    );
+                                },
                             }} />
                         </>
                     )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, Alert, TextInput, ScrollView, TouchableOpacity, Platform, Image, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, Alert, TextInput, ScrollView, TouchableOpacity, Platform, Image, FlatList, Pressable } from 'react-native';
 import { styles } from '../../styles/styles';
 import { colors } from '../../styles/colors';
 import Tts from 'react-native-tts';
@@ -127,39 +127,34 @@ export default function ArizaTalepScreen() {
                             <View style={styles.content}>
                                 <FlatList
                                     data={data}
-                                    // ListHeaderComponent={
-                                    //     <>
-                                    //         <ButtonPrimary text={"Filtreyi Aç"} onPress={() => {
-                                    //             setFilterMenu(true)
-                                    //             // navigation.setOptions({ title: 'Updated!' })
-                                    //         }} />
-                                    //     </>
-                                    // }
                                     renderItem={({ item }: any) => {
                                         return (
-                                            <CardView>
-                                                <Text style={styles.textTitle}>Fiş Kodu: {item?.FisNo}</Text>
-                                                <Text style={styles.textNormal}>Durum: {item?.Durum}</Text>
-                                                <Text style={styles.textNormal}>Durum Logo: {item?.DurumLogo}</Text>
-                                                <Text style={styles.textNormal}>Garaj Id: {item?.GarajId}</Text>
-                                                <Text style={styles.textNormal}>Açıklama: {item?.Definition}</Text>
-                                                <Text style={styles.textNormal}>Oluşturma Tarihi: {new Date(item?.OlusmaTarih).toLocaleDateString("tr-TR")}</Text>
-                                                <Text style={styles.textNormal}>Kapanma Tarihi: {new Date(item?.KapanmaTarih).toLocaleDateString("tr-TR")}</Text>
-                                                <Text style={styles.textNormal}>Kullanıcı: {item?.Kullanici}</Text>
-                                                <Text style={styles.textNormal}>Sürücü Notu: {item?.SurucuNot}</Text>
-                                                <Text style={styles.textNormal}>Kapı No: {item?.KapiNo}</Text>
-                                                <Text style={styles.textNormal}>Kapı Açıklama: {item?.KapiNoDescription}</Text>
-                                                <Text style={styles.textNormal}>Departman: {item?.Departman}</Text>
-                                                <Text style={styles.textNormal}>Arıza Kodu: {item?.Id}</Text>
-                                                <Text style={styles.textNormal}>Km: {item?.Km}</Text>
-                                                <Text style={styles.textNormal}>Servis: {item?.Servis}</Text>
-                                                <Text style={styles.textNormal}>Servis Not: {item?.ServisNot}</Text>
-                                                <Text style={styles.textNormal}>Tamirci: {item?.Tamirci}</Text>
-                                                <Text style={styles.textNormal}>Garaj: {item?.Garaj}</Text>
-                                                <Text style={styles.textNormal}>Code: {item?.Code}</Text>
-                                                <Text style={styles.textNormal}>Araç Kod: {item?.AracKod}</Text>
-                                                <Text style={styles.textNormal}>Ambar Çıkış Kod: {item?.AmbarCikisKod}</Text>
-                                            </CardView>
+                                            <Pressable
+                                                onPress={() => navigation.navigate("ArizaDetail", { id: item?.Id })}>
+                                                <CardView>
+                                                    <Text style={styles.textTitle}>Fiş Kodu: {item?.FisNo}</Text>
+                                                    <Text style={styles.textNormal}>Durum: {item?.Durum}</Text>
+                                                    <Text style={styles.textNormal}>Durum Logo: {item?.DurumLogo}</Text>
+                                                    <Text style={styles.textNormal}>Garaj Id: {item?.GarajId}</Text>
+                                                    <Text style={styles.textNormal}>Açıklama: {item?.Definition}</Text>
+                                                    <Text style={styles.textNormal}>Oluşturma Tarihi: {new Date(item?.OlusmaTarih).toLocaleDateString("tr-TR")}</Text>
+                                                    <Text style={styles.textNormal}>Kapanma Tarihi: {new Date(item?.KapanmaTarih).toLocaleDateString("tr-TR")}</Text>
+                                                    <Text style={styles.textNormal}>Kullanıcı: {item?.Kullanici}</Text>
+                                                    <Text style={styles.textNormal}>Sürücü Notu: {item?.SurucuNot}</Text>
+                                                    <Text style={styles.textNormal}>Kapı No: {item?.KapiNo}</Text>
+                                                    <Text style={styles.textNormal}>Kapı Açıklama: {item?.KapiNoDescription}</Text>
+                                                    <Text style={styles.textNormal}>Departman: {item?.Departman}</Text>
+                                                    <Text style={styles.textNormal}>Arıza Kodu: {item?.Id}</Text>
+                                                    <Text style={styles.textNormal}>Km: {item?.Km}</Text>
+                                                    <Text style={styles.textNormal}>Servis: {item?.Servis}</Text>
+                                                    <Text style={styles.textNormal}>Servis Not: {item?.ServisNot}</Text>
+                                                    <Text style={styles.textNormal}>Tamirci: {item?.Tamirci}</Text>
+                                                    <Text style={styles.textNormal}>Garaj: {item?.Garaj}</Text>
+                                                    <Text style={styles.textNormal}>Code: {item?.Code}</Text>
+                                                    <Text style={styles.textNormal}>Araç Kod: {item?.AracKod}</Text>
+                                                    <Text style={styles.textNormal}>Ambar Çıkış Kod: {item?.AmbarCikisKod}</Text>
+                                                </CardView>
+                                            </Pressable>
                                         )
                                     }}
                                 />
