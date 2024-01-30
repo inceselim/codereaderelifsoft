@@ -98,7 +98,7 @@ export default function HomeScreen() {
                         flexDirection: "row",
                         alignItems: "center",
                         marginVertical: 14,
-                        backgroundColor: colors.gray,
+                        backgroundColor: colors.light,
                         paddingVertical: 10,
                         borderRadius: 8
                     }}>
@@ -123,7 +123,7 @@ export default function HomeScreen() {
                         flexDirection: "row",
                         alignItems: "center",
                         marginVertical: 14,
-                        backgroundColor: colors.gray,
+                        backgroundColor: colors.light,
                         paddingVertical: 10,
                         borderRadius: 8
                     }}>

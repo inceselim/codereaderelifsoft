@@ -6,7 +6,7 @@ export default function CardView({ children }: any) {
     return (
         <View style={{
             marginVertical: 10,
-            backgroundColor: colors.gray,
+            backgroundColor: colors.light,
             paddingVertical: 14,
             paddingHorizontal: 12,
             borderRadius: 8,

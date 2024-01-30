@@ -136,6 +136,7 @@ export default function ArizaTalepScreen() {
                                                     <ViewTwoRow>
                                                         <Text style={styles.textTitle}>Fiş Kodu: {item?.FisNo}</Text>
                                                         <TouchableOpacity
+                                                            onLongPress={() => Alert.alert("Malzeme Ekle")}
                                                             onPress={() => navigation.navigate("ArizaMalzemeEkle")}>
                                                             <Image source={require("../../assets/images/plusIcon3.png")}
                                                                 style={{
