@@ -68,6 +68,28 @@ export default function ArizaTalepScreen() {
                 setFilterMenu(false);
             })
     }
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <>
+                    {
+                        !filterMenu ?
+                            <TouchableOpacity onPress={() => setFilterMenu(true)}>
+                                <Image
+                                    source={require("../../assets/images/filterIcon1.png")}
+                                    style={{
+                                        width: 30,
+                                        height: 30
+                                    }}
+                                />
+                            </TouchableOpacity>
+                            : null
+                    }
+                </>
+            ),
+        });
+    }, [navigation, filterMenu]);
     return (
         <SafeAreaView style={styles.container}>
             {
@@ -105,6 +127,14 @@ export default function ArizaTalepScreen() {
                             <View style={styles.content}>
                                 <FlatList
                                     data={data}
+                                    // ListHeaderComponent={
+                                    //     <>
+                                    //         <ButtonPrimary text={"Filtreyi Aç"} onPress={() => {
+                                    //             setFilterMenu(true)
+                                    //             // navigation.setOptions({ title: 'Updated!' })
+                                    //         }} />
+                                    //     </>
+                                    // }
                                     renderItem={({ item }: any) => {
                                         return (
                                             <CardView>
