@@ -121,7 +121,7 @@ export default function ArizaTalepScreen() {
                         :
                         data?.length < 1 ?
                             <View style={styles.content}>
-                                <ButtonPrimary text={"Filtreyi Aç"} onPress={() => setFilterMenu(true)} />
+                                {/* <ButtonPrimary text={"Filtreyi Aç"} onPress={() => setFilterMenu(true)} /> */}
                                 <NoData />
                             </View>
                             :
@@ -137,7 +137,11 @@ export default function ArizaTalepScreen() {
                                                         <Text style={styles.textTitle}>Fiş Kodu: {item?.FisNo}</Text>
                                                         <TouchableOpacity
                                                             onLongPress={() => Alert.alert("Malzeme Ekle")}
-                                                            onPress={() => navigation.navigate("ArizaMalzemeEkle")}>
+                                                            onPress={() => {
+                                                                navigation.navigate("ArizaMalzemeEkle", {
+                                                                    GarajId: item?.GarajId,
+                                                                })
+                                                            }}>
                                                             <Image source={require("../../assets/images/plusIcon3.png")}
                                                                 style={{
                                                                     width: 30,

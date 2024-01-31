@@ -63,7 +63,7 @@ export default function MainNavigation() {
                             }} />
                             <Stack.Screen name="Ariza" component={ArizaTalepScreen} options={{
                                 headerShown: true,
-                                title: "Arıza Talep",
+                                title: "Arıza Kaydı",
                                 headerTitleStyle: {
                                     fontSize: 14
                                 },

@@ -8,9 +8,7 @@ import { colors } from '../../styles/colors';
 
 export default function SplashScreen() {
     GetUserData()
-    setTimeout(() => {
-        RefreshToken()
-    }, 1 * 1000);
+    RefreshToken()
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: "#002" }]}>
             <StatusBar backgroundColor={"#002"} barStyle={"light-content"} />

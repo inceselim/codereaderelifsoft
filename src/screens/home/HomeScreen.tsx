@@ -16,8 +16,11 @@ export default function HomeScreen() {
     const [tokenUserName, setTokenUserName] = useState("");
 
     const getUserData = async () => {
-        let tmpName: string | any = await AsyncStorage.getItem("@tokenUserName")
-        setTokenUserName(tmpName)
+        await AsyncStorage.getItem("@tokenUserName").then((res: any) => {
+            setTimeout(() => {
+                setTokenUserName(res)
+            }, 1 * 1000);
+        })
     }
 
     useEffect(() => {
@@ -141,7 +144,7 @@ export default function HomeScreen() {
                             paddingVertical: 10,
                             paddingStart: 8,
                             flex: 1,
-                        }}>Arıza Talep</Text>
+                        }}>Arıza Kaydı</Text>
                         <ArrowRight2 size="25" color={colors.primaryColor} style={{ marginEnd: 4 }} />
                     </TouchableOpacity>
                 </View>

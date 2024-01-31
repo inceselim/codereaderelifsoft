@@ -20,7 +20,7 @@ async function RefreshToken() {
     //
     // REFRESH TOKEN ALMA SURESI
     //
-    if (time < 1 * 24 * 60 * 60 * 1000) {
+    if (time < 3 * 24 * 60 * 60 * 1000) {
         await axios({
             url: API_URL.BASE_URL + API_URL.REFRESH_TOKEN_URL + '?token=' + userToken,
             method: 'post',
@@ -32,8 +32,12 @@ async function RefreshToken() {
                 // });
                 AsyncStorage.setItem('@token', response.data.token);
                 AsyncStorage.setItem('@tokenExpires', response.data.expires);
-                AsyncStorage.setItem('@tokenUserName', response.data.displayName);
+                AsyncStorage.setItem('@companies', response.data.companies);
+                // AsyncStorage.setItem('@tokenUserName', response.data.displayName);
                 dispatch(rememberUser(response.data));
+                console.log("REFRESH TOKEN")
+                console.log("REFRESH TOKEN", response.data?.companies)
+                console.log("REFRESH TOKEN")
             })
             .catch(async (err: any) => {
                 await AsyncStorage.removeItem('@token');
