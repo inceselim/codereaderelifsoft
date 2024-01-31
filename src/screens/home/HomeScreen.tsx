@@ -7,13 +7,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { logoutUser } from '../../redux/features/authSlice/authSlice';
-import { ArrowRight2 } from 'iconsax-react-native';
+import { ArrowDown2, ArrowRight2 } from 'iconsax-react-native';
+import CardView from '../../components/CardView';
 
 export default function HomeScreen() {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
     const userName = useSelector((state: any) => state.auth.userName)
+    const companies: any[] = useSelector((state: any) => state.auth.companies)
+
     const [tokenUserName, setTokenUserName] = useState("");
+    const [visibleCompanies, setVisibleCompanies] = useState(false);
+    const [selectedCompany, setSelectedCompany] = useState<any>(companies[0]);
 
     const getUserData = async () => {
         await AsyncStorage.getItem("@tokenUserName").then((res: any) => {
@@ -91,6 +96,52 @@ export default function HomeScreen() {
                         }}>Çıkış</Text>
                     </TouchableOpacity>
                 </View>
+                <TouchableOpacity onPress={() => setVisibleCompanies(!visibleCompanies)}>
+                    <CardView>
+                        <Text style={[styles.textBold,]}>
+                            Şirket:</Text>
+                        <View style={styles.viewTwoRow}>
+                            {selectedCompany != null &&
+                                <>
+                                    <Text style={[styles.textNormal, styles.textBold, {
+                                        flex: 1,
+                                        paddingBottom: 6,
+                                        borderBottomWidth: visibleCompanies ? 1 : 0
+                                    }]}>
+                                        {selectedCompany?.Company}
+                                    </Text>
+
+                                    {
+                                        visibleCompanies ?
+                                            <ArrowDown2 size={22} color={colors.black} />
+                                            :
+                                            <ArrowRight2 size={22} color={colors.black} />
+                                    }
+                                </>
+                            }
+                        </View>
+                        {
+                            visibleCompanies ?
+                                <>
+                                    {
+                                        companies?.map((item: any) => {
+                                            console.log(item)
+                                            return (
+                                                <TouchableOpacity onPress={() => {
+                                                    setSelectedCompany(item)
+                                                    setVisibleCompanies(false)
+                                                }}
+                                                key={item?.Id}>
+                                                    <Text style={[styles.textNormal,]}>{item?.Company}</Text>
+                                                </TouchableOpacity>
+                                            )
+                                        })
+                                    }
+                                </>
+                                : null
+                        }
+                    </CardView>
+                </TouchableOpacity>
 
 
                 <View style={{
@@ -149,6 +200,6 @@ export default function HomeScreen() {
                     </TouchableOpacity>
                 </View>
             </View>
-        </SafeAreaView>
+        </SafeAreaView >
     );
 }

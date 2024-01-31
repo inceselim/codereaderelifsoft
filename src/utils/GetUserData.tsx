@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { isFetchingUser, logoutUser, notFetchingUser, rememberUser } from '../redux/features/authSlice/authSlice';
+import { isFetchingUser, loginAppCompanies, logoutUser, notFetchingUser, rememberUser } from '../redux/features/authSlice/authSlice';
 
 
 function GetUserData() {
@@ -15,6 +15,9 @@ function GetUserData() {
 
         if (token || tokenExpires || tokenUserName) {
             dispatch(rememberUser({ token, tokenExpires, tokenUserName }))
+            const companies = await AsyncStorage.getItem("@companies").then((res: any) => JSON.parse(res))
+                .then(res => { return res })
+            dispatch(loginAppCompanies(companies))
         }
         else {
             dispatch(logoutUser())

@@ -51,6 +51,7 @@ const authSlice = createSlice({
             state.tokenExpires = payload.tokenExpires
             state.mobileMenu = payload.mobileMenu
             state.appMenuYeni = payload.appMenuYeni
+            state.companies = payload.companies
         },
         loginAppMenuYeni: (state, { payload }) => {
             state.appMenuYeni = payload

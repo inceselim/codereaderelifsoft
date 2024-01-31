@@ -17,7 +17,7 @@ import { handleUserLogin } from '../../api/apiRequest';
 import { colors } from '../../styles/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQuery } from 'react-query';
-import { loginUser } from '../../redux/features/authSlice/authSlice';
+import { loginAppCompanies, loginUser } from '../../redux/features/authSlice/authSlice';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -85,13 +85,14 @@ export default function LoginScreen() {
                   '@tokenUserName',
                   result.data.displayName,
                 );
-                await AsyncStorage.setItem('@userName', userName);
+                await AsyncStorage.setItem('@companies', JSON.stringify(result.data.companies));
                 // await AsyncStorage.setItem('@mobileMenu', JSON.stringify(result.data.mobileMenu));
                 // await AsyncStorage.setItem('@appMenuYeni', JSON.stringify(result.data.appMenuYeni));
-                // await AsyncStorage.setItem('@companies', JSON.stringify(result.data.companies));
               }
               await AsyncStorage.setItem('@userName', userName);
-              dispatch(loginUser(result.data));
+              dispatch(loginUser(result?.data));
+              dispatch(loginAppCompanies(result?.data?.companies))
+              console.log(result.data)
             })
           .finally(() => setLoading(false))
 

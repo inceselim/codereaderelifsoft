@@ -38,5 +38,14 @@ export const styles = StyleSheet.create({
         fontWeight: "normal",
         color: colors.black,
         paddingBottom: 2,
-    }
+    },
+    textBold: {
+        fontWeight: "bold",
+        color: colors.black,
+    },
+    viewTwoRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingVertical: 4
+    },
 })
