@@ -16,21 +16,8 @@ export default function HomeScreen() {
     const userName = useSelector((state: any) => state.auth.userName)
     const companies: any[] = useSelector((state: any) => state.auth.companies)
 
-    const [tokenUserName, setTokenUserName] = useState("");
     const [visibleCompanies, setVisibleCompanies] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState<any>(companies[0]);
-
-    const getUserData = async () => {
-        await AsyncStorage.getItem("@tokenUserName").then((res: any) => {
-            setTimeout(() => {
-                setTokenUserName(res)
-            }, 1 * 1000);
-        })
-    }
-
-    useEffect(() => {
-        getUserData()
-    }, [])
 
     async function logoutDecide() {
         Alert.alert('Oturum Kapat', 'Çıkış yapmak istediğinize emin misiniz?', [
@@ -96,6 +83,7 @@ export default function HomeScreen() {
                         }}>Çıkış</Text>
                     </TouchableOpacity>
                 </View>
+
                 <TouchableOpacity onPress={() => setVisibleCompanies(!visibleCompanies)}>
                     <CardView>
                         <Text style={[styles.textBold,]}>
@@ -131,7 +119,7 @@ export default function HomeScreen() {
                                                     setSelectedCompany(item)
                                                     setVisibleCompanies(false)
                                                 }}
-                                                key={item?.Id}>
+                                                    key={item?.Id}>
                                                     <Text style={[styles.textNormal,]}>{item?.Company}</Text>
                                                 </TouchableOpacity>
                                             )
@@ -151,7 +139,7 @@ export default function HomeScreen() {
                     <TouchableOpacity onPress={() => navigation.navigate("Barkod")} style={{
                         flexDirection: "row",
                         alignItems: "center",
-                        marginVertical: 14,
+                        marginVertical: 6,
                         backgroundColor: colors.light,
                         paddingVertical: 10,
                         borderRadius: 8
@@ -176,7 +164,7 @@ export default function HomeScreen() {
                     <TouchableOpacity onPress={() => navigation.navigate("Ariza")} style={{
                         flexDirection: "row",
                         alignItems: "center",
-                        marginVertical: 14,
+                        marginVertical: 6,
                         backgroundColor: colors.light,
                         paddingVertical: 10,
                         borderRadius: 8

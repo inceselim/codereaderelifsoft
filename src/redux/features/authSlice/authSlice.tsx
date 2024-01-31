@@ -63,7 +63,7 @@ const authSlice = createSlice({
             state.isLogin = true
             state.userToken = payload.token
             state.tokenExpires = payload.tokenExpires
-            state.userName = payload.tokenUserName
+            state.userName = payload.displayName
         },
         rememberUserId: (state, { payload }) => {
             state.userId = payload
