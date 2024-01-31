@@ -15,16 +15,23 @@ function GetUserData() {
 
         if (token || tokenExpires || tokenUserName) {
             dispatch(rememberUser({ token, tokenExpires, tokenUserName }))
-            const companies = await AsyncStorage.getItem("@companies").then((res: any) => JSON.parse(res))
-                .then(res => { return res })
-            dispatch(loginAppCompanies(companies))
+            await AsyncStorage.getItem("@companies").then((res: any) => {
+                console.log("res")
+                console.log("res", res)
+                console.log("res")
+                console.log("res")
+                console.log("res")
+                console.log("res")
+                JSON.parse(res)
+                dispatch(loginAppCompanies(JSON.parse(res)))
+            })
         }
         else {
             dispatch(logoutUser())
         }
         setTimeout(() => {
             dispatch(notFetchingUser())
-        }, 3.5 * 1000);
+        }, 2.5 * 1000);
     }
 
     useEffect(() => {

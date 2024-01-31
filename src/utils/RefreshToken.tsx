@@ -32,17 +32,15 @@ async function RefreshToken() {
                 // });
                 AsyncStorage.setItem('@token', response.data.token);
                 AsyncStorage.setItem('@tokenExpires', response.data.expires);
-                AsyncStorage.setItem('@companies', response.data.companies);
+                // AsyncStorage.setItem('@companies', response.data.companies);
                 // AsyncStorage.setItem('@tokenUserName', response.data.displayName);
                 dispatch(rememberUser(response.data));
-                console.log("REFRESH TOKEN")
-                console.log("REFRESH TOKEN", response.data?.companies)
-                console.log("REFRESH TOKEN")
             })
             .catch(async (err: any) => {
                 await AsyncStorage.removeItem('@token');
                 await AsyncStorage.removeItem('@tokenExpires');
                 await AsyncStorage.removeItem('@tokenUserName');
+                await AsyncStorage.removeItem('@companies');
                 console.log('REFRESH TOKEN Hata', err.message);
                 dispatch(logoutUser());
             });
