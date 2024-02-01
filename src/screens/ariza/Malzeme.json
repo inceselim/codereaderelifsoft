@@ -1,18 +1,33 @@
 [
     {
-        "Code": "001.FRN.HVA.D2.001",
+            "Code": "001.FRN.HVA.D2.001",
         "Firm": "318",
         "GarajNo": "350.00",
         "Kdv": 20,
-        "Logicalref": 19639,
-        "Name": "HAVA BASIÇ SENSÖRÜ",
+            "Logicalref": 19639,
+            "Name": "HAVA BASIÇ SENSÖRÜ",
         "Name4": "",
         "Onhand": 0,
         "ProducerCode": "16F00-09010-AA",
         "Reserved": 0,
-        "UnitLineRef": 23,
-        "UnitName": "ADET",
+            "UnitLineRef": 23,
+            "UnitName": "ADET",
         "WHouseNr": 10,
         "WhouseName": "K.Hane-Orjinal"
+    }
+]
+[
+    {
+            UnitName"Birim": "LT",
+            Code"UrunKod": "004.YAĞ.HDR.C1.007",
+            Name"UrunAd": "YAĞ,HİDROLİK 68 (TNK,18 LT )",
+            ProducerCode"UreticiKod": "DURA 68/HYSPIN AWS 68",
+            "Miktar": 1,
+            "ArizaId": 176163,
+            Logicalref"UrunId": 9191,
+            "BirimId": 24,
+            Onhand"D1": 527,
+        "KullaniciId": "37",
+            "TamirciId": 185
     }
 ]

@@ -10,25 +10,27 @@ import LoadingCard from '../../components/LoadingCard/LoadingCard';
 import { styleModal } from '../../styles/styleModal';
 import { CloseCircle } from 'iconsax-react-native';
 import CardView from '../../components/CardView';
+import jwtDecode from 'jwt-decode';
 
 export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   const userToken = useSelector((state: any) => state.auth?.userToken)
   const GarajId = route?.params?.GarajId
   console.log(GarajId)
   const company = route?.params?.company
+  const ArizaId = route?.params?.ArizaId
   const onHand = true   //Stokta olanlar için true hepsi için false seçilir.
 
   const [loadingMalzeme, setLoadingMalzeme] = useState(false);
   const [loadingTamirci, setLoadingTamirci] = useState(false);
   const [loadingGonder, setLoadingGonder] = useState(false);
+  const [userId, setUserId] = useState("");
   const [dataMalzeme, setDataMalzeme] = useState<any>([]);
-  const [selectedMalzeme, setSelectedMalzeme] = useState<any>([]);
   const [dataTamirci, setDataTamirci] = useState<any>([]);
   const [visibleTamirci, setVisibleTamirci] = useState(false);
   const [selectedTamirci, setSelectedTamirci] = useState<any>([]);
   const [malzemeAdet, setMalzemeAdet] = useState("");
   const [barkod, setBarkod] = useState("");
-
+  console.log("selectedTamirci", selectedTamirci?.id)
   async function getMalzeme() {
     setLoadingMalzeme(true);
     await axios.post(API_URL.BASE_URL + API_URL.ARIZA_MALZEME_LISTELE +
@@ -40,7 +42,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       }
     })
       .then((response: any) => {
-        // console.log("MALZEME data: ", response.data);
+        console.log("MALZEME data: ", response.data);
         setDataMalzeme(response.data)
         console.log("dataMalzeme", dataMalzeme)
       })
@@ -69,11 +71,28 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       })
       .finally(() => setLoadingTamirci(false))
   }
+  async function getUserId() {
+    const decoded: any = await jwtDecode(userToken);
+    setUserId(decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"])
+  };
+
 
   async function handleData() {
-    console.log("TAMAM")
-    setLoadingGonder(true);
-    await axios.post(API_URL.BASE_URL + API_URL.ARIZA_GONDER_URL, {}, {
+    await axios.post(API_URL.DEV_URL + API_URL.ARIZA_GONDER_URL, {
+      values: {
+        KullaniciId: userId,
+        UrunKod: dataMalzeme?.Code,
+        UrunAd: dataMalzeme?.Name,
+        UreticiKod: dataMalzeme?.ProducerCode,
+        Birim: dataMalzeme?.UnitName,
+        BirimId: dataMalzeme?.UnitLineRef,
+        UrunId: dataMalzeme?.Logicalref,
+        D1: dataMalzeme?.Onhand,
+        Miktar: malzemeAdet,
+        TamirciId: selectedTamirci?.id,
+        ArizaId: ArizaId
+      }
+    }, {
       headers: {
         "Authorization": "Bearer " + userToken
       }
@@ -84,7 +103,9 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       .catch((error: any) => console.log("ERROR: ", error))
       .finally(() => setLoadingGonder(false))
   }
+
   useEffect(() => {
+    getUserId()
     getTamirciList()
   }, [])
   return (

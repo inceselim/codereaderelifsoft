@@ -61,7 +61,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
             }
         })
             .then((response: any) => {
-                // console.log("response", response?.data)
+                console.log("response", response?.data)
                 setData(response?.data);
             })
             .catch((error: any) => console.log("ERROR", error))
@@ -141,7 +141,9 @@ export default function ArizaTalepScreen({ props, route }: any) {
                                                             onPress={() => {
                                                                 navigation.navigate("ArizaMalzemeEkle", {
                                                                     GarajId: item?.GarajId,
-                                                                    company: company
+                                                                    company: company,
+                                                                    ArizaId: item?.Id
+
                                                                 })
                                                             }}>
                                                             <Image source={require("../../assets/images/plusIcon3.png")}

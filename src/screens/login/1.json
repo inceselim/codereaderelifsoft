@@ -1,0 +1,1110 @@
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjI4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InNlbGltLmluY2UiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJzZWxpbWluY2VAZWxpZnNvZnQuY29tLnRyIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJSVlIyUzdPUk9ONkpVRFFGU0xKQzQ3TzVKS0NXSTdYNyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluIiwiTXZjQXV0aCI6IjkiLCJGdWxsTmFtZSI6IlNlbGltIMSwTkNFIiwiSW50ZXJuYWxQaG9uZSI6IiIsIkdTTVBob25lIjoiIiwiZXhwIjoxNzA2OTcxMzAxLCJpc3MiOiJodHRwOi8vYXBwLmVsaWZzb2Z0LmNvbS50ciIsImF1ZCI6Imh0dHA6Ly9hcHAuZWxpZnNvZnQuY29tLnRyIn0.2Z3NB3oV4dlaoqa8QHCA3ky674HeF_P9d2daBZHNJDI",
+  "expires": "2024-02-03T14:41:41Z",
+  "displayName": "selim.ince",
+  "appMenuYeni": [
+    {
+      "Name": "İstasyon Raporları",
+      "Url": "AdministrativeReports",
+      "Caption": "İstasyon Raporları",
+      "Icon": "fa fa-list-alt",
+      "InPage": []
+    },
+    {
+      "Name": "Tank Raporları",
+      "Url": "/AdministrativeReports/Tank",
+      "Caption": "Tank Raporları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Günlük İstasyon Raporları",
+      "Url": "/AdministrativeReports/DailyStationReports",
+      "Caption": "Günlük İstasyon Raporları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Tank Stok Kontrol",
+      "Url": "/AdministrativeReports/StationTanksRealStock",
+      "Caption": "Tank Stok Kontrol",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "İcmal Raporu",
+      "Url": "/AdministrativeReports/StationIcmalReports",
+      "Caption": "İcmal Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Aylık İcmal Raporu",
+      "Url": "/AdministrativeReports/MonthlyIcmalReport",
+      "Caption": "Aylık İcmal Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Urfa Tank Stok Girişi",
+      "Url": "/AdministrativeReports/UrfaTanksStocks",
+      "Caption": "Urfa Tank Stok Girişi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "İstasyon Raporları",
+      "Url": "/AdministrativeReports/Station",
+      "Caption": "İstasyon Raporları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Logo Raporları (BARKA)",
+      "Url": "BarkaLogoReports",
+      "Caption": "Logo Raporları (BARKA)",
+      "Icon": "fa fa-database",
+      "InPage": []
+    },
+    {
+      "Name": "Tahsilat",
+      "Url": "/BarkaLogoReports/TahsilatReport",
+      "Caption": "Tahsilat",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Çek Senet Raporu",
+      "Url": "/BarkaLogoReports/ChequeReport",
+      "Caption": "Çek Senet Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Takip (Satış)",
+      "Url": "/BarkaLogoReports/CariTakipSatis",
+      "Caption": "Cari Takip (Satış)",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Takip (Alış)",
+      "Url": "/BarkaLogoReports/CariTakipAlis",
+      "Caption": "Cari Takip (Alış)",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Ekstre",
+      "Url": "/BarkaLogoReports/CariEkstreReport",
+      "Caption": "Cari Ekstre",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Kredi Raporu",
+      "Url": "/BarkaLogoReports/CreditReport",
+      "Caption": "Kredi Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "BarkaLogoReports",
+      "Url": "/BarkaLogoReports/BarkaCariHesaplarReport",
+      "Caption": "BarkaLogoReports",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Kredili Satışlar",
+      "Url": "CreditSales",
+      "Caption": "Kredili Satışlar",
+      "Icon": "fa fa-th-list",
+      "InPage": []
+    },
+    {
+      "Name": "Kredili Satış Listesi",
+      "Url": "/CreditSales/Index",
+      "Caption": "Kredili Satış Listesi",
+      "Icon": "",
+      "InPage": []
+    },
+    {
+      "Name": "Hesap İşlemleri",
+      "Url": "FinanceReports",
+      "Caption": "Hesap İşlemleri",
+      "Icon": "fa fa-money",
+      "InPage": []
+    },
+    {
+      "Name": "Pos Hesapları",
+      "Url": "/FinanceReports/Pos",
+      "Caption": "Pos Hesapları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Nakit/Dijital Girişi",
+      "Url": "/FinanceReports/Cash",
+      "Caption": "Nakit/Dijital Girişi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "İstasyon Raporları",
+      "Url": "/FinanceReports/Station",
+      "Caption": "İstasyon Raporları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Logo Raporları (İÇKALE / ELİF)",
+      "Url": "LogoReports",
+      "Caption": "Logo Raporları (İÇKALE / ELİF)",
+      "Icon": "fa fa-database",
+      "InPage": []
+    },
+    {
+      "Name": "Tahsilat",
+      "Url": "/LogoReports/TahsilatReport",
+      "Caption": "Tahsilat",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Çek Senet",
+      "Url": "/LogoReports/ChequeReport",
+      "Caption": "Çek Senet",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Takip (Satış)",
+      "Url": "/LogoReports/CariTakipSatis",
+      "Caption": "Cari Takip (Satış)",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Takip (Alış)",
+      "Url": "/LogoReports/CariTakipAlis",
+      "Caption": "Cari Takip (Alış)",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Ekstre",
+      "Url": "/LogoReports/CariEkstreReport",
+      "Caption": "Cari Ekstre",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Ödeme Takip Raporu",
+      "Url": "/LogoReports/OdemeTakipReport",
+      "Caption": "Ödeme Takip Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Kredi Raporu",
+      "Url": "/LogoReports/CreditReport",
+      "Caption": "Kredi Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "LogoReports",
+      "Url": "/LogoReports/IckaleCariHesaplarReport",
+      "Caption": "LogoReports",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "StokDegerlemeRaporu",
+      "Url": "/LogoReports/StokDegerlemeRaporu",
+      "Caption": "StokDegerlemeRaporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Sistem Yönetimi",
+      "Url": "Management",
+      "Caption": "Sistem Yönetimi",
+      "Icon": "fa fa-gears",
+      "InPage": []
+    },
+    {
+      "Name": "Kullanıcı Tanımları",
+      "Url": "/Management/Users",
+      "Caption": "Kullanıcı Tanımları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Rol Tanımları",
+      "Url": "/Management/Roles",
+      "Caption": "Rol Tanımları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Menü Tanımları ",
+      "Url": "/Management/Menu",
+      "Caption": "Menü Tanımları ",
+      "Icon": "",
+      "InPage": []
+    },
+    {
+      "Name": "İzin Tanımları",
+      "Url": "/Management/Permission",
+      "Caption": "İzin Tanımları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Ayarlar",
+      "Url": "Settings",
+      "Caption": "Ayarlar",
+      "Icon": "fa fa-gear",
+      "InPage": []
+    },
+    {
+      "Name": "Firma Ayarları",
+      "Url": "/Settings/Company",
+      "Caption": "Firma Ayarları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "İstasyon Ayarları",
+      "Url": "/Settings/Station",
+      "Caption": "İstasyon Ayarları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Genel Ayarlar",
+      "Url": "/Settings/General",
+      "Caption": "Genel Ayarlar",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Mobil Versiyon Kontrol",
+      "Url": "/Settings/MobileVersionControl",
+      "Caption": "Mobil Versiyon Kontrol",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Onay Tanımları Rol Bazlı",
+      "Url": "/Settings/ApproveRootRoles",
+      "Caption": "Onay Tanımları Rol Bazlı",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Onay Tanımları",
+      "Url": "/Settings/ApproveRoot",
+      "Caption": "Onay Tanımları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Settings",
+      "Url": "/Settings/IncomingCallReport",
+      "Caption": "Settings",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "İett Ayarları",
+      "Url": "/Settings/IETTSettings",
+      "Caption": "İett Ayarları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Settings",
+      "Url": "/Settings/CallDetail",
+      "Caption": "Settings",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "İstasyon İşlemleri",
+      "Url": "StationRecords",
+      "Caption": "İstasyon İşlemleri",
+      "Icon": "fa fa-tachometer",
+      "InPage": []
+    },
+    {
+      "Name": "XML Yükleme",
+      "Url": "/StationRecords/XMLRecords",
+      "Caption": "XML Yükleme",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "StationRecords",
+      "Url": "/StationRecords/XMLFile",
+      "Caption": "StationRecords",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Turpak Raporları",
+      "Url": "/StationRecords/TurpakReport",
+      "Caption": "Turpak Raporları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "StationRecords",
+      "Url": "/StationRecords/Sale",
+      "Caption": "StationRecords",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Aylık İstasyon Raporları",
+      "Url": "/AdministrativeReports/Station",
+      "Caption": "Aylık İstasyon Raporları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Hesap Defteri",
+      "Url": "/StationRecords/SaleDetail",
+      "Caption": "Hesap Defteri",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Gelir / Gider Defteri",
+      "Url": "/StationRecords/CreditBook",
+      "Caption": "Gelir / Gider Defteri",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Logo Raporları (PROVEK)",
+      "Url": "ProvekLogoReports",
+      "Caption": "Logo Raporları (PROVEK)",
+      "Icon": "fa fa-database",
+      "InPage": []
+    },
+    {
+      "Name": "Tahsilat",
+      "Url": "/ProvekLogoReports/TahsilatReport",
+      "Caption": "Tahsilat",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Çek / Senet",
+      "Url": "/ProvekLogoReports/ChequeReport",
+      "Caption": "Çek / Senet",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Takip (Satış)",
+      "Url": "/ProvekLogoReports/CariTakipSatis",
+      "Caption": "Cari Takip (Satış)",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Takip (Alış)",
+      "Url": "/ProvekLogoReports/CariTakipAlis",
+      "Caption": "Cari Takip (Alış)",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Ekstre",
+      "Url": "/ProvekLogoReports/CariEkstreReport",
+      "Caption": "Cari Ekstre",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Kredi Raporu",
+      "Url": "/ProvekLogoReports/CreditReport",
+      "Caption": "Kredi Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "ProvekLogoReports",
+      "Url": "/ProvekLogoReports/ProvekCariHesaplarReport",
+      "Caption": "ProvekLogoReports",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Logo Ayarları",
+      "Url": "LogoSettings",
+      "Caption": "Logo Ayarları",
+      "Icon": "fa fa-wrench",
+      "InPage": []
+    },
+    {
+      "Name": "Firma Ayarları",
+      "Url": "/LogoSettings/LogoCompany",
+      "Caption": "Firma Ayarları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "REST Ayarları",
+      "Url": "/LogoSettings/LogoRestSettings",
+      "Caption": "REST Ayarları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Ödeme Talep Tablosu",
+      "Url": "PaymentRequest",
+      "Caption": "Ödeme Talep Tablosu",
+      "Icon": "fa fa-credit-card",
+      "InPage": []
+    },
+    {
+      "Name": "Ödeme Talep Tablosu",
+      "Url": "/PaymentRequest/Index",
+      "Caption": "Ödeme Talep Tablosu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Proje Bazlı Gelir/Gider Raporu",
+      "Url": "/PaymentRequest/Report",
+      "Caption": "Proje Bazlı Gelir/Gider Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Diğer Ödemeler Raporu",
+      "Url": "/PaymentRequest/OtherPayments",
+      "Caption": "Diğer Ödemeler Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "PaymentRequest",
+      "Url": "/PaymentRequest/ApprovedPaymentTable",
+      "Caption": "PaymentRequest",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "PaymentRequest",
+      "Url": "/PaymentRequest/PaymentRequests",
+      "Caption": "PaymentRequest",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Yakıt Z Raporları",
+      "Url": "ZReports",
+      "Caption": "Yakıt Z Raporları",
+      "Icon": "fa fa-barcode",
+      "InPage": []
+    },
+    {
+      "Name": "Z Raporları",
+      "Url": "/ZReports/Index",
+      "Caption": "Z Raporları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "GeneralPurchasing",
+      "Url": "GeneralPurchasing",
+      "Caption": "GeneralPurchasing",
+      "Icon": "fa fa-money",
+      "InPage": []
+    },
+    {
+      "Name": "GeneralPurchasing",
+      "Url": "/GeneralPurchasing/Demands",
+      "Caption": "GeneralPurchasing",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "GeneralPurchasing",
+      "Url": "/GeneralPurchasing/Materials",
+      "Caption": "GeneralPurchasing",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "GeneralPurchasing",
+      "Url": "/GeneralPurchasing/Suppliers",
+      "Caption": "GeneralPurchasing",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "GeneralPurchasing",
+      "Url": "/GeneralPurchasing/Categories",
+      "Caption": "GeneralPurchasing",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Bilgi İşlem Talepleri",
+      "Url": "ITDemands",
+      "Caption": "Bilgi İşlem Talepleri",
+      "Icon": "fa fa-laptop",
+      "InPage": []
+    },
+    {
+      "Name": "Malzeme Talep Formu",
+      "Url": "/ITDemands/StockDemandsAction",
+      "Caption": "Malzeme Talep Formu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "DemirbaşListesi",
+      "Url": "/ITDemands/FaregistList",
+      "Caption": "DemirbaşListesi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Demirbaş Firma",
+      "Url": "/ITDemands/FaregistCompany",
+      "Caption": "Demirbaş Firma",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Demirbaş Kategori",
+      "Url": "/ITDemands/FaregistCategory",
+      "Caption": "Demirbaş Kategori",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Demirbaş Alt Kategori",
+      "Url": "/ITDemands/FaregistSubCategory",
+      "Caption": "Demirbaş Alt Kategori",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "AbtLogoReports",
+      "Url": "AbtLogoReports",
+      "Caption": "AbtLogoReports",
+      "Icon": "fa fa-database",
+      "InPage": []
+    },
+    {
+      "Name": "Tahsilat",
+      "Url": "/AbtLogoReports/AbtTahsilatReport",
+      "Caption": "Tahsilat",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Takip (Satış)",
+      "Url": "/AbtLogoReports/AbtCariTakipSatis",
+      "Caption": "Cari Takip (Satış)",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Takip (Alış)",
+      "Url": "/AbtLogoReports/AbtCariTakipAlis",
+      "Caption": "Cari Takip (Alış)",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Ekstre",
+      "Url": "/AbtLogoReports/AbtCariEkstreReport",
+      "Caption": "Cari Ekstre",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Cari Hesaplar",
+      "Url": "/AbtLogoReports/AbtCariHesaplarReport",
+      "Caption": "Cari Hesaplar",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "ApproveRoot",
+      "Url": "ApproveRoot",
+      "Caption": "ApproveRoot",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Onay Listesi",
+      "Url": "/ApproveRoot/ApproveRoot",
+      "Caption": "Onay Listesi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "ApproveRoot",
+      "Url": "/ApproveRoot/ApproveInvoice",
+      "Caption": "ApproveRoot",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "FiloYonetimi",
+      "Url": "FiloYonetimi",
+      "Caption": "FiloYonetimi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "FiloYonetimi",
+      "Url": "/FiloYonetimi/FiloYonetimi",
+      "Caption": "FiloYonetimi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "FiloYonetimi",
+      "Url": "/FiloYonetimi/FiloRegion",
+      "Caption": "FiloYonetimi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "FiloYonetimi",
+      "Url": "/FiloYonetimi/FiloSubRegion",
+      "Caption": "FiloYonetimi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "FiloYonetimi",
+      "Url": "/FiloYonetimi/FiloType",
+      "Caption": "FiloYonetimi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "FiloYonetimi",
+      "Url": "/FiloYonetimi/FiloVehiclePersonelRecords",
+      "Caption": "FiloYonetimi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "AkaryakitFaturaKontrol",
+      "Url": "AkaryakitFaturaKontrol",
+      "Caption": "AkaryakitFaturaKontrol",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Terminal Tanımları",
+      "Url": "/AkaryakitFaturaKontrol/TerminalCalc",
+      "Caption": "Terminal Tanımları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Toptan Alım Fatura Kontrol",
+      "Url": "/AkaryakitFaturaKontrol/ToptanAlimReport",
+      "Caption": "Toptan Alım Fatura Kontrol",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Fuel Oil Fatura Kontrol",
+      "Url": "/AkaryakitFaturaKontrol/FuelOilAlimReport",
+      "Caption": "Fuel Oil Fatura Kontrol",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "AkaryakitFaturaKontrol",
+      "Url": "/AkaryakitFaturaKontrol/TerminalBindirimCalc",
+      "Caption": "AkaryakitFaturaKontrol",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "MarwizApp",
+      "Url": "/Marwiz",
+      "Caption": "MarwizApp",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "BarkoduBulunamayanlar",
+      "Url": "/Marwiz/BarkoduBulunamayanlar",
+      "Caption": "BarkoduBulunamayanlar",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Barka | Raporlar",
+      "Url": "/BarkaTeknik/Raporlar",
+      "Caption": "Barka | Raporlar",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Araç Malzeme Raporu",
+      "Url": "/BarkaTeknik/Raporlar/AracMalzemeRaporu",
+      "Caption": "Araç Malzeme Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Stok Raporu",
+      "Url": "/BarkaTeknik/Raporlar/StokRaporu",
+      "Caption": "Stok Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Satınalma Cari Proje Raporu",
+      "Url": "/BarkaTeknik/Raporlar/SatinAlmaCariProjeRaporu",
+      "Caption": "Satınalma Cari Proje Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Süreç Raporu",
+      "Url": "/BarkaTeknik/Raporlar/SurecRaporu",
+      "Caption": "Süreç Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Stok Envanter Raporu",
+      "Url": "/BarkaTeknik/Raporlar/StokEnvanterRaporu",
+      "Caption": "Stok Envanter Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Sipariş Raporu",
+      "Url": "/BarkaTeknik/Raporlar/SiparisRaporu",
+      "Caption": "Sipariş Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Malzeme Hareket Raporu",
+      "Url": "/BarkaTeknik/Raporlar/MalzemeHareketRaporu",
+      "Caption": "Malzeme Hareket Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Talep Cari Seçim Raporu",
+      "Url": "/BarkaTeknik/Raporlar/TalepCariSecimRaporu",
+      "Caption": "Talep Cari Seçim Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Aktarım Raporu",
+      "Url": "/BarkaTeknik/Raporlar/AktarimRaporu",
+      "Caption": "Aktarım Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Barka | Atölye Yönetimi",
+      "Url": "/BarkaTeknik/AtolyeYonetimi",
+      "Caption": "Barka | Atölye Yönetimi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Arıza Kayıtları",
+      "Url": "/BarkaTeknik/AtolyeYonetimi/ArizaKayitlari",
+      "Caption": "Arıza Kayıtları",
+      "Icon": null,
+      "InPage": [
+        "Malzeme Ekle",
+        "Arıza Kaydı Sil",
+        "İş Emri Kapat",
+        "Talep Fişi Oluştur"
+      ]
+    },
+    {
+      "Name": "Yeni Arıza Kaydı",
+      "Url": "/BarkaTeknik/AtolyeYonetimi/YeniArizaKaydi",
+      "Caption": "Yeni Arıza Kaydı",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "KM-Şasi No Güncelleme",
+      "Url": "/BarkaTeknik/AtolyeYonetimi/KmSasiGuncelleme",
+      "Caption": "KM-Şasi No Güncelleme",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Barka | Depo Yönetimi",
+      "Url": "/BarkaTeknik/DepoYonetimi",
+      "Caption": "Barka | Depo Yönetimi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Ambar Fişleri",
+      "Url": "/BarkaTeknik/DepoYonetimi/AmbarFisleri",
+      "Caption": "Ambar Fişleri",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Sarf Fişleri",
+      "Url": "/BarkaTeknik/DepoYonetimi/SarfFisleri",
+      "Caption": "Sarf Fişleri",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Bekleyen Siparişler",
+      "Url": "/BarkaTeknik/DepoYonetimi/BekleyenSiparisler",
+      "Caption": "Bekleyen Siparişler",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Barka | Satın Alma Yönetimi",
+      "Url": "/BarkaTeknik/SatinAlmaYonetimi",
+      "Caption": "Barka | Satın Alma Yönetimi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Talep Fişleri",
+      "Url": "/BarkaTeknik/SatinAlmaYonetimi/TalepFisleri",
+      "Caption": "Talep Fişleri",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Satın Alma Süreci",
+      "Url": "/BarkaTeknik/SatinAlmaYonetimi/SatinAlmaSureci",
+      "Caption": "Satın Alma Süreci",
+      "Icon": null,
+      "InPage": [
+        "Onaya Gönder",
+        "Logoya Aktar",
+        "Müdür Yetkisi",
+        "Geri Gönder",
+        "Talebi Reddet",
+        "Logoya Aktar Onbin Limit",
+        "Satınalma - Onaya Gönder",
+        "Satınalma - Talebi Reddet",
+        "Satınalma - Geri Gönder"
+      ]
+    },
+    {
+      "Name": "Bölgeden Talep Fişleri",
+      "Url": "/BarkaTeknik/SatinAlmaYonetimi/BolgedenTalepFisleri",
+      "Caption": "Bölgeden Talep Fişleri",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Barka | Arac Ceza Yönetimi",
+      "Url": "/BarkaTeknik/AracCezaYonetimi",
+      "Caption": "Barka | Arac Ceza Yönetimi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Ceza Tanımları",
+      "Url": "/BarkaTeknik/AracCezaYonetimi/CezaTanimlari",
+      "Caption": "Ceza Tanımları",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Aylık Ceza Tanımları Listesi",
+      "Url": "/BarkaTeknik/AracCezaYonetimi/AylikCezaTanimlariListesi",
+      "Caption": "Aylık Ceza Tanımları Listesi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Araç KM Raporu",
+      "Url": "/BarkaTeknik/AracCezaYonetimi/AracKmRaporu",
+      "Caption": "Araç KM Raporu",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Araç KM Raporu Listesi",
+      "Url": "/BarkaTeknik/AracCezaYonetimi/AracKmRaporuListesi",
+      "Caption": "Araç KM Raporu Listesi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Araç Yakıt Takibi",
+      "Url": "/BarkaTeknik/AracCezaYonetimi/AracYakitTakibi",
+      "Caption": "Araç Yakıt Takibi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Test Sayfası",
+      "Url": "Test",
+      "Caption": "Test Sayfası",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Index",
+      "Url": "Test",
+      "Caption": "Index",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Demirbaş Yönetimi",
+      "Url": "FixtureManagement",
+      "Caption": "Demirbaş Yönetimi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Demirbaş Listesi",
+      "Url": "/FixtureManagement/FaregistList",
+      "Caption": "Demirbaş Listesi",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Demirbaş Firma",
+      "Url": "/FixtureManagement/FaregistCompany",
+      "Caption": "Demirbaş Firma",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Demirbaş Kategori",
+      "Url": "/FixtureManagement/FaregistCategory",
+      "Caption": "Demirbaş Kategori",
+      "Icon": null,
+      "InPage": []
+    },
+    {
+      "Name": "Demirbaş Alt Kategori",
+      "Url": "/FixtureManagement/FaregistSubCategory",
+      "Caption": "Demirbaş Alt Kategori",
+      "Icon": null,
+      "InPage": []
+    }
+  ],
+  "mobileMenu": [
+    "LoginScreen",
+    "StationScreen",
+    "StationDetailScreen",
+    "StationModalContentScreen",
+    "StationTankScreen",
+    "abtOtomotivMain",
+    "abtOtomotivDetail",
+    "abtOtomotivContent",
+    "abtOtomotivBillContent",
+    "abtOtomotivCars",
+    "ChequeReportScreen",
+    "ChequeReportDetailScreen",
+    "ChequeReportContentScreen",
+    "ChequeBankScreen",
+    "CreditReportScreen",
+    "CreditCompany",
+    "CreditCustomer",
+    "CreditReportDetailScreen",
+    "CreditCompanyBank",
+    "ProjectProfitLossDetailScreen",
+    "ProjectProfitLossContentScreen",
+    "ProvekDetail",
+    "ProvekMain",
+    "EratoMain",
+    "EratoDetail",
+    "EratoContent",
+    "EratoSaleDetails",
+    "ProvekContent",
+    "ProvekSaleDetails",
+    "ProvekCars",
+    "Request",
+    "RequestDetail",
+    "IcmalHome",
+    "IcmalFuelStock",
+    "IcmalPriceProfitLoss",
+    "IcmalSellGrossProfit",
+    "IcmalPrim",
+    "IcmalMarket",
+    "ProjectProfitLossScreen",
+    "ProjectFixture",
+    "FiloBolge",
+    "FiloBolgeDetail",
+    "CollectionScreen",
+    "CariEkstre",
+    "CariEkstreClient",
+    "CariEkstreClientDetail",
+    "PurchaseDemandList",
+    "EratoCars",
+    "InvoiceApprove",
+    "StationGelirler",
+    "StationGelirlerDetay",
+    "StationDijitalIncomes",
+    "StationDijitalIncomesDetail",
+    "SatinAlmaScreen"
+  ],
+  "companies": [
+    {
+      "Id": 1,
+      "Company": "219 - İçkale Petrol",
+      "IsIettEnabled": false
+    },
+    {
+      "Id": 2,
+      "Company": "259 - Elif Lpg",
+      "IsIettEnabled": false
+    },
+    {
+      "Id": 5,
+      "Company": "219 - Vekontek Sağlık A.Ş",
+      "IsIettEnabled": false
+    },
+    {
+      "Id": 6,
+      "Company": "219 - Barka Atık Yönetimi",
+      "IsIettEnabled": true
+    },
+    {
+      "Id": 10,
+      "Company": "231 - Erato Otomotiv İç ve Dış Tic. A.Ş.",
+      "IsIettEnabled": false
+    },
+    {
+      "Id": 13,
+      "Company": "903 - Abt Otomotiv",
+      "IsIettEnabled": false
+    },
+    {
+      "Id": 23,
+      "Company": "318 - Bilginay Temizlik",
+      "IsIettEnabled": true
+    }
+  ],
+  "defaultPage": "/"
+}
