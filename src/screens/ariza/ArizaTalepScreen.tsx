@@ -15,7 +15,7 @@ import { NoData } from '../../components/NoData/NoData';
 import CardView from '../../components/CardView';
 import { ViewTwoRow } from '../../components/ViewTwoRow/ViewTwoRow';
 
-export default function ArizaTalepScreen() {
+export default function ArizaTalepScreen({ props, route }: any) {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
     const userToken = useSelector((state: any) => state.auth?.userToken)
@@ -27,6 +27,7 @@ export default function ArizaTalepScreen() {
     const [begDate, setBegDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
 
+    const company = route?.params?.company
 
     const showDatePickerBegDate = () => {
         setPickerShowBegDate(true);
@@ -140,6 +141,7 @@ export default function ArizaTalepScreen() {
                                                             onPress={() => {
                                                                 navigation.navigate("ArizaMalzemeEkle", {
                                                                     GarajId: item?.GarajId,
+                                                                    company: company
                                                                 })
                                                             }}>
                                                             <Image source={require("../../assets/images/plusIcon3.png")}

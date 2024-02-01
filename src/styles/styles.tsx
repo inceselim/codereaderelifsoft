@@ -39,6 +39,12 @@ export const styles = StyleSheet.create({
         color: colors.black,
         paddingBottom: 2,
     },
+    textSmall: {
+        fontSize: 13,
+        fontWeight: "normal",
+        color: colors.black,
+        paddingBottom: 2,
+    },
     textBold: {
         fontWeight: "bold",
         color: colors.black,

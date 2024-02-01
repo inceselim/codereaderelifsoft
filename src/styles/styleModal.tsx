@@ -1,18 +1,17 @@
 import { StyleSheet } from "react-native";
 
-export const style = StyleSheet.create({
+export const styleModal = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
+        marginTop: 15,
+        marginBottom:20
     },
     modalView: {
         margin: 20,
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 35,
-        alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
             width: 0,

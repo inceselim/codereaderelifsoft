@@ -161,7 +161,9 @@ export default function HomeScreen() {
                         }}>Barkod Okut</Text>
                         <ArrowRight2 size="25" color={colors.primaryColor} style={{ marginEnd: 4 }} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("Ariza")} style={{
+                    <TouchableOpacity onPress={() => navigation.navigate("Ariza", {
+                        company: selectedCompany
+                    })} style={{
                         flexDirection: "row",
                         alignItems: "center",
                         marginVertical: 6,
