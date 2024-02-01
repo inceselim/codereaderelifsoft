@@ -10,5 +10,6 @@ export const API_URL = {
     ARIZA_MALZEME_LISTELE: "/api/ArizaApi/LogoMaterialList",
     ARIZA_MALZEME_EKLE: "/api/ArizaApi/ArizaMalzemeAdd",
     ARIZA_MALZEME_SIL: "/api/ArizaApi/ArizaMalzemeDelete?key=6556773",
-    ARIZA_TAMIRCI_LIST: "/api/ArizaApi/ArizaMalzemeTamirciList"
+    ARIZA_TAMIRCI_LIST: "/api/ArizaApi/ArizaMalzemeTamirciList",
+    ARIZA_GONDER_URL: "/api/ArizaApi/ArizaMalzemeAdd"
 }
