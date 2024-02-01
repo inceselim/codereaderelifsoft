@@ -51,9 +51,9 @@ export default function ArizaTalepScreen({ props, route }: any) {
         setEndDate(date)
         hideDatePickerEndDate();
     };
-    const getArizaTalepList = async ({ begin, end }: any) => {
+    const getArizaTalepList = async () => {
         setLoading(true);
-        await axios.get(API_URL.DEV_URL + API_URL.ARIZA_LIST +
+        await axios.get(API_URL.BASE_URL + API_URL.ARIZA_LIST +
             "?begDate=" + begDate?.toISOString() + "&endDate=" + endDate?.toISOString() +
             "&DurumLogo=" + "0" + "&IsDeleted=false", {
             headers: {
@@ -61,7 +61,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
             }
         })
             .then((response: any) => {
-                console.log("response", response?.data)
+                // console.log("response", response?.data)
                 setData(response?.data);
             })
             .catch((error: any) => console.log("ERROR", error))
@@ -116,7 +116,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
                                     onCancel={hideDatePickerEndDate}
                                 />
                                 <ButtonPrimary text={"Listele"} disabled={begDate == undefined || endDate == undefined ? true : false}
-                                    onPress={() => getArizaTalepList({ begin: begDate, end: endDate })} />
+                                    onPress={() => getArizaTalepList()} />
                             </ViewColCard>
                         </View>
                         :

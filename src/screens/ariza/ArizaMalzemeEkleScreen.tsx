@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, Pressable, Modal, StyleSheet, Alert, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import { styles } from '../../styles/styles';
 import { colors } from '../../styles/colors';
@@ -13,14 +13,15 @@ import { CloseCircle } from 'iconsax-react-native';
 export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   const userToken = useSelector((state: any) => state.auth?.userToken)
   const GarajId = route?.params?.GarajId
+  console.log(GarajId)
   const company = route?.params?.company
-  const onHand = false   //Stokta olanlar için true hepsi için false seçilir.
+  const onHand = true   //Stokta olanlar için true hepsi için false seçilir.
 
   const [loadingMalzeme, setLoadingMalzeme] = useState(false);
   const [loadingTamirci, setLoadingTamirci] = useState(false);
   const [dataMalzeme, setDataMalzeme] = useState([]);
   const [selectedMalzeme, setSelectedMalzeme] = useState<any>([]);
-  const [dataTamirci, setDataTamirci] = useState([]);
+  const [dataTamirci, setDataTamirci] = useState<any>([]);
   const [visibleTamirci, setVisibleTamirci] = useState(false);
   const [selectedTamirci, setSelectedTamirci] = useState<any>([]);
   const [malzemeAdet, setMalzemeAdet] = useState("");
@@ -29,7 +30,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   async function getMalzeme() {
     setLoadingMalzeme(true);
     await axios.post(API_URL.BASE_URL + API_URL.ARIZA_MALZEME_LISTELE +
-      "?companyId=" + company.Id + "&name=" + barkod + "&garajNo=" + GarajId + "&onHand=true",
+      "?companyId=" + company.Id + "&name=" + barkod + "&garajNo=" + "340.00" + "&onHand=false",
       {}, {
       headers: {
         "Authorization": "Bearer " + userToken,
@@ -37,7 +38,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       }
     })
       .then((response: any) => {
-        console.log("MALZEME data: ", response.data);
+        // console.log("MALZEME data: ", response.data);
         setDataMalzeme(response.data)
       })
       .catch((err: any) => {
@@ -49,10 +50,14 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
 
   async function getTamirciList() {
     setLoadingTamirci(true);
-    await axios.get(API_URL.BASE_URL + API_URL.ARIZA_TAMIRCI_LIST +
-      "?garajKodu=" + GarajId)
+    console.log(API_URL.BASE_URL + API_URL.ARIZA_TAMIRCI_LIST + "?garajKodu=" + GarajId)
+    await axios.get(API_URL.BASE_URL + API_URL.ARIZA_TAMIRCI_LIST + "?garajKodu=" + GarajId, {
+      headers: {
+        "Authorization": "Bearer " + userToken
+      }
+    })
       .then((response: any) => {
-        console.log(response.data);
+        // console.log(response.data);
         setDataTamirci(response.data);
       })
       .catch((error: any) => {
@@ -61,6 +66,9 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       })
       .finally(() => setLoadingTamirci(false))
   }
+  useEffect(() => {
+    getTamirciList()
+  }, [])
   return (
     <SafeAreaView style={styles.container}>
       {
@@ -68,16 +76,42 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
           <LoadingCard />
           :
           <View style={styles.content}>
-            <TextInput style={{
+            {
+              !visibleTamirci ?
+                <>
+                  <ButtonPrimary text={"Tamirci Seç"}
+                    onPress={() => {
+                      setVisibleTamirci(true)
+                    }} />
+                  <Text style={styles.textBold}>Tamirci</Text>
+                  <Text style={styles.textSmall}>{selectedTamirci?.fullName}</Text>
+                </>
+                :
+                <FlatList data={dataTamirci}
+                  renderItem={({ item }: any) => {
+                    return (
+                      <View>
+                        <TouchableOpacity style={{ paddingVertical: 4, }} onPress={() => {
+                          setSelectedTamirci(item)
+                          setVisibleTamirci(false)
+                        }}>
+                          <Text style={styles.textSmall}>{item?.fullName}</Text>
+                        </TouchableOpacity>
+                      </View>
+                    )
+                  }}
+                />
+            }
+            <TextInput style={[styles.textInput, {
               backgroundColor: colors.white,
               marginVertical: 8,
               borderRadius: 8,
               borderColor: colors.gray,
               borderWidth: 1,
               paddingStart: 12,
-              fontSize: 14,
+              fontSize: 15,
               fontWeight: "normal"
-            }}
+            }]}
               focusable={true}
               placeholder='Barkod & Malzeme Adı Giriniz...'
               placeholderTextColor={colors.gray}
@@ -86,12 +120,21 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
               autoFocus
             />
             <ButtonPrimary text={"Malzeme Ara"} onPress={() => getMalzeme()} disabled={barkod != "" ? false : true} />
-            <ButtonPrimary text={selectedTamirci?.fullName ? `Tamirci: ${selectedTamirci?.fullName}` : "Tamirci Seç"}
-              onPress={() => {
-                getTamirciList()
-                setVisibleTamirci(true)
-              }} />
-            <Modal
+            {
+              dataMalzeme?.map((item: any) => {
+                return (
+                  <View key={item?.Code}>
+                    <Text style={styles.textBold}>{item?.Code}</Text>
+                    <View style={styles.viewTwoRowJustify}>
+                      <Text style={styles.textNormal}>Stok Adet:</Text>
+                      <Text style={styles.textNormal}>{item?.Onhand} {item?.UnitName}</Text>
+                    </View>
+                    <Text style={styles.textNormal}>{item?.Name}</Text>
+                  </View>
+                )
+              })
+            }
+            {/* <Modal
               animationType="slide"
               transparent={true}
               visible={visibleTamirci}
@@ -133,7 +176,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
                   />
                 </View>
               </View>
-            </Modal>
+            </Modal> */}
 
             <TextInput style={styles.textInput}
               placeholder='Malzeme Adet'

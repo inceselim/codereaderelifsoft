@@ -54,4 +54,10 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         paddingVertical: 4
     },
+    viewTwoRowJustify: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingVertical: 4
+    },
 })
