@@ -51,19 +51,40 @@ export default function ArizaDetailScreen({ props }: any) {
                                 return (
                                     <CardView>
                                         <View>
-                                            <Text style={styles.textTitle}>Arıza Malzeme Id: {item?.ArizaMalzemeId}</Text>
-                                            <Text style={styles.textNormal}>Birim: {item?.Birim}</Text>
-                                            <Text style={styles.textNormal}>Birim Id: {item?.BirimId}</Text>
-                                            <Text style={styles.textNormal}>Kullanıcı: {item?.KullaniciAdSoyad}</Text>
-                                            <Text style={styles.textNormal}>Stok Miktarı: {item?.D1}</Text>
-                                            <Text style={styles.textNormal}>Detay: {item?.Detay}</Text>
-                                            <Text style={styles.textNormal}>Miktar: {item?.Miktar}</Text>
-                                            <Text />
-                                            <Text style={styles.textNormal}>Tamirci: {item?.TamirciAdSoyad}</Text>
-                                            <Text style={styles.textNormal}>Üretici Kod: {item?.UreticiKod}</Text>
-                                            <Text style={styles.textNormal}>Ürün Id: {item?.UrunId}</Text>
-                                            <Text style={styles.textNormal}>Ürün Adı: {item?.UrunAd}</Text>
-                                            <Text style={styles.textNormal}>Ürün Kodu: {item?.UrunKod}</Text>
+                                            <Text style={styles.textTitle}>Ürün Kodu: {item?.UrunKod}</Text>
+                                            {/* <Text style={styles.textNormal}>Ürün Id: {item?.UrunId}</Text> */}
+                                            <View style={styles.viewTwoRows}>
+                                                <Text style={styles.textBold}>Ürün Adı:</Text>
+                                                <Text style={styles.textNormal}>{item?.UrunAd}</Text>
+                                            </View>
+                                            <View style={styles.viewTwoRows}>
+                                                <Text style={styles.textBold}>Üretici Kod:</Text>
+                                                <Text style={styles.textNormal}>{item?.UreticiKod}</Text>
+                                            </View>
+                                            <View style={styles.viewTwoRows}>
+                                                <Text style={styles.textBold}>Birim:</Text>
+                                                <Text style={styles.textNormal}>{item?.Birim}</Text>
+                                            </View>
+                                            <View style={styles.viewTwoRows}>
+                                                <Text style={styles.textBold}>Miktar:</Text>
+                                                <Text style={styles.textNormal}>{item?.Miktar}</Text>
+                                            </View>
+                                            <View style={styles.viewTwoRows}>
+                                                <Text style={styles.textBold}>Stok Miktarı:</Text>
+                                                <Text style={styles.textNormal}>{item?.D1}</Text>
+                                            </View>
+                                            <View style={styles.viewTwoRows}>
+                                                <Text style={styles.textBold}>Açıklama:</Text>
+                                                <Text style={styles.textNormal}>{item?.Detay}</Text>
+                                            </View>
+                                            <View style={styles.viewTwoRows}>
+                                                <Text style={styles.textBold}>Tamirci:</Text>
+                                                <Text style={styles.textNormal}>{item?.TamirciAdSoyad}</Text>
+                                            </View>
+                                            <View style={styles.viewTwoRows}>
+                                                <Text style={styles.textBold}>Kullanıcı:</Text>
+                                                <Text style={styles.textNormal}>{item?.KullaniciAdSoyad}</Text>
+                                            </View>
                                         </View>
                                     </CardView>
                                 )

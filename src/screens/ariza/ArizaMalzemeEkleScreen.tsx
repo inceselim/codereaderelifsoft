@@ -76,33 +76,37 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
     setUserId(decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"])
   };
 
-
+  console.log(ArizaId)
   async function handleData() {
-    Alert.alert("TAMAM")
-    // await axios.post(API_URL.DEV_URL + API_URL.ARIZA_GONDER_URL, {
-    //   values: {
-    //     KullaniciId: userId,
-    //     UrunKod: dataMalzeme?.Code,
-    //     UrunAd: dataMalzeme?.Name,
-    //     UreticiKod: dataMalzeme?.ProducerCode,
-    //     Birim: dataMalzeme?.UnitName,
-    //     BirimId: dataMalzeme?.UnitLineRef,
-    //     UrunId: dataMalzeme?.Logicalref,
-    //     D1: dataMalzeme?.Onhand,
-    //     Miktar: malzemeAdet,
-    //     TamirciId: selectedTamirci?.id,
-    //     ArizaId: ArizaId
-    //   }
-    // }, {
-    //   headers: {
-    //     "Authorization": "Bearer " + userToken
-    //   }
-    // })
-    //   .then((response: any) => {
-    //     console.log("MAL GONDER RES: ", response.data)
-    //   })
-    //   .catch((error: any) => console.log("ERROR: ", error))
-    //   .finally(() => setLoadingGonder(false))
+    const formData = new FormData();
+    console.log("dataMalzeme", dataMalzeme)
+    console.log("dataMalzeme")
+    console.log("dataMalzeme?.UnitName", dataMalzeme[0])
+    formData.append("values", {
+      KullaniciId: userId,
+      UrunKod: dataMalzeme[0]?.Code,
+      UrunAd: dataMalzeme[0]?.Name,
+      UreticiKod: dataMalzeme[0]?.ProducerCode,
+      Birim: dataMalzeme[0]?.UnitName,
+      BirimId: dataMalzeme[0]?.UnitLineRef,
+      UrunId: dataMalzeme[0]?.Logicalref,
+      D1: dataMalzeme[0]?.Onhand,
+      Miktar: malzemeAdet,
+      TamirciId: selectedTamirci?.id,
+      ArizaId: ArizaId
+    })
+    console.log(API_URL.DEV_URL + API_URL.ARIZA_GONDER_URL, formData,)
+    await axios.post(API_URL.DEV_URL + API_URL.ARIZA_GONDER_URL, formData, {
+      headers: {
+        "Authorization": "Bearer " + userToken,
+        "Content-Type": "multipart/form-data"
+      }
+    })
+      .then((response: any) => {
+        console.log("MAL GONDER RES: ", response.data)
+      })
+      .catch((error: any) => console.log("ERROR: ", error))
+      .finally(() => setLoadingGonder(false))
   }
 
   useEffect(() => {

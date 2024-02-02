@@ -48,10 +48,15 @@ export const styles = StyleSheet.create({
     textBold: {
         fontWeight: "bold",
         color: colors.black,
+        paddingEnd: 4,
     },
     viewTwoRow: {
         flexDirection: "row",
         alignItems: "center",
+        paddingVertical: 4
+    },
+    viewTwoRows: {
+        flexDirection: "row",
         paddingVertical: 4
     },
     viewTwoRowJustify: {
