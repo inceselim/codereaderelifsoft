@@ -78,30 +78,31 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
 
 
   async function handleData() {
-    await axios.post(API_URL.DEV_URL + API_URL.ARIZA_GONDER_URL, {
-      values: {
-        KullaniciId: userId,
-        UrunKod: dataMalzeme?.Code,
-        UrunAd: dataMalzeme?.Name,
-        UreticiKod: dataMalzeme?.ProducerCode,
-        Birim: dataMalzeme?.UnitName,
-        BirimId: dataMalzeme?.UnitLineRef,
-        UrunId: dataMalzeme?.Logicalref,
-        D1: dataMalzeme?.Onhand,
-        Miktar: malzemeAdet,
-        TamirciId: selectedTamirci?.id,
-        ArizaId: ArizaId
-      }
-    }, {
-      headers: {
-        "Authorization": "Bearer " + userToken
-      }
-    })
-      .then((response: any) => {
-        console.log("MAL GONDER RES: ", response.data)
-      })
-      .catch((error: any) => console.log("ERROR: ", error))
-      .finally(() => setLoadingGonder(false))
+    Alert.alert("TAMAM")
+    // await axios.post(API_URL.DEV_URL + API_URL.ARIZA_GONDER_URL, {
+    //   values: {
+    //     KullaniciId: userId,
+    //     UrunKod: dataMalzeme?.Code,
+    //     UrunAd: dataMalzeme?.Name,
+    //     UreticiKod: dataMalzeme?.ProducerCode,
+    //     Birim: dataMalzeme?.UnitName,
+    //     BirimId: dataMalzeme?.UnitLineRef,
+    //     UrunId: dataMalzeme?.Logicalref,
+    //     D1: dataMalzeme?.Onhand,
+    //     Miktar: malzemeAdet,
+    //     TamirciId: selectedTamirci?.id,
+    //     ArizaId: ArizaId
+    //   }
+    // }, {
+    //   headers: {
+    //     "Authorization": "Bearer " + userToken
+    //   }
+    // })
+    //   .then((response: any) => {
+    //     console.log("MAL GONDER RES: ", response.data)
+    //   })
+    //   .catch((error: any) => console.log("ERROR: ", error))
+    //   .finally(() => setLoadingGonder(false))
   }
 
   useEffect(() => {
@@ -196,7 +197,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
                 }}
                 disabled={
                   (malzemeAdet != "") &&
-                    (selectedTamirci != null) &&
+                    (selectedTamirci != "") &&
                     (dataMalzeme != null) ? false : true}></ButtonPrimary>
             </View>
           </ScrollView>

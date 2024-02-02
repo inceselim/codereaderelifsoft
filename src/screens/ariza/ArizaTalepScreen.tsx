@@ -131,51 +131,66 @@ export default function ArizaTalepScreen({ props, route }: any) {
                                     data={data}
                                     renderItem={({ item }: any) => {
                                         return (
-                                            <Pressable
-                                                onPress={() => navigation.navigate("ArizaDetail", { id: item?.Id })}>
-                                                <CardView>
-                                                    <ViewTwoRow>
-                                                        <Text style={styles.textTitle}>Fiş Kodu: {item?.FisNo}</Text>
-                                                        <TouchableOpacity
-                                                            onLongPress={() => Alert.alert("Malzeme Ekle")}
-                                                            onPress={() => {
-                                                                navigation.navigate("ArizaMalzemeEkle", {
-                                                                    GarajId: item?.GarajId,
-                                                                    company: company,
-                                                                    ArizaId: item?.Id
+                                            <CardView>
+                                                <ViewTwoRow>
+                                                    <Text style={[
+                                                        styles.textTitle,
+                                                        {
+                                                            paddingBottom: 0,
+                                                            textAlign: "left",
+                                                            flex: 1,
+                                                        }]}>Fiş Kodu: {item?.FisNo}</Text>
+                                                    <TouchableOpacity
+                                                        onLongPress={() => Alert.alert("Malzeme Ekle")}
+                                                        onPress={() => navigation.navigate("ArizaDetail", { id: item?.Id })}>
+                                                        <Image source={require("../../assets/images/infoIcon2.png")}
+                                                            style={{
+                                                                width: 30,
+                                                                height: 30,
+                                                                marginEnd: 8,
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
 
-                                                                })
-                                                            }}>
-                                                            <Image source={require("../../assets/images/plusIcon3.png")}
-                                                                style={{
-                                                                    width: 30,
-                                                                    height: 30,
-                                                                }}
-                                                            />
-                                                        </TouchableOpacity>
-                                                    </ViewTwoRow>
-                                                    <Text style={styles.textNormal}>Durum: {item?.Durum}</Text>
-                                                    <Text style={styles.textNormal}>Durum Logo: {item?.DurumLogo}</Text>
-                                                    <Text style={styles.textNormal}>Garaj Id: {item?.GarajId}</Text>
-                                                    <Text style={styles.textNormal}>Açıklama: {item?.Definition}</Text>
-                                                    <Text style={styles.textNormal}>Oluşturma Tarihi: {new Date(item?.OlusmaTarih).toLocaleDateString("tr-TR")}</Text>
-                                                    <Text style={styles.textNormal}>Kapanma Tarihi: {new Date(item?.KapanmaTarih).toLocaleDateString("tr-TR")}</Text>
-                                                    <Text style={styles.textNormal}>Kullanıcı: {item?.Kullanici}</Text>
-                                                    <Text style={styles.textNormal}>Sürücü Notu: {item?.SurucuNot}</Text>
-                                                    <Text style={styles.textNormal}>Kapı No: {item?.KapiNo}</Text>
-                                                    <Text style={styles.textNormal}>Kapı Açıklama: {item?.KapiNoDescription}</Text>
-                                                    <Text style={styles.textNormal}>Departman: {item?.Departman}</Text>
-                                                    <Text style={styles.textNormal}>Arıza Kodu: {item?.Id}</Text>
-                                                    <Text style={styles.textNormal}>Km: {item?.Km}</Text>
-                                                    <Text style={styles.textNormal}>Servis: {item?.Servis}</Text>
-                                                    <Text style={styles.textNormal}>Servis Not: {item?.ServisNot}</Text>
-                                                    <Text style={styles.textNormal}>Tamirci: {item?.Tamirci}</Text>
-                                                    <Text style={styles.textNormal}>Garaj: {item?.Garaj}</Text>
-                                                    <Text style={styles.textNormal}>Code: {item?.Code}</Text>
-                                                    <Text style={styles.textNormal}>Araç Kod: {item?.AracKod}</Text>
-                                                    <Text style={styles.textNormal}>Ambar Çıkış Kod: {item?.AmbarCikisKod}</Text>
-                                                </CardView>
-                                            </Pressable>
+                                                    <TouchableOpacity
+                                                        onLongPress={() => Alert.alert("Malzeme Ekle")}
+                                                        onPress={() => {
+                                                            navigation.navigate("ArizaMalzemeEkle", {
+                                                                GarajId: item?.GarajId,
+                                                                company: company,
+                                                                ArizaId: item?.Id
+
+                                                            })
+                                                        }}>
+                                                        <Image source={require("../../assets/images/plusIcon3.png")}
+                                                            style={{
+                                                                width: 30,
+                                                                height: 30,
+                                                            }}
+                                                        />
+                                                    </TouchableOpacity>
+                                                </ViewTwoRow>
+                                                <Text style={styles.textNormal}>Durum: {item?.Durum}</Text>
+                                                <Text style={styles.textNormal}>Durum Logo: {item?.DurumLogo}</Text>
+                                                <Text style={styles.textNormal}>Garaj Id: {item?.GarajId}</Text>
+                                                <Text style={styles.textNormal}>Açıklama: {item?.Definition}</Text>
+                                                <Text style={styles.textNormal}>Oluşturma Tarihi: {new Date(item?.OlusmaTarih).toLocaleDateString("tr-TR")}</Text>
+                                                <Text style={styles.textNormal}>Kapanma Tarihi: {new Date(item?.KapanmaTarih).toLocaleDateString("tr-TR")}</Text>
+                                                <Text style={styles.textNormal}>Kullanıcı: {item?.Kullanici}</Text>
+                                                <Text style={styles.textNormal}>Sürücü Notu: {item?.SurucuNot}</Text>
+                                                <Text style={styles.textNormal}>Kapı No: {item?.KapiNo}</Text>
+                                                <Text style={styles.textNormal}>Kapı Açıklama: {item?.KapiNoDescription}</Text>
+                                                <Text style={styles.textNormal}>Departman: {item?.Departman}</Text>
+                                                <Text style={styles.textNormal}>Arıza Kodu: {item?.Id}</Text>
+                                                <Text style={styles.textNormal}>Km: {item?.Km}</Text>
+                                                <Text style={styles.textNormal}>Servis: {item?.Servis}</Text>
+                                                <Text style={styles.textNormal}>Servis Not: {item?.ServisNot}</Text>
+                                                <Text style={styles.textNormal}>Tamirci: {item?.Tamirci}</Text>
+                                                <Text style={styles.textNormal}>Garaj: {item?.Garaj}</Text>
+                                                <Text style={styles.textNormal}>Code: {item?.Code}</Text>
+                                                <Text style={styles.textNormal}>Araç Kod: {item?.AracKod}</Text>
+                                                <Text style={styles.textNormal}>Ambar Çıkış Kod: {item?.AmbarCikisKod}</Text>
+                                            </CardView>
                                         )
                                     }}
                                 />
