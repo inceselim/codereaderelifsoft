@@ -32,7 +32,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
 
   async function getMalzeme() {
     setLoadingMalzeme(true);
-    await axios.post(API_URL.BASE_URL + API_URL.ARIZA_MALZEME_LISTELE +
+    await axios.post(API_URL.DEV_URL + API_URL.ARIZA_MALZEME_LISTELE +
       "?companyId=" + company.Id + "&name=" + barkod + "&garajNo=" + "340.00" + "&onHand=false",
       {}, {
       headers: {
@@ -54,8 +54,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
 
   async function getTamirciList() {
     setLoadingTamirci(true);
-    console.log(API_URL.BASE_URL + API_URL.ARIZA_TAMIRCI_LIST + "?garajKodu=" + GarajId)
-    await axios.get(API_URL.BASE_URL + API_URL.ARIZA_TAMIRCI_LIST + "?garajKodu=" + GarajId, {
+    await axios.get(API_URL.DEV_URL + API_URL.ARIZA_TAMIRCI_LIST + "?garajKodu=" + GarajId, {
       headers: {
         "Authorization": "Bearer " + userToken
       }
@@ -75,13 +74,10 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
     setUserId(decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"])
   };
 
-
+  console.log(userToken)
   async function handleData() {
     const formData = new FormData();
-    console.log("dataMalzeme", dataMalzeme)
-    console.log("dataMalzeme")
-    console.log("dataMalzeme?.UnitName", dataMalzeme[0])
-    formData.append("values", {
+    formData.append("values", JSON.stringify([{
       KullaniciId: userId,
       UrunKod: dataMalzeme[0]?.Code,
       UrunAd: dataMalzeme[0]?.Name,
@@ -93,8 +89,8 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       Miktar: malzemeAdet,
       TamirciId: selectedTamirci?.id,
       ArizaId: ArizaId
-    })
-    
+    }]))
+
     await axios.post(API_URL.DEV_URL + API_URL.ARIZA_GONDER_URL, formData, {
       headers: {
         "Authorization": "Bearer " + userToken,
@@ -104,7 +100,10 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       .then((response: any) => {
         console.log("MAL GONDER RES: ", response.data)
       })
-      .catch((error: any) => console.log("ERROR: ", error))
+      .catch((error: any) => {
+        console.log("MAL GONDER ERROR: ", error)
+        console.log("MAL GONDER ERROR: ", error.code)
+      })
       .finally(() => setLoadingGonder(false))
   }
 
