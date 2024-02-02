@@ -15,7 +15,6 @@ import jwtDecode from 'jwt-decode';
 export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   const userToken = useSelector((state: any) => state.auth?.userToken)
   const GarajId = route?.params?.GarajId
-  console.log(GarajId)
   const company = route?.params?.company
   const ArizaId = route?.params?.ArizaId
   const onHand = true   //Stokta olanlar için true hepsi için false seçilir.
@@ -30,7 +29,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   const [selectedTamirci, setSelectedTamirci] = useState<any>([]);
   const [malzemeAdet, setMalzemeAdet] = useState("");
   const [barkod, setBarkod] = useState("");
-  console.log("selectedTamirci", selectedTamirci?.id)
+
   async function getMalzeme() {
     setLoadingMalzeme(true);
     await axios.post(API_URL.BASE_URL + API_URL.ARIZA_MALZEME_LISTELE +
@@ -76,7 +75,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
     setUserId(decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"])
   };
 
-  console.log(ArizaId)
+
   async function handleData() {
     const formData = new FormData();
     console.log("dataMalzeme", dataMalzeme)
@@ -95,7 +94,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       TamirciId: selectedTamirci?.id,
       ArizaId: ArizaId
     })
-    console.log(API_URL.DEV_URL + API_URL.ARIZA_GONDER_URL, formData,)
+    
     await axios.post(API_URL.DEV_URL + API_URL.ARIZA_GONDER_URL, formData, {
       headers: {
         "Authorization": "Bearer " + userToken,
@@ -194,7 +193,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
                 onPress={() => {
                   parseInt(dataMalzeme[0].Onhand) < parseInt(malzemeAdet) ?
                     // console.log("Onhand", dataMalzeme[0].Onhand)
-                    Alert.alert("Hata", "Stok Yeterli Değil")
+                    Alert.alert("Uyarı", "Stok Yeterli Değil")
                     :
                     // console.log("object", (dataMalzeme[0].Onhand))
                     handleData()

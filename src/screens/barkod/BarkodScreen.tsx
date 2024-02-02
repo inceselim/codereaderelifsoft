@@ -18,8 +18,8 @@ export default function BarkodScreen() {
     useEffect(() => {
         // Tts.voices().then(voices => console.log(voices));
         Tts.setDefaultLanguage('tr-TR');
-        Tts.setDefaultRate(0.6);
-        Tts.speak('Hello, world!', {
+        Tts.setDefaultRate(0.5);
+        Tts.speak('Başarılı!', {
             iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
             rate: 0.5,
             androidParams: {

@@ -16,7 +16,7 @@ export default function ArizaDetailScreen({ props }: any) {
     const userToken = useSelector((state: any) => state.auth?.userToken)
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
-    console.log("PROPS: ", route?.params?.id)
+
     const getData = async () => {
         setLoading(true)
         await axios.get(API_URL.BASE_URL + API_URL.ARIZA_DETAIL_LIST + "?ArizaId=" + id, {
