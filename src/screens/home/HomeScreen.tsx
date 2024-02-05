@@ -91,9 +91,9 @@ export default function HomeScreen() {
                         <View style={styles.viewTwoRow}>
                             {selectedCompany != null &&
                                 <>
-                                    <Text style={[styles.textNormal, styles.textBold, {
+                                    <Text style={[styles.textLarge, styles.textBold, {
                                         flex: 1,
-                                        paddingBottom: 6,
+                                        paddingBottom: 8,
                                         borderBottomWidth: visibleCompanies ? 1 : 0
                                     }]}>
                                         {selectedCompany?.Company}
@@ -120,7 +120,7 @@ export default function HomeScreen() {
                                                     setVisibleCompanies(false)
                                                 }}
                                                     key={item?.Id}>
-                                                    <Text style={[styles.textNormal,]}>{item?.Company}</Text>
+                                                    <Text style={[styles.textBold, { paddingVertical: 6, }]}>{item?.Company}</Text>
                                                 </TouchableOpacity>
                                             )
                                         })
