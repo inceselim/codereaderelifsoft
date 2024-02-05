@@ -99,6 +99,8 @@ export default function BarkodScreen() {
 
     const handleAddList = () => {
         console.log("Listeye Eklendi")
+        Tts.voices().then(voices => console.log(voices));
+
         if (Platform.OS == "ios") {
             Tts.speak('Listeye Eklendi!', {
                 iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
@@ -168,48 +170,50 @@ export default function BarkodScreen() {
 
                 {
                     segment == 0 ?
-                        <View>
-                            <CardView>
-                                <TextInput
-                                    style={styles.textInput}
-                                    value={barcodeText}
-                                    onChangeText={setBarcodeText}
-                                    placeholder='Barkod Giriniz'
-                                    placeholderTextColor={"#666"}
-                                    autoFocus
-                                />
-                                <TextInput style={styles.textInput}
-                                    value={barcodeMiktar} onChangeText={setBarcodeMiktar}
-                                    placeholder='Miktar Giriniz'
-                                    keyboardType='decimal-pad'
-                                    placeholderTextColor={"#666"}
-                                />
-                                <ButtonPrimary text={"Malzeme Bul"} onPress={() => handleSearchProduct()} />
-                                {
-                                    barcodeData == "" ?
-                                        <CardView>
-                                            <View style={styles.viewTwoRowJustify}>
-                                                <Text style={[styles.textLarge, styles.textBold]}>
-                                                    Ürün Kodu
-                                                </Text>
-                                                <Text style={[styles.textLarge, styles.textBold]}>
-                                                    sdasads
-                                                </Text>
-                                            </View>
-                                            <View style={styles.viewTwoRowJustify}>
-                                                <Text style={styles.textNormal}>
-                                                    Ürün Adı
-                                                </Text>
-                                                <Text style={styles.textNormal}>
-                                                    productName
-                                                </Text>
-                                            </View>
-                                        </CardView>
-                                        : null
-                                }
-                                <ButtonPrimary text={"Listeye Ekle"} onPress={() => handleAddList()} />
-                            </CardView>
-                        </View>
+                        <ScrollView>
+                            <View>
+                                <CardView>
+                                    <TextInput
+                                        style={styles.textInput}
+                                        value={barcodeText}
+                                        onChangeText={setBarcodeText}
+                                        placeholder='Barkod Giriniz'
+                                        placeholderTextColor={"#666"}
+                                        autoFocus
+                                    />
+                                    <TextInput style={styles.textInput}
+                                        value={barcodeMiktar} onChangeText={setBarcodeMiktar}
+                                        placeholder='Miktar Giriniz'
+                                        keyboardType='decimal-pad'
+                                        placeholderTextColor={"#666"}
+                                    />
+                                    <ButtonPrimary text={"Malzeme Bul"} onPress={() => handleSearchProduct()} />
+                                    {
+                                        barcodeData.length == 0 ?
+                                            <CardView>
+                                                <View style={styles.viewTwoRowJustify}>
+                                                    <Text style={[styles.textLarge, styles.textBold]}>
+                                                        Ürün Kodu
+                                                    </Text>
+                                                    <Text style={[styles.textLarge, styles.textBold]}>
+                                                        sdasads
+                                                    </Text>
+                                                </View>
+                                                <View style={styles.viewTwoRowJustify}>
+                                                    <Text style={styles.textNormal}>
+                                                        Ürün Adı
+                                                    </Text>
+                                                    <Text style={styles.textNormal}>
+                                                        productName
+                                                    </Text>
+                                                </View>
+                                            </CardView>
+                                            : null
+                                    }
+                                    <ButtonPrimary text={"Listeye Ekle"} onPress={() => handleAddList()} />
+                                </CardView>
+                            </View>
+                        </ScrollView>
                         :
                         <View>
                             <ButtonPrimary text={"Kaydet"} />
