@@ -6,16 +6,17 @@ import Tts from 'react-native-tts';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { ArrowRight2, Car } from 'iconsax-react-native';
+import { ArrowRight2, Car, ExportSquare, Trash } from 'iconsax-react-native';
 import ButtonPrimary from '../../components/ButtonPrimary/ButtonPrimary';
 import CardView from '../../components/CardView';
+import { NoData } from '../../components/NoData/NoData';
 
 export default function BarkodScreen() {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
     const [okutulanlar, setOkutulanlar] = useState([]);
 
-    const [barcodeData, setBarcodeData] = useState<any>([]);
+    const [barcodeData, setBarcodeData] = useState<any[]>([]);
     const [barcodeText, setBarcodeText] = useState<any>("")
     const [barcodeMiktar, setBarcodeMiktar] = useState<any>();
 
@@ -69,6 +70,9 @@ export default function BarkodScreen() {
                 },
             });
         }
+    }
+    const handleAddList = () => {
+        console.log("Listeye EKLE")
     }
 
     useEffect(() => {
@@ -153,15 +157,26 @@ export default function BarkodScreen() {
                                         </CardView>
                                         : null
                                 }
-                                <ButtonPrimary text={"Listeye Ekle"} />
+                                <ButtonPrimary text={"Listeye Ekle"} onPress={() => handleAddList()} />
                             </CardView>
                         </View>
                         :
                         <View>
+                            <ButtonPrimary text={"Kaydet"} />
                             <ScrollView>
-                                <View>
-
-                                </View>
+                                {
+                                    barcodeData?.length < 1 ?
+                                        <NoData />
+                                        :
+                                        <CardView>
+                                            <View style={styles.viewTwoRowJustify}>
+                                                <Text style={{ flex: 1 }}>ürünAdı</Text>
+                                                <Text style={{ paddingEnd: 10 }}>ürünMiktarı</Text>
+                                                <Trash size={30} variant="Bold" color={colors.primaryColor} style={{ marginEnd: 8 }} />
+                                                <ExportSquare size={30} variant="Bulk" color={colors.primaryColor} />
+                                            </View>
+                                        </CardView>
+                                }
                             </ScrollView>
                         </View>
                 }
