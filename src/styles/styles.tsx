@@ -28,10 +28,16 @@ export const styles = StyleSheet.create({
         elevation: 11,
     },
     textTitle: {
-        fontSize: 17,
+        fontSize: 18,
         fontWeight: "bold",
         color: colors.primaryColor,
         paddingBottom: 12,
+    },
+    textLarge: {
+        fontSize: 16,
+        fontWeight: "normal",
+        color: colors.black,
+        paddingBottom: 2,
     },
     textNormal: {
         fontSize: 14,

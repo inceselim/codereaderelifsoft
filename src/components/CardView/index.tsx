@@ -5,10 +5,10 @@ import { colors } from '../../styles/colors';
 export default function CardView({ children }: any) {
     return (
         <View style={{
-            marginVertical: 10,
+            marginVertical: 8,
             backgroundColor: colors.light,
-            paddingVertical: 14,
-            paddingHorizontal: 12,
+            paddingVertical: 10,
+            paddingHorizontal: 10,
             borderRadius: 8,
         }}>
             {children}
