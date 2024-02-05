@@ -7,11 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { ArrowRight2 } from 'iconsax-react-native';
+import ButtonPrimary from '../../components/ButtonPrimary/ButtonPrimary';
+import CardView from '../../components/CardView';
 
 export default function BarkodScreen() {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
-    const [barcodeText, setBarcodeText] = useState("")
+    const [barcodeData, setBarcodeData] = useState<any>([]);
+    const [barcodeText, setBarcodeText] = useState<any>("")
 
     const [segment, setSegment] = useState(0);
 
@@ -72,25 +75,16 @@ export default function BarkodScreen() {
                     justifyContent: "space-between",
                     paddingTop: 10,
                 }}>
-
-                    <TouchableOpacity onPress={() => setSegment(0)}>
-                        <Text style={{
-                            fontSize: 19,
-                            color: colors.primaryColor,
-                            fontWeight: "bold",
-                            textAlign: "center",
-                            paddingVertical: 10,
-                        }}>Barkod Okut</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSegment(1)}>
-                        <Text style={{
-                            fontSize: 19,
-                            color: colors.primaryColor,
-                            fontWeight: "bold",
-                            textAlign: "center",
-                            paddingVertical: 10,
-                        }}>Okutulanlar</Text>
-                    </TouchableOpacity>
+                    <ButtonPrimary onPress={() => setSegment(0)}
+                        text={"Barkod Okut"} disabled={
+                            segment == 0 ? true : false
+                        }>
+                    </ButtonPrimary>
+                    <ButtonPrimary onPress={() => setSegment(1)}
+                        text={"Okutulanlar"} disabled={
+                            segment == 1 ? true : false
+                        }>
+                    </ButtonPrimary>
                 </View>
 
                 {
@@ -100,17 +94,37 @@ export default function BarkodScreen() {
                                 style={styles.textInput}
                                 value={barcodeText}
                                 onChangeText={setBarcodeText}
+                                placeholder='Barkod Giriniz'
+                                placeholderTextColor={"#666"}
                                 autoFocus
                             />
-                            <TouchableOpacity onPress={() => setBarcodeText("")}>
-                                <Text style={{
-                                    fontSize: 15,
-                                    color: colors.primaryColor,
-                                    fontWeight: "bold",
-                                    textAlign: "center",
-                                    paddingVertical: 10,
-                                }}>Temizle</Text>
-                            </TouchableOpacity>
+                            {
+                                barcodeText != "" ?
+                                    <TouchableOpacity onPress={() => setBarcodeText("")}
+                                        style={{
+                                            flexDirection: "row",
+                                            alignItems: "center",
+                                            backgroundColor: colors.light,
+                                            borderRadius: 8,
+                                            justifyContent: "center"
+                                        }}>
+                                        <Image source={require("../../assets/images/trashIcon1.png")}
+                                            style={{
+                                                height: 28,
+                                                width: 28
+                                            }}
+                                        />
+                                        <Text style={{
+                                            fontSize: 15,
+                                            color: colors.primaryColor,
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            paddingVertical: 10,
+                                            paddingStart: 10,
+                                        }}>Temizle</Text>
+                                    </TouchableOpacity>
+                                    : null
+                            }
                         </View>
                         :
                         <View>
