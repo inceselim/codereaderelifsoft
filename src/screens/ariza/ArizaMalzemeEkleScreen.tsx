@@ -74,7 +74,6 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
     setUserId(decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"])
   };
 
-  console.log(userToken)
   async function handleData() {
     const formData = new FormData();
     formData.append("values", JSON.stringify([{
