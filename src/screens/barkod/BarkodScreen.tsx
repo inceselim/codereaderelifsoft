@@ -71,8 +71,57 @@ export default function BarkodScreen() {
             });
         }
     }
+    const handleSearchProduct = () => {
+        if (Platform.OS == "ios") {
+            Tts.speak('Hello, world!', {
+                iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                rate: 0.5,
+                androidParams: {
+                    KEY_PARAM_PAN: 0,
+                    KEY_PARAM_VOLUME: 0.99,
+                    KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
+                },
+            });
+        }
+        else {
+            Tts.speak('Selam arkadaşlar uygulamamıza hoşgeldiniz!', {
+                // iosVoiceId: 'com.apple.ttsbundle.Moira-compact',
+                iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                rate: 0.5,
+                androidParams: {
+                    KEY_PARAM_PAN: 0,
+                    KEY_PARAM_VOLUME: 1.0,
+                    KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
+                },
+            });
+        }
+    }
+
     const handleAddList = () => {
-        console.log("Listeye EKLE")
+        console.log("Listeye Eklendi")
+        if (Platform.OS == "ios") {
+            Tts.speak('Listeye Eklendi!', {
+                iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                rate: 0.5,
+                androidParams: {
+                    KEY_PARAM_PAN: 0,
+                    KEY_PARAM_VOLUME: 0.99,
+                    KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
+                },
+            });
+        }
+        else {
+            Tts.speak('Listeye Eklendi!', {
+                // iosVoiceId: 'com.apple.ttsbundle.Moira-compact',
+                iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                rate: 0.5,
+                androidParams: {
+                    KEY_PARAM_PAN: 0,
+                    KEY_PARAM_VOLUME: 1.0,
+                    KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
+                },
+            });
+        }
     }
 
     useEffect(() => {
@@ -135,6 +184,7 @@ export default function BarkodScreen() {
                                     keyboardType='decimal-pad'
                                     placeholderTextColor={"#666"}
                                 />
+                                <ButtonPrimary text={"Malzeme Bul"} onPress={() => handleSearchProduct()} />
                                 {
                                     barcodeData == "" ?
                                         <CardView>
