@@ -19,7 +19,7 @@ export default function ArizaDetailScreen({ props }: any) {
 
     const getData = async () => {
         setLoading(true)
-        await axios.get(API_URL.BASE_URL + API_URL.ARIZA_DETAIL_LIST + "?ArizaId=" + id, {
+        await axios.get(API_URL.DEV_URL + API_URL.ARIZA_DETAIL_LIST + "?ArizaId=" + id, {
             headers: {
                 "Authorization": "Bearer " + userToken
             }

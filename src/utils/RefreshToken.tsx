@@ -22,7 +22,7 @@ async function RefreshToken() {
     //
     if (time < 3 * 24 * 60 * 60 * 1000) {
         await axios({
-            url: API_URL.BASE_URL + API_URL.REFRESH_TOKEN_URL + '?token=' + userToken,
+            url: API_URL.DEV_URL + API_URL.REFRESH_TOKEN_URL + '?token=' + userToken,
             method: 'post',
             maxBodyLength: Infinity,
         })
