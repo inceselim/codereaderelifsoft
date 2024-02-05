@@ -75,6 +75,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   };
 
   async function handleData() {
+    setLoadingGonder(true)
     const formData = new FormData();
     formData.append("values", JSON.stringify([{
       KullaniciId: userId,
