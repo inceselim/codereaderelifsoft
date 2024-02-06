@@ -34,7 +34,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   async function getMalzeme() {
     setLoadingMalzeme(true);
     await axios.post(API_URL.DEV_URL + API_URL.ARIZA_MALZEME_LISTELE +
-      "?companyId=" + company.Id + "&name=" + barkod + "&garajNo=" + "340.00" + "&onHand=false",
+      "?companyId=" + company.Id + "&name=" + barkod + "&garajNo=" + GarajId + "&onHand=false",
       {}, {
       headers: {
         "Authorization": "Bearer " + userToken,
