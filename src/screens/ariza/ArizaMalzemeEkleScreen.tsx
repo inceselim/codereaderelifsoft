@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, Pressable, Modal, StyleSheet, Alert, TextInput, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, Pressable, Modal, StyleSheet, Alert, TextInput, TouchableOpacity, FlatList, ScrollView, Platform } from 'react-native';
 import { styles } from '../../styles/styles';
 import { colors } from '../../styles/colors';
 import ButtonPrimary from '../../components/ButtonPrimary/ButtonPrimary';
@@ -11,6 +11,7 @@ import { styleModal } from '../../styles/styleModal';
 import { CloseCircle } from 'iconsax-react-native';
 import CardView from '../../components/CardView';
 import jwtDecode from 'jwt-decode';
+import Tts from 'react-native-tts';
 
 export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   const userToken = useSelector((state: any) => state.auth?.userToken)
@@ -99,9 +100,28 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
     })
       .then((response: any) => {
         console.log("MAL GONDER RES: ", response.data)
+        Tts.speak('Başarılı', {
+          iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+          rate: 0.5,
+          androidParams: {
+            KEY_PARAM_PAN: 0,
+            KEY_PARAM_VOLUME: 0.99,
+            KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
+          },
+        });
       })
       .catch((error: any) => {
         console.log("MAL GONDER ERROR: ", error)
+        Alert.alert("Hata", error)
+        Tts.speak('Hata oluştu', {
+          iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+          rate: 0.5,
+          androidParams: {
+            KEY_PARAM_PAN: 0,
+            KEY_PARAM_VOLUME: 0.99,
+            KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
+          },
+        });
         console.log("MAL GONDER ERROR: ", error.code)
       })
       .finally(() => setLoadingGonder(false))
