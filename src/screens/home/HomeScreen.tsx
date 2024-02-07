@@ -136,7 +136,9 @@ export default function HomeScreen() {
                     flex: 1,
                     // justifyContent: "center"
                 }}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Barkod")} style={{
+                    <TouchableOpacity onPress={() => navigation.navigate("BarkodCreate", {
+                        company: selectedCompany
+                    })} style={{
                         flexDirection: "row",
                         alignItems: "center",
                         marginVertical: 6,

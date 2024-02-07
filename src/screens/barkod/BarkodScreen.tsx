@@ -11,9 +11,10 @@ import ButtonPrimary from '../../components/ButtonPrimary/ButtonPrimary';
 import CardView from '../../components/CardView';
 import { NoData } from '../../components/NoData/NoData';
 
-export default function BarkodScreen() {
+export default function BarkodScreen({ props, route }: any) {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
+    const company = route?.params?.company
     const [okutulanlar, setOkutulanlar] = useState([]);
 
     const [barcodeData, setBarcodeData] = useState<any[]>([]);
@@ -21,7 +22,6 @@ export default function BarkodScreen() {
     const [barcodeMiktar, setBarcodeMiktar] = useState<any>();
 
     const [segment, setSegment] = useState(0);
-
     useEffect(() => {
         // Tts.voices().then(voices => console.log(voices));
         Tts.setDefaultLanguage('tr-TR');
@@ -32,16 +32,6 @@ export default function BarkodScreen() {
             androidParams: {
                 KEY_PARAM_PAN: 0,
                 KEY_PARAM_VOLUME: 0.99,
-                KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
-            },
-        });
-        Tts.speak('Selam arkadaşlar uygulamamıza hoşgeldiniz!', {
-            // iosVoiceId: 'com.apple.ttsbundle.Moira-compact',
-            iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-            rate: 0.5,
-            androidParams: {
-                KEY_PARAM_PAN: 0,
-                KEY_PARAM_VOLUME: 1.0,
                 KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
             },
         });

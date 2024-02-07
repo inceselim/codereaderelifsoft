@@ -100,33 +100,37 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
     })
       .then((response: any) => {
         console.log("MAL GONDER RES: ", response.data)
-        Tts.speak('Başarılı', {
+        Tts.setDefaultLanguage('tr-TR');
+       
+        Tts.speak('Tamamlandi', {
           iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
           rate: 0.5,
           androidParams: {
             KEY_PARAM_PAN: 0,
-            KEY_PARAM_VOLUME: 0.99,
-            KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
+            KEY_PARAM_VOLUME: 1.0,
+            KEY_PARAM_STREAM: 'STREAM_SYSTEM',
           },
         });
       })
       .catch((error: any) => {
         console.log("MAL GONDER ERROR: ", error)
         Alert.alert("Hata", error)
+        Tts.setDefaultLanguage('tr-TR');
+
         Tts.speak('Hata oluştu', {
           iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
           rate: 0.5,
           androidParams: {
             KEY_PARAM_PAN: 0,
-            KEY_PARAM_VOLUME: 0.99,
-            KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
+            KEY_PARAM_VOLUME: 1.0,
+            KEY_PARAM_STREAM: 'STREAM_SYSTEM',
           },
         });
         console.log("MAL GONDER ERROR: ", error.code)
       })
       .finally(() => setLoadingGonder(false))
   }
-
+  console.log("object")
   useEffect(() => {
     getUserId()
     getTamirciList()
