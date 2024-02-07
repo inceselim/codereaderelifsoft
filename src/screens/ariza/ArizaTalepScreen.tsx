@@ -151,24 +151,28 @@ export default function ArizaTalepScreen({ props, route }: any) {
                                                             }}
                                                         />
                                                     </TouchableOpacity>
+                                                    {
+                                                        item?.DurumLogo == "Tamamlanan" ?
+                                                            null
+                                                            :
+                                                            <TouchableOpacity
+                                                                onLongPress={() => Alert.alert("Malzeme Ekle")}
+                                                                onPress={() => {
+                                                                    navigation.navigate("ArizaMalzemeEkle", {
+                                                                        GarajId: item?.GarajId,
+                                                                        company: company,
+                                                                        ArizaId: item?.Id
 
-                                                    <TouchableOpacity
-                                                        onLongPress={() => Alert.alert("Malzeme Ekle")}
-                                                        onPress={() => {
-                                                            navigation.navigate("ArizaMalzemeEkle", {
-                                                                GarajId: item?.GarajId,
-                                                                company: company,
-                                                                ArizaId: item?.Id
-
-                                                            })
-                                                        }}>
-                                                        <Image source={require("../../assets/images/plusIcon3.png")}
-                                                            style={{
-                                                                width: 30,
-                                                                height: 30,
-                                                            }}
-                                                        />
-                                                    </TouchableOpacity>
+                                                                    })
+                                                                }}>
+                                                                <Image source={require("../../assets/images/plusIcon3.png")}
+                                                                    style={{
+                                                                        width: 30,
+                                                                        height: 30,
+                                                                    }}
+                                                                />
+                                                            </TouchableOpacity>
+                                                    }
                                                 </ViewTwoRow>
                                                 <Text style={styles.textNormal}>Durum: {item?.Durum}</Text>
                                                 <Text style={styles.textNormal}>Durum Logo: {item?.DurumLogo}</Text>

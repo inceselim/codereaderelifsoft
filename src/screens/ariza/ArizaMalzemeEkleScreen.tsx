@@ -24,8 +24,8 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   const [loadingTamirci, setLoadingTamirci] = useState(false);
   const [loadingGonder, setLoadingGonder] = useState(false);
   const [userId, setUserId] = useState("");
-  const [dataMalzeme, setDataMalzeme] = useState<any>([]);
-  const [dataTamirci, setDataTamirci] = useState<any>([]);
+  const [dataMalzeme, setDataMalzeme] = useState<any[]>([]);
+  const [dataTamirci, setDataTamirci] = useState<any[]>([]);
   const [visibleTamirci, setVisibleTamirci] = useState(false);
   const [selectedTamirci, setSelectedTamirci] = useState<any>([]);
   const [malzemeAdet, setMalzemeAdet] = useState("");
@@ -210,17 +210,19 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
                 placeholderTextColor={"#555"} />
               <ButtonPrimary text={"Kaydet"}
                 onPress={() => {
-                  parseInt(dataMalzeme[0].Onhand) < parseInt(malzemeAdet) ?
-                    // console.log("Onhand", dataMalzeme[0].Onhand)
-                    Alert.alert("Uyarı", "Stok Yeterli Değil")
-                    :
-                    // console.log("object", (dataMalzeme[0].Onhand))
-                    handleData()
+                  parseInt(malzemeAdet) > 0 ?
+                    dataMalzeme?.length > 0 && (parseInt(dataMalzeme[0].Onhand) < parseInt(malzemeAdet)) ?
+                      // console.log("Onhand", dataMalzeme[0].Onhand)
+                      Alert.alert("Uyarı", "Stok Yeterli Değil")
+                      :
+                      // console.log("object", (dataMalzeme[0].Onhand))
+                      handleData()
+                    : Alert.alert("Uyarı", "Sıfır Girilemez")
                 }}
                 disabled={
                   (malzemeAdet != "") &&
                     (selectedTamirci != "") &&
-                    (dataMalzeme != null) ? false : true}></ButtonPrimary>
+                    (dataMalzeme?.length > 0) ? false : true}></ButtonPrimary>
             </View>
           </ScrollView>
       }
