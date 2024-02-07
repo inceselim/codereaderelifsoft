@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import { styles } from '../../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { API_URL } from '../../api/api_url';
 import LoadingCard from '../../components/LoadingCard/LoadingCard';
 import CardView from '../../components/CardView';
 import ButtonPrimary from '../../components/ButtonPrimary/ButtonPrimary';
+import { colors } from '../../styles/colors';
 
 export default function BarkodCreateScreen({ props, route }: any) {
     const navigation: any = useNavigation();
@@ -20,6 +21,7 @@ export default function BarkodCreateScreen({ props, route }: any) {
     const [isEnabledAmbarList, setIsEnabledAmbarList] = useState(false);
     const [dataAmbarList, setDataAmbarList] = useState<any[]>([])
     const [selectedAmbar, setSelectedAmbar] = useState<any>()
+    const [descriptionText, setDescriptionText] = useState("")
 
     const getAmbarList = async () => {
         setLoadingAmbarList(true);
@@ -83,6 +85,13 @@ export default function BarkodCreateScreen({ props, route }: any) {
                                     : null
                             }
                         </CardView>
+
+                        <TextInput style={styles.textInput}
+                            value={descriptionText}
+                            onChangeText={setDescriptionText}
+                            placeholder='Açıklama'
+                            placeholderTextColor={colors.gray}
+                        />
                     </View>
             }
         </SafeAreaView>
