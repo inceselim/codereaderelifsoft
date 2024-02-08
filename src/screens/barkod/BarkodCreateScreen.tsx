@@ -14,9 +14,9 @@ export default function BarkodCreateScreen({ props, route }: any) {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
     const company = route?.params?.company.Id
-    console.log("COMPANY", company)
     const userToken = useSelector((state: any) => state.auth?.userToken)
 
+    const [loadingCreateSayim, setLoadingCreateSayim] = useState(false);
     const [loadingAmbarList, setLoadingAmbarList] = useState(false);
     const [isEnabledAmbarList, setIsEnabledAmbarList] = useState(false);
     const [dataAmbarList, setDataAmbarList] = useState<any[]>([])
@@ -41,6 +41,34 @@ export default function BarkodCreateScreen({ props, route }: any) {
             })
             .finally(() => setLoadingAmbarList(false))
     }
+    const createSayim = async () => {
+        setLoadingCreateSayim(true);
+        const formData = new FormData();
+        // formData.append("ProjectCode", selectedAmbar?.Code)
+        // formData.append("Definition", descriptionText)
+        formData.append("values", JSON.stringify({
+            "ProjectCode": selectedAmbar?.Code,
+            "Definition": descriptionText,
+        }))
+        console.log(formData)
+        await axios.post(API_URL.DEV_URL + API_URL.BARKOD_SAYIM_CREATE, formData, {
+            headers: {
+                "Authorization": "Bearer " + userToken,
+                "Content-Type": "multipart/form-data"
+            }
+        })
+            .then((response: any) => {
+                console.log("CREATE SAYIM RESPONSE: ", response.data)
+                setDataAmbarList(response.data)
+            })
+            .catch((error: any) => {
+                console.log("CREATE SAYIM ERROR: ", error)
+                console.log("CREATE SAYIM ERROR: ", error.response)
+                console.log("CREATE SAYIM ERROR: ", error.code)
+
+            })
+            .finally(() => setLoadingCreateSayim(false))
+    }
 
     useEffect(() => {
         getAmbarList()
@@ -48,7 +76,7 @@ export default function BarkodCreateScreen({ props, route }: any) {
     return (
         <SafeAreaView style={styles.container}>
             {
-                loadingAmbarList ?
+                loadingAmbarList || loadingCreateSayim ?
                     <LoadingCard />
                     :
                     <View style={styles.content}>
@@ -92,7 +120,7 @@ export default function BarkodCreateScreen({ props, route }: any) {
                             placeholder='Açıklama'
                             placeholderTextColor={colors.gray}
                         />
-                        
+                        <ButtonPrimary text={"Sayım Oluştur"} onPress={() => createSayim()} />
                     </View>
             }
         </SafeAreaView>

@@ -13,6 +13,7 @@ export const API_URL = {
     ARIZA_TAMIRCI_LIST: "/api/ArizaApi/ArizaMalzemeTamirciList",
     ARIZA_GONDER_URL: "/api/ArizaApi/ArizaMalzemeAdd",
 
-    AMBAR_LIST:"/api/WareHouseApi/CikisAmbarList",
-    BARKOD_: "/api/MaterialCountingApi/SayimFisList"
+    AMBAR_LIST: "/api/WareHouseApi/CikisAmbarList",
+    BARKOD_SAYIM_LIST: "/api/MaterialCountingApi/SayimFisList",
+    BARKOD_SAYIM_CREATE: "/api/MaterialCountingApi/SayimFisAdd",
 }

@@ -46,7 +46,7 @@ export default function MainNavigation() {
                             <Stack.Screen name="Home" component={HomeScreen} />
                             <Stack.Screen name="Barkod" component={BarkodScreen} options={{
                                 headerShown: true,
-                                title: "Barkod Okuyucu",
+                                title: "Barkod",
                                 headerTitleStyle: {
                                     fontSize: 14
                                 },
