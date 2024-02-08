@@ -11,7 +11,7 @@ import ButtonPrimary from '../../components/ButtonPrimary/ButtonPrimary';
 import CardView from '../../components/CardView';
 import { NoData } from '../../components/NoData/NoData';
 
-export default function BarkodScreen({ props, route }: any) {
+export default function BarkodListeleScreen({ props, route }: any) {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
     const company = route?.params?.company
@@ -141,11 +141,89 @@ export default function BarkodScreen({ props, route }: any) {
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
                 <CardView>
-                    <ButtonPrimary text={"Yeni Sayım Oluştur"}
-                        onPress={() => navigation.navigate("BarkodCreate")} />
-                    <ButtonPrimary text={"Mevcut Sayım"}
-                        onPress={() => navigation.navigate("BarkodListele")} />
+                    <View style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                    }}>
+                        <ButtonPrimary onPress={() => setSegment(0)}
+                            text={"Barkod Okut"} disabled={
+                                segment == 0 ? true : false
+                            }>
+                        </ButtonPrimary>
+                        <ButtonPrimary onPress={() => setSegment(1)}
+                            text={"Okutulanlar"} disabled={
+                                segment == 1 ? true : false
+                            }>
+                        </ButtonPrimary>
+                    </View>
                 </CardView>
+
+                {
+                    segment == 0 ?
+                        <ScrollView>
+                            <View>
+                                <CardView>
+                                    <TextInput
+                                        style={styles.textInput}
+                                        value={barcodeText}
+                                        onChangeText={setBarcodeText}
+                                        placeholder='Barkod Giriniz'
+                                        placeholderTextColor={"#666"}
+                                        autoFocus
+                                    />
+                                    <TextInput style={styles.textInput}
+                                        value={barcodeMiktar} onChangeText={setBarcodeMiktar}
+                                        placeholder='Miktar Giriniz'
+                                        keyboardType='decimal-pad'
+                                        placeholderTextColor={"#666"}
+                                    />
+                                    <ButtonPrimary text={"Malzeme Bul"} onPress={() => handleSearchProduct()} />
+                                    {
+                                        barcodeData.length == 0 ?
+                                            <CardView>
+                                                <View style={styles.viewTwoRowJustify}>
+                                                    <Text style={[styles.textLarge, styles.textBold]}>
+                                                        Ürün Kodu
+                                                    </Text>
+                                                    <Text style={[styles.textLarge, styles.textBold]}>
+                                                        sdasads
+                                                    </Text>
+                                                </View>
+                                                <View style={styles.viewTwoRowJustify}>
+                                                    <Text style={styles.textNormal}>
+                                                        Ürün Adı
+                                                    </Text>
+                                                    <Text style={styles.textNormal}>
+                                                        productName
+                                                    </Text>
+                                                </View>
+                                            </CardView>
+                                            : null
+                                    }
+                                    <ButtonPrimary text={"Listeye Ekle"} onPress={() => handleAddList()} />
+                                </CardView>
+                            </View>
+                        </ScrollView>
+                        :
+                        <View>
+                            <ButtonPrimary text={"Kaydet"} />
+                            <ScrollView>
+                                {
+                                    barcodeData?.length < 1 ?
+                                        <NoData />
+                                        :
+                                        <CardView>
+                                            <View style={styles.viewTwoRowJustify}>
+                                                <Text style={{ flex: 1 }}>ürünAdı</Text>
+                                                <Text style={{ paddingEnd: 10 }}>ürünMiktarı</Text>
+                                                <Trash size={30} variant="Bold" color={colors.primaryColor} style={{ marginEnd: 8 }} />
+                                                <ExportSquare size={30} variant="Bulk" color={colors.primaryColor} />
+                                            </View>
+                                        </CardView>
+                                }
+                            </ScrollView>
+                        </View>
+                }
             </View>
         </SafeAreaView>
     );

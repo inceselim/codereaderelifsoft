@@ -12,6 +12,7 @@ import ArizaTalepScreen from '../screens/ariza/ArizaTalepScreen';
 import ArizaDetailScreen from '../screens/ariza/ArizaDetailScreen';
 import ArizaMalzemeEkleScreen from '../screens/ariza/ArizaMalzemeEkleScreen';
 import BarkodCreateScreen from '../screens/barkod/BarkodCreateScreen';
+import BarkodListeleScreen from '../screens/barkod/BarkodListeleScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -120,6 +121,25 @@ export default function MainNavigation() {
                                 },
                             }} />
                             <Stack.Screen name="BarkodCreate" component={BarkodCreateScreen} options={{
+                                headerShown: true,
+                                title: "Sayım Oluştur",
+                                headerTitleStyle: {
+                                    fontSize: 14
+                                },
+                                headerRight: () => {
+                                    return (
+                                        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                                            <Image source={require("../assets/images/homepageIcon1.png")}
+                                                style={{
+                                                    height: 26,
+                                                    width: 26,
+                                                    marginStart: 6,
+                                                }} />
+                                        </TouchableOpacity>
+                                    );
+                                },
+                            }} />
+                            <Stack.Screen name="BarkodListele" component={BarkodListeleScreen} options={{
                                 headerShown: true,
                                 title: "Sayım Oluştur",
                                 headerTitleStyle: {

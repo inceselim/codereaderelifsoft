@@ -53,7 +53,7 @@ export default function BarkodCreateScreen({ props, route }: any) {
                     :
                     <View style={styles.content}>
                         <CardView>
-                            <ButtonPrimary text={"Çıkış Ambarı Seç"}
+                            <ButtonPrimary text={"Sayım Ambarı Seç"}
                                 onPress={() => {
                                     setIsEnabledAmbarList(!isEnabledAmbarList)
                                     console.log(isEnabledAmbarList)
@@ -92,6 +92,7 @@ export default function BarkodCreateScreen({ props, route }: any) {
                             placeholder='Açıklama'
                             placeholderTextColor={colors.gray}
                         />
+                        
                     </View>
             }
         </SafeAreaView>
