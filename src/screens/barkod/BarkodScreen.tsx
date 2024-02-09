@@ -219,16 +219,20 @@ export default function BarkodScreen({ props, route }: any) {
                                                         <View>
                                                             <View style={styles.viewTwoRowJustify}>
                                                                 <Text style={styles.textBold}>Açıklama</Text>
-                                                                <Pressable onPress={() => {
-                                                                    setModalVisible(true)
-                                                                    setSelectedItem(item?.Id)
-                                                                }}>
-                                                                    <Image source={require("../../assets/images/textIcon1.png")}
-                                                                        style={{
-                                                                            height: 24,
-                                                                            width: 24
-                                                                        }} />
-                                                                </Pressable>
+                                                                {
+                                                                    item?.Status == 0 ?
+                                                                        <Pressable onPress={() => {
+                                                                            setModalVisible(true)
+                                                                            setSelectedItem(item?.Id)
+                                                                        }}>
+                                                                            <Image source={require("../../assets/images/textIcon1.png")}
+                                                                                style={{
+                                                                                    height: 24,
+                                                                                    width: 24
+                                                                                }} />
+                                                                        </Pressable>
+                                                                        : null
+                                                                }
                                                             </View>
                                                             <Text style={styles.textNormal}>{item?.Definition}</Text>
                                                         </View>
@@ -238,7 +242,8 @@ export default function BarkodScreen({ props, route }: any) {
                                                         onPress={() => navigation.navigate("BarkodListele", {
                                                             company: selectedCompany,
                                                             Id: item?.Id,
-                                                            ProjectCode: item?.ProjectCode
+                                                            ProjectCode: item?.ProjectCode,
+                                                            StatusSayim: item?.Status,
                                                         })} />
                                                     <ButtonPrimary text={"Sayımı Sil"}
                                                         onPress={() => handleDeleteSayim({ key: item?.Id })} />

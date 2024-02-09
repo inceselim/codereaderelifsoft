@@ -47,7 +47,7 @@ export default function BarkodCreateScreen({ props, route }: any) {
                 {
                     text: 'İptal',
                     onPress: () => console.log('İptal Pressed'),
-                    style: 'İptal',
+                    style: 'cancel',
                 },
                 { text: 'OK', onPress: () => sayimOlustur() },
             ]);

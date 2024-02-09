@@ -20,4 +20,10 @@ export const API_URL = {
     BARKOD_SAYIM_DELETE: "/api/MaterialCountingApi/SayimFisDelete",
 
     SAYIM_DETAYLARI: "/api/MaterialCountingApi/SayimFisDetayList",
+    SAYIM_DETAYLARI_DELETE: "/api/MaterialCountingApi/SayimFisDetayDelete",
+    SAYIM_DETAYLARI_AMOUNT_UPDATE: "/api/MaterialCountingApi/SayimFisDetayUpdate",
+
+    SAYIM_DETAYLARI_MALZEME_BUL: "/api/MaterialCountingApi/BarcodeItemList",
+    SAYIM_DETAYLARI_MALZEME_EKLE: "/api/MaterialCountingApi/SayimFisDetayAdd",
+    SAYIM_DETAYLARI_SEND_MAIL: "/api/MaterialCountingApi/SayimSendMail"
 }
