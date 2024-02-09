@@ -18,4 +18,6 @@ export const API_URL = {
     BARKOD_SAYIM_CREATE: "/api/MaterialCountingApi/SayimFisAdd",
     BARKOD_SAYIM_UPDATE: "/api/MaterialCountingApi/SayimFisUpdate",
     BARKOD_SAYIM_DELETE: "/api/MaterialCountingApi/SayimFisDelete",
+
+    SAYIM_DETAYLARI: "/api/MaterialCountingApi/SayimFisDetayList",
 }

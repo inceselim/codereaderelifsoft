@@ -45,9 +45,9 @@ export default function BarkodCreateScreen({ props, route }: any) {
         const sayimOnay = () =>
             Alert.alert('Sayım Oluştur', 'Sayım Oluşturmak istediğinize emin misiniz?', [
                 {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel',
+                    text: 'İptal',
+                    onPress: () => console.log('İptal Pressed'),
+                    style: 'İptal',
                 },
                 { text: 'OK', onPress: () => sayimOlustur() },
             ]);

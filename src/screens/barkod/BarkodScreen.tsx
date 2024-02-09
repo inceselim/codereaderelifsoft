@@ -74,11 +74,11 @@ export default function BarkodScreen({ props, route }: any) {
         const deleteOnay = () =>
             Alert.alert('Sayım Sil', 'Sayımı silmek istediğinize emin misiniz?', [
                 {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
+                    text: 'İptal',
+                    onPress: () => console.log('İptal Pressed'),
                     style: 'cancel',
                 },
-                { text: 'OK', onPress: () => deleteSayım() },
+                { text: 'Onayla', onPress: () => deleteSayım() },
             ]);
         deleteOnay()
 
@@ -111,11 +111,11 @@ export default function BarkodScreen({ props, route }: any) {
         const updateOnay = () =>
             Alert.alert('Güncelle', 'Açıklamayı güncellemek istediğinize emin misiniz?', [
                 {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
+                    text: 'İptal',
+                    onPress: () => console.log('İptal Pressed'),
                     style: 'cancel',
                 },
-                { text: 'OK', onPress: () => updateDescription() },
+                { text: 'Onayla', onPress: () => updateDescription() },
             ]);
         updateOnay()
 

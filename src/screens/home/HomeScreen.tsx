@@ -24,7 +24,7 @@ export default function HomeScreen() {
         Alert.alert('Oturum Kapat', 'Çıkış yapmak istediğinize emin misiniz?', [
             {
                 text: 'İptal',
-                onPress: () => console.log('Cancel Pressed'),
+                onPress: () => console.log('İptal Pressed'),
                 style: 'cancel',
             },
             {
@@ -38,6 +38,13 @@ export default function HomeScreen() {
             },
         ]);
     }
+    useEffect(() => {
+        const setCompany = async () => {
+            console.log(companies[0])
+            dispatch(companySelect(companies[0]))
+        }
+        setCompany()
+    }, [])
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
@@ -116,14 +123,16 @@ export default function HomeScreen() {
                                         companies?.map((item: any) => {
                                             // console.log(item)
                                             return (
-                                                <TouchableOpacity onPress={() => {
-                                                    setSelectedCompany(item)
-                                                    setVisibleCompanies(false)
-                                                    dispatch(companySelect(item))
-                                                }}
-                                                    key={item?.Id}>
-                                                    <Text style={[styles.textBold, { paddingVertical: 6, }]}>{item?.Company}</Text>
-                                                </TouchableOpacity>
+                                                item?.IsIettEnabled == true ?
+                                                    <TouchableOpacity onPress={() => {
+                                                        setSelectedCompany(item)
+                                                        setVisibleCompanies(false)
+                                                        dispatch(companySelect(item))
+                                                    }}
+                                                        key={item?.Id}>
+                                                        <Text style={[styles.textBold, { paddingVertical: 6, }]}>{item?.Company}</Text>
+                                                    </TouchableOpacity>
+                                                    : null
                                             )
                                         })
                                     }
