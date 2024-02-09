@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { logoutUser } from '../../redux/features/authSlice/authSlice';
 import { ArrowDown2, ArrowRight2 } from 'iconsax-react-native';
 import CardView from '../../components/CardView';
+import { companySelect } from '../../redux/features/companySlice/companySlice';
 
 export default function HomeScreen() {
     const navigation: any = useNavigation();
@@ -113,11 +114,12 @@ export default function HomeScreen() {
                                 <>
                                     {
                                         companies?.map((item: any) => {
-                                            console.log(item)
+                                            // console.log(item)
                                             return (
                                                 <TouchableOpacity onPress={() => {
                                                     setSelectedCompany(item)
                                                     setVisibleCompanies(false)
+                                                    dispatch(companySelect(item))
                                                 }}
                                                     key={item?.Id}>
                                                     <Text style={[styles.textBold, { paddingVertical: 6, }]}>{item?.Company}</Text>

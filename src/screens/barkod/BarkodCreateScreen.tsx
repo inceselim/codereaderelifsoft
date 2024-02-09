@@ -13,7 +13,7 @@ import { colors } from '../../styles/colors';
 export default function BarkodCreateScreen({ props, route }: any) {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
-    const company = route?.params?.company.Id
+    const selectedCompany: any = useSelector((state: any) => state.companySlice.company)
     const userToken = useSelector((state: any) => state.auth?.userToken)
 
     const [loadingCreateSayim, setLoadingCreateSayim] = useState(false);
@@ -25,7 +25,7 @@ export default function BarkodCreateScreen({ props, route }: any) {
 
     const getAmbarList = async () => {
         setLoadingAmbarList(true);
-        await axios.get(API_URL.DEV_URL + API_URL.AMBAR_LIST + "?companyId=" + company, {
+        await axios.get(API_URL.DEV_URL + API_URL.AMBAR_LIST + "?companyId=" + selectedCompany?.Id, {
             headers: {
                 "Authorization": "Bearer " + userToken
             }
