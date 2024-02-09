@@ -16,4 +16,6 @@ export const API_URL = {
     AMBAR_LIST: "/api/WareHouseApi/CikisAmbarList",
     BARKOD_SAYIM_LIST: "/api/MaterialCountingApi/SayimFisList",
     BARKOD_SAYIM_CREATE: "/api/MaterialCountingApi/SayimFisAdd",
+    BARKOD_SAYIM_UPDATE: "/api/MaterialCountingApi/SayimFisUpdate",
+    BARKOD_SAYIM_DELETE: "/api/MaterialCountingApi/SayimFisDelete",
 }

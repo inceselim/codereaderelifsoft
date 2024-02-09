@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, FlatList, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { styles } from '../../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,32 +42,45 @@ export default function BarkodCreateScreen({ props, route }: any) {
             .finally(() => setLoadingAmbarList(false))
     }
     const createSayim = async () => {
-        setLoadingCreateSayim(true);
-        const formData = new FormData();
-        // formData.append("ProjectCode", selectedAmbar?.Code)
-        // formData.append("Definition", descriptionText)
-        formData.append("values", JSON.stringify({
-            "ProjectCode": selectedAmbar?.Code,
-            "Definition": descriptionText,
-        }))
-        console.log(formData)
-        await axios.post(API_URL.DEV_URL + API_URL.BARKOD_SAYIM_CREATE, formData, {
-            headers: {
-                "Authorization": "Bearer " + userToken,
-                "Content-Type": "multipart/form-data"
-            }
-        })
-            .then((response: any) => {
-                console.log("CREATE SAYIM RESPONSE: ", response.data)
-                setDataAmbarList(response.data)
-            })
-            .catch((error: any) => {
-                console.log("CREATE SAYIM ERROR: ", error)
-                console.log("CREATE SAYIM ERROR: ", error.response)
-                console.log("CREATE SAYIM ERROR: ", error.code)
+        const sayimOnay = () =>
+            Alert.alert('Sayım Oluştur', 'Sayım Oluşturmak istediğinize emin misiniz?', [
+                {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
+                { text: 'OK', onPress: () => sayimOlustur() },
+            ]);
+        sayimOnay()
 
+        const sayimOlustur = async () => {
+            setLoadingCreateSayim(true);
+            const formData = new FormData();
+            formData.append("values", JSON.stringify({
+                "ProjectCode": selectedAmbar?.Code,
+                "Definition": descriptionText,
+            }))
+            await axios.post(API_URL.DEV_URL + API_URL.BARKOD_SAYIM_CREATE, formData, {
+                headers: {
+                    "Authorization": "Bearer " + userToken,
+                    "Content-Type": "multipart/form-data"
+                }
             })
-            .finally(() => setLoadingCreateSayim(false))
+                .then((response: any) => {
+                    console.log("CREATE SAYIM RESPONSE: ", response.data)
+                    setDataAmbarList(response.data)
+                    Alert.alert("Başarılı", "Sayım Oluşturuldu")
+                })
+                .then(() => navigation.navigate("Barkod"))
+                .catch((error: any) => {
+                    console.log("CREATE SAYIM ERROR: ", error)
+                    console.log("CREATE SAYIM ERROR: ", error.response)
+                    console.log("CREATE SAYIM ERROR: ", error.code)
+                    Alert.alert("Hata", "Lütfen tekrar deneyiniz...")
+
+                })
+                .finally(() => setLoadingCreateSayim(false))
+        }
     }
 
     useEffect(() => {
