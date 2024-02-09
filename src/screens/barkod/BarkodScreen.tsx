@@ -245,8 +245,12 @@ export default function BarkodScreen({ props, route }: any) {
                                                             ProjectCode: item?.ProjectCode,
                                                             StatusSayim: item?.Status,
                                                         })} />
-                                                    <ButtonPrimary text={"Sayımı Sil"}
-                                                        onPress={() => handleDeleteSayim({ key: item?.Id })} />
+                                                    {
+                                                        item?.Status == 1 ?
+                                                            null :
+                                                            <ButtonPrimary text={"Sayımı Sil"}
+                                                                onPress={() => handleDeleteSayim({ key: item?.Id })} />
+                                                    }
                                                 </View>
                                             </CardView>
                                         )
