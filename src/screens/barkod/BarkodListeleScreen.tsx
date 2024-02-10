@@ -23,6 +23,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
     console.log("selectedCompany", selectedCompany)
     const userToken = useSelector((state: any) => state.auth?.userToken)
     const [okutulanlar, setOkutulanlar] = useState([]);
+    const [email, setEmail] = useState("")
     const Id = route.params.Id
     const ProjectCode = route.params.ProjectCode
     const StatusSayim = route.params.StatusSayim
@@ -36,6 +37,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const [loadingSave, setLoadingSave] = useState(false);
     const [loadingUpdateCount, setLoadingUpdateCount] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisibleEmail, setModalVisibleEmail] = useState(false);
     const [productAmount, setProductAmount] = useState<any>("");
     const [selectItem, setSelectedItem] = useState<any>("");
 
@@ -195,7 +197,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             setLoadingSave(true);
             const formData: any = new FormData();
             formData.append("Id", Id)
-            formData.append("email", "inceselim91@gmail.com")
+            formData.append("email", email)
             formData.append("companyId", selectedCompany.Id)
             await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_SEND_MAIL, formData,
                 {
@@ -230,7 +232,11 @@ export default function BarkodListeleScreen({ props, route }: any) {
                         },
                     });
                 })
-                .finally(() => setLoadingSave(false))
+                .finally(() => {
+                    setLoadingSave(false)
+                    setEmail("")
+                    setModalVisibleEmail(false)
+                })
         }
     }
 
@@ -530,6 +536,40 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                         disabled={productAmount != null ? false : true}
                                         onPress={() => {
                                             handleUpdateCount({ key: selectItem })
+                                        }} />
+                                </View>
+                            </View>
+                        </Modal>
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={modalVisibleEmail}
+                            onRequestClose={() => {
+                                Alert.alert('Modal has been closed.');
+                                setModalVisibleEmail(!modalVisibleEmail);
+                            }}>
+                            <View style={styleModal.centeredView}>
+                                <View style={styleModal.modalView}>
+                                    <View style={styles.viewTwoRowJustify}>
+                                        <Text />
+                                        <Pressable onPress={() => setModalVisibleEmail(false)}>
+                                            <Image source={require("../../assets/images/closeIcon2.png")}
+                                                style={{
+                                                    height: 30,
+                                                    width: 30
+                                                }}
+                                            />
+                                        </Pressable>
+                                    </View>
+                                    <TextInput style={styles.textInput}
+                                        value={email}
+                                        onChangeText={setEmail}
+                                        placeholder='Email Yazınız...'
+                                        placeholderTextColor={colors.gray} />
+                                    <ButtonPrimary text={"Güncelle"}
+                                        disabled={email != "" ? false : true}
+                                        onPress={() => {
+                                            handleSave()
                                         }} />
                                 </View>
                             </View>
