@@ -82,7 +82,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                     onPress: () => console.log('İptal Pressed'),
                     style: 'cancel',
                 },
-                { text: 'Onay', onPress: () => handleDelete({ key, isAll }) },
+                { text: 'Onay', onPress: () => handleDeleteAll({ isAll }) },
             ]);
         const productDelete = () =>
             Alert.alert('Ürün Sil', 'Silmek istediğinize emin misiniz?', [
@@ -104,6 +104,45 @@ export default function BarkodListeleScreen({ props, route }: any) {
             const formData: any = new FormData();
             formData.append("key", key)
             await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?isAll=" + isAll,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + userToken,
+                        "Content-Type": "multipart/form-data"
+                    },
+                    data: formData
+                })
+                .then((response: any) => {
+                    console.log("ÜRÜn SİLME RESPONSE: ", response.data)
+                    Tts.setDefaultLanguage('tr-TR');
+                    Tts.speak('Silindi', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 1.0,
+                            KEY_PARAM_STREAM: 'STREAM_DTMF',
+                        },
+                    });
+                })
+                .catch((error: any) => {
+                    console.log("HATA SİLME İŞLEMİ", error)
+                    Tts.speak('Silme Başarısız!', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 0.99,
+                            KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
+                        },
+                    });
+                })
+                .finally(() => setLoadingDelete(false))
+        }
+        const handleDeleteAll = async ({ isAll }: any) => {
+            setLoadingDelete(true);
+            const formData: any = new FormData();
+            formData.append("key", "")
+            await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?sayimId=" + Id + "?isAll=" + isAll,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -312,7 +351,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                         StatusSayim == 1 ?
                             null :
                             <TouchableOpacity onPress={() => {
-                                handleDelete({ key: Id, isAll: true })
+                                handleDelete({ isAll: true })
                             }}>
                                 <Image
                                     source={require("../../assets/images/closeIcon1.png")}
