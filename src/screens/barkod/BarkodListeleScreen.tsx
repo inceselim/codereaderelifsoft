@@ -49,7 +49,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const handleBarcode = async () => {
         console.log("object", selectedCompany)
         setLoading(true);
-        await axios.get(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI +
+        await axios.get(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI +
             "?sayimId=" + Id +
             "&companyId=" + selectedCompany?.Id, {
             headers: {
@@ -103,7 +103,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             setLoadingDelete(true);
             const formData: any = new FormData();
             formData.append("key", key)
-            await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?isAll=" + isAll,
+            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?isAll=" + isAll,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -142,7 +142,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             setLoadingDelete(true);
             const formData: any = new FormData();
             formData.append("key", "")
-            await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?sayimId=" + Id + "?isAll=" + isAll,
+            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?sayimId=" + Id + "?isAll=" + isAll,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -197,7 +197,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             formData.append("Id", Id)
             formData.append("email", "inceselim91@gmail.com")
             formData.append("companyId", selectedCompany.Id)
-            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_SEND_MAIL, formData,
+            await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_SEND_MAIL, formData,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -252,7 +252,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             formData.append("key", key)
             formData.append("values", JSON.stringify({ "ItemAmount": productAmount }))
             console.log(formData)
-            await axios.put(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_AMOUNT_UPDATE, formData,
+            await axios.put(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_AMOUNT_UPDATE, formData,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -275,7 +275,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
     const handleSearchProduct = async () => {
         setLoadingSearch(true);
-        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
+        await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
             "?companyId=" + selectedCompany?.Id + "&name=" + barcodeText + "&garajNo=" + ProjectCode, {}, {
             headers: {
                 "Authorization": "Bearer " + userToken
@@ -309,7 +309,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             LogoAmount: LogoAmount
 
         }))
-        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
+        await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
             headers: {
                 "Authorization": "Bearer " + userToken,
                 "Content-Type": "multipart/form-data"
