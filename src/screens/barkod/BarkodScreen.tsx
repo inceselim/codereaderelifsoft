@@ -54,7 +54,7 @@ export default function BarkodScreen({ props, route }: any) {
 
     const handleBarcode = async () => {
         setLoading(true);
-        await axios.get(API_URL.BASE_URL + API_URL.BARKOD_SAYIM_LIST, {
+        await axios.get(API_URL.DEV_URL + API_URL.BARKOD_SAYIM_LIST, {
             headers: {
                 "Authorization": "Bearer " + userToken
             }
@@ -86,7 +86,7 @@ export default function BarkodScreen({ props, route }: any) {
             setLoadingDeleteSayim(true);
             const formData = new FormData();
             formData.append("key", key)
-            await axios.delete(API_URL.BASE_URL + API_URL.BARKOD_SAYIM_DELETE, {
+            await axios.delete(API_URL.DEV_URL + API_URL.BARKOD_SAYIM_DELETE, {
                 headers: {
                     "Authorization": "Bearer " + userToken,
                     "Content-Type": "multipart/form-data"
@@ -126,7 +126,7 @@ export default function BarkodScreen({ props, route }: any) {
             formData.append("values", JSON.stringify({
                 "Definition": descriptionUpdateText,
             }))
-            await axios.put(API_URL.BASE_URL + API_URL.BARKOD_SAYIM_UPDATE, formData, {
+            await axios.put(API_URL.DEV_URL + API_URL.BARKOD_SAYIM_UPDATE, formData, {
                 headers: {
                     "Authorization": "Bearer " + userToken,
                     "Content-Type": "multipart/form-data"

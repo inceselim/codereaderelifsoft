@@ -16,6 +16,7 @@ export default function HomeScreen() {
     const dispatch: any = useDispatch();
     const userName = useSelector((state: any) => state.auth.userName)
     const companies: any[] = useSelector((state: any) => state.auth.companies)
+    console.log(companies)
 
     const [visibleCompanies, setVisibleCompanies] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState<any>(companies[0]);

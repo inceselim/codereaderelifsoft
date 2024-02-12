@@ -33,7 +33,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
 
   async function getMalzeme() {
     setLoadingMalzeme(true);
-    await axios.post(API_URL.BASE_URL + API_URL.ARIZA_MALZEME_LISTELE +
+    await axios.post(API_URL.DEV_URL + API_URL.ARIZA_MALZEME_LISTELE +
       "?companyId=" + company.Id + "&name=" + barkod + "&garajNo=" + GarajId + "&onHand=false",
       {}, {
       headers: {
@@ -55,7 +55,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
 
   async function getTamirciList() {
     setLoadingTamirci(true);
-    await axios.get(API_URL.BASE_URL + API_URL.ARIZA_TAMIRCI_LIST + "?garajKodu=" + GarajId, {
+    await axios.get(API_URL.DEV_URL + API_URL.ARIZA_TAMIRCI_LIST + "?garajKodu=" + GarajId, {
       headers: {
         "Authorization": "Bearer " + userToken
       }
@@ -92,7 +92,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       ArizaId: ArizaId
     }]))
 
-    await axios.post(API_URL.BASE_URL + API_URL.ARIZA_GONDER_URL, formData, {
+    await axios.post(API_URL.DEV_URL + API_URL.ARIZA_GONDER_URL, formData, {
       headers: {
         "Authorization": "Bearer " + userToken,
         "Content-Type": "multipart/form-data"

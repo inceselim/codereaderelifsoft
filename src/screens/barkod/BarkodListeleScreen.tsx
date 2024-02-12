@@ -14,16 +14,14 @@ import axios from 'axios';
 import { API_URL } from '../../api/api_url';
 import LoadingCard from '../../components/LoadingCard/LoadingCard';
 import { styleModal } from '../../styles/styleModal';
-import { companySelect } from '../../redux/features/companySlice/companySlice';
 
 export default function BarkodListeleScreen({ props, route }: any) {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
     const selectedCompany: any = useSelector((state: any) => state.companySlice.company)
-    console.log("selectedCompany", selectedCompany)
     const userToken = useSelector((state: any) => state.auth?.userToken)
     const [okutulanlar, setOkutulanlar] = useState([]);
-    const [email, setEmail] = useState("")
+    const [email, setEmail] = useState<string>("")
     const Id = route.params.Id
     const ProjectCode = route.params.ProjectCode
     const StatusSayim = route.params.StatusSayim
@@ -40,7 +38,10 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const [modalVisibleEmail, setModalVisibleEmail] = useState(false);
     const [productAmount, setProductAmount] = useState<any>("");
     const [selectItem, setSelectedItem] = useState<any>("");
-
+    console.log("")
+    console.log("")
+    console.log("BarkodData: ", barcodeData)
+    console.log("")
     const [loadingSearch, setLoadingSearch] = useState(false);
     const [loadingAddProduct, setLoadingAddProduct] = useState(false);
 
@@ -49,9 +50,8 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const [segment, setSegment] = useState(0);
 
     const handleBarcode = async () => {
-        console.log("object", selectedCompany)
         setLoading(true);
-        await axios.get(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI +
+        await axios.get(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI +
             "?sayimId=" + Id +
             "&companyId=" + selectedCompany?.Id, {
             headers: {
@@ -59,8 +59,8 @@ export default function BarkodListeleScreen({ props, route }: any) {
             }
         })
             .then((response: any) => {
-                // console.log("SAYIM LİSTE: ", response.data)
-                setBarcodeData(response.data)
+                console.log("SAYIM LİSTE: ", response.data)
+                setOkutulanlar(response.data)
             })
             .catch((err: any) => {
                 console.log("SAYIM LİSTE ERROR: ", err)
@@ -105,7 +105,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             setLoadingDelete(true);
             const formData: any = new FormData();
             formData.append("key", key)
-            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?isAll=" + isAll,
+            await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?isAll=" + isAll,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -144,7 +144,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             setLoadingDelete(true);
             const formData: any = new FormData();
             formData.append("key", "")
-            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?sayimId=" + Id + "?isAll=" + isAll,
+            await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?sayimId=" + Id + "?isAll=" + isAll,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -199,7 +199,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             formData.append("Id", Id)
             formData.append("email", email)
             formData.append("companyId", selectedCompany.Id)
-            await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_SEND_MAIL, formData,
+            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_SEND_MAIL, formData,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -258,7 +258,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             formData.append("key", key)
             formData.append("values", JSON.stringify({ "ItemAmount": productAmount }))
             console.log(formData)
-            await axios.put(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_AMOUNT_UPDATE, formData,
+            await axios.put(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_AMOUNT_UPDATE, formData,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -281,7 +281,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
     const handleSearchProduct = async () => {
         setLoadingSearch(true);
-        await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
+        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
             "?companyId=" + selectedCompany?.Id + "&name=" + barcodeText + "&garajNo=" + ProjectCode, {}, {
             headers: {
                 "Authorization": "Bearer " + userToken
@@ -315,7 +315,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             LogoAmount: LogoAmount
 
         }))
-        await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
+        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
             headers: {
                 "Authorization": "Bearer " + userToken,
                 "Content-Type": "multipart/form-data"
@@ -459,50 +459,52 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                 </ScrollView>
                                 :
                                 <View>
+                                    <TextInput style={styles.textInput}
+                                        value={email}
+                                        onChangeText={setEmail}
+                                        placeholder='Email Adresi Giriniz'
+                                        placeholderTextColor={colors.gray}
+                                    />
                                     <ButtonPrimary text={"Kaydet ve Gönder"} onPress={() => handleSave()}
-                                        disabled={StatusSayim == 1 ? true : false} />
-                                    {
-                                        barcodeData?.length < 1 ?
-                                            <NoData />
-                                            :
-                                            <FlatList data={barcodeData}
-                                                renderItem={({ item }: any) => {
-                                                    return (
-                                                        <CardView>
-                                                            <View style={{
-                                                                flexDirection: "column",
-                                                            }}>
-                                                                <View>
-                                                                    <Text style={styles.textBold}>{item?.ItemCode}</Text>
-                                                                    <Text style={styles.textNormal}>{item?.ItemBarcode}</Text>
-                                                                </View>
-                                                                <View style={styles.viewTwoRowJustify}>
-                                                                    <Text style={{ flex: 1 }}>{item?.ItemName}</Text>
-                                                                    <Text style={[{ paddingEnd: 14, }, styles.textBold]}>{item?.ItemAmount} {item?.ItemUnitName}</Text>
-                                                                    {
-                                                                        StatusSayim == 1 ?
-                                                                            null :
-                                                                            <Pressable onPress={() => handleDelete({ key: item?.CountingId, isAll: false })}>
-                                                                                <Trash size={30} variant="Bold" color={colors.primaryColor} style={{ marginEnd: 4 }} />
-                                                                            </Pressable>
-                                                                    }
-                                                                    {
-                                                                        StatusSayim == 1 ?
-                                                                            null :
-                                                                            <Pressable onPress={() => {
-                                                                                setModalVisible(true)
-                                                                                setSelectedItem(item?.CountingId)
-                                                                            }}>
-                                                                                <ExportSquare size={30} variant="Bulk" color={colors.primaryColor} />
-                                                                            </Pressable>
-                                                                    }
-                                                                </View>
-                                                            </View>
-                                                        </CardView>
-                                                    )
-                                                }}
-                                            />
-                                    }
+                                        disabled={(StatusSayim == 1) || (email == "") ? true : false} />
+                                    <FlatList data={okutulanlar}
+                                        ListEmptyComponent={<NoData />}
+                                        renderItem={({ item }: any) => {
+                                            return (
+                                                <CardView>
+                                                    <View style={{
+                                                        flexDirection: "column",
+                                                    }}>
+                                                        <View>
+                                                            <Text style={styles.textBold}>{item?.ItemCode}</Text>
+                                                            <Text style={styles.textNormal}>{item?.ItemBarcode}</Text>
+                                                        </View>
+                                                        <View style={styles.viewTwoRowJustify}>
+                                                            <Text style={{ flex: 1 }}>{item?.ItemName}</Text>
+                                                            <Text style={[{ paddingEnd: 14, }, styles.textBold]}>{item?.ItemAmount} {item?.ItemUnitName}</Text>
+                                                            {
+                                                                StatusSayim == 1 ?
+                                                                    null :
+                                                                    <Pressable onPress={() => handleDelete({ key: item?.CountingId, isAll: false })}>
+                                                                        <Trash size={30} variant="Bold" color={colors.primaryColor} style={{ marginEnd: 4 }} />
+                                                                    </Pressable>
+                                                            }
+                                                            {
+                                                                StatusSayim == 1 ?
+                                                                    null :
+                                                                    <Pressable onPress={() => {
+                                                                        setModalVisible(true)
+                                                                        setSelectedItem(item?.CountingId)
+                                                                    }}>
+                                                                        <ExportSquare size={30} variant="Bulk" color={colors.primaryColor} />
+                                                                    </Pressable>
+                                                            }
+                                                        </View>
+                                                    </View>
+                                                </CardView>
+                                            )
+                                        }}
+                                    />
                                 </View>
                         }
                         <Modal
@@ -536,40 +538,6 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                         disabled={productAmount != null ? false : true}
                                         onPress={() => {
                                             handleUpdateCount({ key: selectItem })
-                                        }} />
-                                </View>
-                            </View>
-                        </Modal>
-                        <Modal
-                            animationType="slide"
-                            transparent={true}
-                            visible={modalVisibleEmail}
-                            onRequestClose={() => {
-                                Alert.alert('Modal has been closed.');
-                                setModalVisibleEmail(!modalVisibleEmail);
-                            }}>
-                            <View style={styleModal.centeredView}>
-                                <View style={styleModal.modalView}>
-                                    <View style={styles.viewTwoRowJustify}>
-                                        <Text />
-                                        <Pressable onPress={() => setModalVisibleEmail(false)}>
-                                            <Image source={require("../../assets/images/closeIcon2.png")}
-                                                style={{
-                                                    height: 30,
-                                                    width: 30
-                                                }}
-                                            />
-                                        </Pressable>
-                                    </View>
-                                    <TextInput style={styles.textInput}
-                                        value={email}
-                                        onChangeText={setEmail}
-                                        placeholder='Email Yazınız...'
-                                        placeholderTextColor={colors.gray} />
-                                    <ButtonPrimary text={"Güncelle"}
-                                        disabled={email != "" ? false : true}
-                                        onPress={() => {
-                                            handleSave()
                                         }} />
                                 </View>
                             </View>

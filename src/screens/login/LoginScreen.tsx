@@ -62,7 +62,7 @@ export default function LoginScreen() {
         formData.append('password', userPass);
         await axios
           .post(
-            API_URL.BASE_URL + API_URL.LOGIN_URL,
+            API_URL.DEV_URL + API_URL.LOGIN_URL,
             // formData,
             {
               username: userName,
@@ -92,8 +92,11 @@ export default function LoginScreen() {
               await AsyncStorage.setItem('@userName', userName);
               dispatch(loginUser(result?.data));
               dispatch(loginAppCompanies(result?.data?.companies))
-              console.log(result.data)
+              console.log(result.data.companies)
             })
+          .catch((err: any) => {
+            console.log("LOGIN ERR: ", err)
+          })
           .finally(() => setLoading(false))
 
         // const result = await response.json()
