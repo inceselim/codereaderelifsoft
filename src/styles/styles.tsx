@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     },
     textInput: {
         backgroundColor: "#eee",
+        color: "#111",
         borderRadius: 8,
         paddingVertical: 12,
         paddingStart: 12,
@@ -31,6 +32,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         marginEnd: 8,
         backgroundColor: "#eee",
+        color: "#111",
         borderRadius: 8,
         paddingVertical: 12,
         paddingStart: 12,

@@ -128,6 +128,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 })
                 .catch((error: any) => {
                     console.log("HATA SİLME İŞLEMİ", error)
+                    Tts.setDefaultLanguage('tr-TR');
                     Tts.speak('Silme Başarısız!', {
                         iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
                         rate: 0.5,
@@ -167,6 +168,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 })
                 .catch((error: any) => {
                     console.log("HATA SİLME İŞLEMİ", error)
+                    Tts.setDefaultLanguage('tr-TR');
                     Tts.speak('Silme Başarısız!', {
                         iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
                         rate: 0.5,
@@ -177,7 +179,9 @@ export default function BarkodListeleScreen({ props, route }: any) {
                         },
                     });
                 })
-                .finally(() => setLoadingDelete(false))
+                .finally(() => {
+                    setLoadingDelete(false)
+                })
         }
     }
 
@@ -329,6 +333,8 @@ export default function BarkodListeleScreen({ props, route }: any) {
             })
             .finally(() => {
                 setLoadingAddProduct(false);
+                setBarcodeMiktar("")
+                setProductSearch([])
             })
     }
 
@@ -372,7 +378,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 </>
             ),
         });
-    }, [navigation, barcodeText]);
+    }, [navigation, barcodeText,]);
     return (
         <SafeAreaView style={styles.container}>
             {
