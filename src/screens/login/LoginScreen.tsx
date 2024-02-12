@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   StatusBar,
+  Pressable,
 } from 'react-native';
 
 import LoadingCard from '../../components/LoadingCard/LoadingCard';
@@ -20,6 +21,8 @@ import { useQuery } from 'react-query';
 import { loginAppCompanies, loginUser } from '../../redux/features/authSlice/authSlice';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { Eye, EyeSlash } from 'iconsax-react-native';
+import MainInput from '../../components/MainInput/MainInput';
 
 
 
@@ -31,22 +34,12 @@ export default function LoginScreen() {
   const [userPass, setUserPass] = useState('');
   const [deviceId, setDeviceId] = useState('');
 
-  const [remember, setRemember] = useState(false);
-  const [passwordVisibility, setPasswordVisibility] = useState(true);
-  const [rightIcon, setRightIcon] = useState('eye-off');
+  const [remember, setRemember] = useState(true);
 
   //
   // Show-Hide Password
   //
-  const handlePasswordVisibility = () => {
-    if (rightIcon === 'eye') {
-      setRightIcon('eye-off');
-      setPasswordVisibility(!passwordVisibility);
-    } else if (rightIcon === 'eye-off') {
-      setRightIcon('eye');
-      setPasswordVisibility(!passwordVisibility);
-    }
-  };
+  const [passwordVisibility, setPasswordVisibility] = useState(true);
   //-----------------------------------------------------
 
 
@@ -176,12 +169,19 @@ export default function LoginScreen() {
                 value={userName}
                 onChangeText={setUserName}
                 placeholderTextColor={"#666"} />
-
-              <TextInput style={styles.textInput}
-                placeholder='Parola Giriniz'
-                value={userPass}
-                onChangeText={setUserPass}
-                placeholderTextColor={"#666"} />
+              <MainInput value={userPass} setValue={setUserPass} placeholder={"Parola Giriniz"}
+                secureTextEntry={passwordVisibility}>
+                {
+                  passwordVisibility == true ?
+                    <Pressable onPress={() => setPasswordVisibility(false)}>
+                      < Eye size={26} color={colors.primaryColor} />
+                    </Pressable>
+                    :
+                    <Pressable onPress={() => setPasswordVisibility(true)}>
+                      <EyeSlash size={26} color={colors.primaryColor} variant="Bold" />
+                    </Pressable>
+                }
+              </MainInput>
               <TouchableOpacity onPress={() => setRemember(!remember)} style={{ flexDirection: "row", alignItems: "center" }}>
                 {remember ? <Text style={{
                   color: colors.primaryColor,

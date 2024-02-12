@@ -27,6 +27,25 @@ export const styles = StyleSheet.create({
 
         elevation: 11,
     },
+    textInputPassword: {
+        flex: 1,
+        marginEnd: 8,
+        backgroundColor: "#eee",
+        borderRadius: 8,
+        paddingVertical: 12,
+        paddingStart: 12,
+        marginVertical: 14,
+        fontSize: 12,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.36,
+        shadowRadius: 6.68,
+
+        elevation: 11,
+    },
     textTitle: {
         fontSize: 18,
         fontWeight: "bold",
