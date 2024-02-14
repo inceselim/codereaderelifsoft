@@ -89,6 +89,7 @@ export default function LoginScreen() {
             })
           .catch((err: any) => {
             console.log("LOGIN ERR: ", err)
+            Alert.alert("Hata Oluştu",)
           })
           .finally(() => setLoading(false))
 
