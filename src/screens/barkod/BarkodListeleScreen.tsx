@@ -38,10 +38,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const [modalVisibleEmail, setModalVisibleEmail] = useState(false);
     const [productAmount, setProductAmount] = useState<any>("");
     const [selectItem, setSelectedItem] = useState<any>("");
-    console.log("")
-    console.log("")
-    console.log("BarkodData: ", barcodeData)
-    console.log("")
+
     const [loadingSearch, setLoadingSearch] = useState(false);
     const [loadingAddProduct, setLoadingAddProduct] = useState(false);
 
@@ -360,7 +357,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                             : null
                     }
                     {
-                        StatusSayim == 1 ?
+                        StatusSayim == 1 || okutulanlar.length < 1 ?
                             null :
                             <TouchableOpacity onPress={() => {
                                 handleDelete({ isAll: true })
@@ -486,7 +483,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                             <Text style={styles.textNormal}>{item?.ItemBarcode}</Text>
                                                         </View>
                                                         <View style={styles.viewTwoRowJustify}>
-                                                            <Text style={{ flex: 1 }}>{item?.ItemName}</Text>
+                                                            <Text style={[styles.textNormal, { flex: 1 }]}>{item?.ItemName}</Text>
                                                             <Text style={[{ paddingEnd: 14, }, styles.textBold]}>{item?.ItemAmount} {item?.ItemUnitName}</Text>
                                                             {
                                                                 StatusSayim == 1 ?

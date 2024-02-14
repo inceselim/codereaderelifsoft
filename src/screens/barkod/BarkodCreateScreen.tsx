@@ -9,6 +9,7 @@ import LoadingCard from '../../components/LoadingCard/LoadingCard';
 import CardView from '../../components/CardView';
 import ButtonPrimary from '../../components/ButtonPrimary/ButtonPrimary';
 import { colors } from '../../styles/colors';
+import { ISelectAmbar } from '../../types/ISelectAmbar';
 
 export default function BarkodCreateScreen({ props, route }: any) {
     const navigation: any = useNavigation();
@@ -20,9 +21,13 @@ export default function BarkodCreateScreen({ props, route }: any) {
     const [loadingAmbarList, setLoadingAmbarList] = useState(false);
     const [isEnabledAmbarList, setIsEnabledAmbarList] = useState(false);
     const [dataAmbarList, setDataAmbarList] = useState<any[]>([])
-    const [selectedAmbar, setSelectedAmbar] = useState<any>()
+    const [selectedAmbar, setSelectedAmbar] = useState<ISelectAmbar>()
+    console.log("")
+    console.log("")
+    console.log("", selectedAmbar)
+    console.log("")
+    console.log("")
     const [descriptionText, setDescriptionText] = useState("")
-
     const getAmbarList = async () => {
         setLoadingAmbarList(true);
         await axios.get(API_URL.BASE_URL + API_URL.AMBAR_LIST + "?companyId=" + selectedCompany?.Id, {
@@ -56,6 +61,7 @@ export default function BarkodCreateScreen({ props, route }: any) {
         const sayimOlustur = async () => {
             setLoadingCreateSayim(true);
             const formData = new FormData();
+            console.log("selectedAmbar: ", selectedAmbar)
             formData.append("values", JSON.stringify({
                 "ProjectCode": selectedAmbar?.Code,
                 "Definition": descriptionText,
@@ -77,7 +83,6 @@ export default function BarkodCreateScreen({ props, route }: any) {
                     console.log("CREATE SAYIM ERROR: ", error.response)
                     console.log("CREATE SAYIM ERROR: ", error.code)
                     Alert.alert("Hata", "Lütfen tekrar deneyiniz...")
-
                 })
                 .finally(() => setLoadingCreateSayim(false))
         }
@@ -133,7 +138,8 @@ export default function BarkodCreateScreen({ props, route }: any) {
                             placeholder='Açıklama'
                             placeholderTextColor={colors.gray}
                         />
-                        <ButtonPrimary text={"Sayım Oluştur"} onPress={() => createSayim()} />
+                        <ButtonPrimary text={"Sayım Oluştur"} onPress={() => createSayim()}
+                            disabled={(descriptionText == "") || (selectedAmbar?.Code == undefined) ? true : false} />
                     </View>
             }
         </SafeAreaView>
