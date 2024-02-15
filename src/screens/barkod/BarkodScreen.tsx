@@ -203,7 +203,7 @@ export default function BarkodScreen({ props, route }: any) {
                                             <CardView>
                                                 <View style={styles.viewTwoRowJustify}>
                                                     <Text style={styles.textTitle}>Fiş No</Text>
-                                                    <Text style={styles.textTitle}>{item?.Id}</Text>
+                                                    <Text style={styles.textTitle}>{item?.FisNo}</Text>
                                                 </View>
                                                 <View style={styles.viewTwoRowJustify}>
                                                     <Text style={styles.textBold}>Proje Kodu</Text>

@@ -26,7 +26,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const ProjectCode = route.params.ProjectCode
     const StatusSayim = route.params.StatusSayim
 
-    const [barcodeData, setBarcodeData] = useState<any[]>([]);
+    const [isState, setIsState] = useState(false);
     const [productSearch, setProductSearch] = useState<any[]>([]);
     const [barcodeText, setBarcodeText] = useState<any>("")
     const [barcodeMiktar, setBarcodeMiktar] = useState<any>("");
@@ -48,6 +48,8 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
     const handleBarcode = async () => {
         setLoading(true);
+        console.log(Id)
+        console.log(selectedCompany.Id)
         await axios.get(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI +
             "?sayimId=" + Id +
             "&companyId=" + selectedCompany?.Id, {
@@ -61,28 +63,13 @@ export default function BarkodListeleScreen({ props, route }: any) {
             })
             .catch((err: any) => {
                 console.log("SAYIM LİSTE ERROR: ", err)
+                // Alert.alert("Uyarı","Eklenmiş Malzeme Bulunamadı...")
+                setOkutulanlar([])
             })
             .finally(() => setLoading(false))
     }
-    useEffect(() => {
-        const durumKontrol = async () => {
-            if (StatusSayim == 1) {
-                setSegment(1)
-            }
-        }
-        durumKontrol()
-        handleBarcode()
-    }, [loadingDelete, loadingSave, loadingUpdateCount, loadingAddProduct]);
-    const handleDelete = async ({ key, isAll }: any) => {
-        const productDeleteAll = () =>
-            Alert.alert('Ürünleri Sil', 'Tümünü silmek istediğinize emin misiniz?', [
-                {
-                    text: 'İptal',
-                    onPress: () => console.log('İptal Pressed'),
-                    style: 'cancel',
-                },
-                { text: 'Onay', onPress: () => handleDeleteAll({ isAll }) },
-            ]);
+
+    const handleDelete = async ({ key }: any) => {
         const productDelete = () =>
             Alert.alert('Ürün Sil', 'Silmek istediğinize emin misiniz?', [
                 {
@@ -90,65 +77,17 @@ export default function BarkodListeleScreen({ props, route }: any) {
                     onPress: () => console.log('İptal Pressed'),
                     style: 'cancel',
                 },
-                { text: 'Onay', onPress: () => handleDelete({ key, isAll }) },
+                { text: 'Onay', onPress: () => handleDelete({ key }) },
             ]);
-        if (isAll == true) {
-            productDeleteAll()
-        }
-        else {
-            productDelete()
-        }
-        const handleDelete = async ({ key, isAll }: any) => {
+        productDelete()
+
+        const handleDelete = async ({ key }: any) => {
             setLoadingDelete(true);
-            const formData: any = new FormData();
-            formData.append("key", key)
-            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?isAll=" + isAll,
+            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?key=" + key,
                 {
                     headers: {
-                        "Authorization": "Bearer " + userToken,
-                        "Content-Type": "multipart/form-data"
+                        "Authorization": "Bearer " + userToken
                     },
-                    data: formData
-                })
-                .then((response: any) => {
-                    console.log("ÜRÜn SİLME RESPONSE: ", response.data)
-                    Tts.setDefaultLanguage('tr-TR');
-                    Tts.speak('Silindi', {
-                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-                        rate: 0.5,
-                        androidParams: {
-                            KEY_PARAM_PAN: 0,
-                            KEY_PARAM_VOLUME: 1.0,
-                            KEY_PARAM_STREAM: 'STREAM_DTMF',
-                        },
-                    });
-                })
-                .catch((error: any) => {
-                    console.log("HATA SİLME İŞLEMİ", error)
-                    Tts.setDefaultLanguage('tr-TR');
-                    Tts.speak('Silme Başarısız!', {
-                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-                        rate: 0.5,
-                        androidParams: {
-                            KEY_PARAM_PAN: 0,
-                            KEY_PARAM_VOLUME: 0.99,
-                            KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
-                        },
-                    });
-                })
-                .finally(() => setLoadingDelete(false))
-        }
-        const handleDeleteAll = async ({ isAll }: any) => {
-            setLoadingDelete(true);
-            const formData: any = new FormData();
-            formData.append("key", "")
-            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?sayimId=" + Id + "?isAll=" + isAll,
-                {
-                    headers: {
-                        "Authorization": "Bearer " + userToken,
-                        "Content-Type": "multipart/form-data"
-                    },
-                    data: formData
                 })
                 .then((response: any) => {
                     console.log("ÜRÜn SİLME RESPONSE: ", response.data)
@@ -178,10 +117,66 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 })
                 .finally(() => {
                     setLoadingDelete(false)
+                    setIsState(!isState)
                 })
         }
     }
+    const handleDeleteAll = async () => {
+        const productDeleteAll = () =>
+            Alert.alert('Ürünleri Sil', 'Tümünü silmek istediğinize emin misiniz?', [
+                {
+                    text: 'İptal',
+                    onPress: () => console.log('İptal Pressed'),
+                    style: 'cancel',
+                },
+                { text: 'Onay', onPress: () => handleDeleteAll() },
+            ]);
 
+        productDeleteAll()
+
+        const handleDeleteAll = async () => {
+            setLoadingDelete(true);
+
+            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE_ALL + "?sayimId=" + Id,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + userToken,
+                    },
+                })
+                .then((response: any) => {
+                    console.log("ÜRÜn SİLME RESPONSE: ", response.data)
+                    setOkutulanlar([])
+                    Tts.setDefaultLanguage('tr-TR');
+                    Tts.speak('Silindi', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 1.0,
+                            KEY_PARAM_STREAM: 'STREAM_DTMF',
+                        },
+                    });
+                })
+                .catch((error: any) => {
+                    console.log("HATA SİLME İŞLEMİ", error)
+                    console.log("HATA SİLME İŞLEMİ", error.response)
+                    console.log("HATA SİLME İŞLEMİ", error.code)
+                    Tts.setDefaultLanguage('tr-TR');
+                    Tts.speak('Silme Başarısız!', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 0.99,
+                            KEY_PARAM_STREAM: 'STREAM_NOTIFICATION',
+                        },
+                    });
+                })
+                .finally(() => {
+                    setLoadingDelete(false)
+                })
+        }
+    }
     const handleSave = async () => {
         const saveList = () =>
             Alert.alert('Kayıt', 'Kaydetmek istediğinize emin misiniz?', [
@@ -268,9 +263,29 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 })
                 .then((response: any) => {
                     console.log("Ürün Güncelle RESPONSE: ", response.data)
+                    Tts.setDefaultLanguage('tr-TR');
+                    Tts.speak('Güncellendi', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 1.0,
+                            KEY_PARAM_STREAM: 'STREAM_DTMF',
+                        },
+                    });
                 })
                 .catch((error: any) => {
                     console.log("HATA KAYIT İŞLEMİ", error)
+                    Tts.setDefaultLanguage('tr-TR');
+                    Tts.speak('Güncelleme Başarısız', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 1.0,
+                            KEY_PARAM_STREAM: 'STREAM_DTMF',
+                        },
+                    });
                 })
                 .finally(() => {
                     setLoadingUpdateCount(false)
@@ -324,24 +339,57 @@ export default function BarkodListeleScreen({ props, route }: any) {
         })
             .then((response: any) => {
                 console.log("URUN EKLE", response.data)
+                Tts.setDefaultLanguage('tr-TR');
+                Tts.speak('Eklendi', {
+                    iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                    rate: 0.5,
+                    androidParams: {
+                        KEY_PARAM_PAN: 0,
+                        KEY_PARAM_VOLUME: 1.0,
+                        KEY_PARAM_STREAM: 'STREAM_DTMF',
+                    },
+                });
             })
             .catch((error: any) => {
                 console.log("URUN EKLE", error)
+                Tts.setDefaultLanguage('tr-TR');
+                Tts.speak('Hata oluştu', {
+                    iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                    rate: 0.5,
+                    androidParams: {
+                        KEY_PARAM_PAN: 0,
+                        KEY_PARAM_VOLUME: 1.0,
+                        KEY_PARAM_STREAM: 'STREAM_DTMF',
+                    },
+                });
             })
             .finally(() => {
                 setLoadingAddProduct(false);
                 setBarcodeMiktar("")
                 setProductSearch([])
+                setBarcodeText("")
             })
     }
 
+    useEffect(() => {
+        handleBarcode()
+    }, [loadingDelete, loadingSave, loadingUpdateCount, loadingAddProduct, segment, isState]);
+
+    useEffect(() => {
+        const durumKontrol = async () => {
+            if (StatusSayim == 1) {
+                setSegment(1)
+            }
+        }
+        durumKontrol()
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
                 <>
-                    {
-                        (barcodeText != "") || (barcodeMiktar != "") ?
+                    {/* {
+                        (barcodeText != "") || (barcodeMiktar != "") || (email != "") ?
                             <TouchableOpacity onPress={() => {
                                 setBarcodeText("")
                                 setBarcodeMiktar("")
@@ -355,17 +403,16 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                 />
                             </TouchableOpacity>
                             : null
-                    }
+                    } */}
                     {
                         StatusSayim == 1 || okutulanlar.length < 1 ?
                             null :
                             <TouchableOpacity onPress={() => {
-                                handleDelete({ isAll: true })
+                                handleDeleteAll()
                             }}>
                                 <Image
-                                    source={require("../../assets/images/closeIcon1.png")}
+                                    source={require("../../assets/images/trashIcon1.png")}
                                     style={{
-                                        marginStart: 6,
                                         width: 30,
                                         height: 30
                                     }}
@@ -375,7 +422,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 </>
             ),
         });
-    }, [navigation, barcodeText,]);
+    }, [navigation, loadingDelete, loadingSave, loadingUpdateCount, loadingAddProduct, segment, isState]);
     return (
         <SafeAreaView style={styles.container}>
             {

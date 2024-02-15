@@ -21,6 +21,7 @@ export const API_URL = {
 
     SAYIM_DETAYLARI: "/api/MaterialCountingApi/SayimFisDetayList",
     SAYIM_DETAYLARI_DELETE: "/api/MaterialCountingApi/SayimFisDetayDelete",
+    SAYIM_DETAYLARI_DELETE_ALL: "/api/MaterialCountingApi/SayimFisDetayAllDelete",
     SAYIM_DETAYLARI_AMOUNT_UPDATE: "/api/MaterialCountingApi/SayimFisDetayUpdate",
 
     SAYIM_DETAYLARI_MALZEME_BUL: "/api/MaterialCountingApi/BarcodeItemList",
