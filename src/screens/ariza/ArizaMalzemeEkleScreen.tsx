@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, Pressable, Modal, StyleSheet, Alert, TextInput, TouchableOpacity, FlatList, ScrollView, Platform } from 'react-native';
+import { View, Text, SafeAreaView, Pressable, Modal, StyleSheet, Alert, TextInput, TouchableOpacity, FlatList, ScrollView, Platform, Image } from 'react-native';
 import { styles } from '../../styles/styles';
 import { colors } from '../../styles/colors';
 import ButtonPrimary from '../../components/ButtonPrimary/ButtonPrimary';
@@ -8,10 +8,12 @@ import { API_URL } from '../../api/api_url';
 import { useSelector } from 'react-redux';
 import LoadingCard from '../../components/LoadingCard/LoadingCard';
 import { styleModal } from '../../styles/styleModal';
-import { CloseCircle } from 'iconsax-react-native';
+import { CloseCircle, SearchZoomIn } from 'iconsax-react-native';
 import CardView from '../../components/CardView';
 import jwtDecode from 'jwt-decode';
 import Tts from 'react-native-tts';
+import { ViewTwoRowsCard } from '../../components/ViewTwoRowsCard/ViewTwoRowsCard';
+import { ViewColCard } from '../../components/ViewColCard/ViewColCard';
 
 export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   const userToken = useSelector((state: any) => state.auth?.userToken)
@@ -25,15 +27,17 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   const [loadingGonder, setLoadingGonder] = useState(false);
   const [userId, setUserId] = useState("");
   const [dataMalzeme, setDataMalzeme] = useState<any[]>([]);
-  const [dataTamirci, setDataTamirci] = useState<any[]>([]);
+  const [dataTamirci, setDataTamirci] = useState([]);
+  const [dataTamirciFiltered, setDataTamirciFiltered] = useState([]);
   const [visibleTamirci, setVisibleTamirci] = useState(false);
   const [selectedTamirci, setSelectedTamirci] = useState<any>([]);
   const [malzemeAdet, setMalzemeAdet] = useState("");
   const [barkod, setBarkod] = useState("");
+  const [searchTamirci, setSearchTamirci] = useState("");
 
   async function getMalzeme() {
     setLoadingMalzeme(true);
-    await axios.post(API_URL.BASE_URL + API_URL.ARIZA_MALZEME_LISTELE +
+    await axios.post(API_URL.DEV_URL + API_URL.ARIZA_MALZEME_LISTELE +
       "?companyId=" + company.Id + "&name=" + barkod + "&garajNo=" + GarajId + "&onHand=false",
       {}, {
       headers: {
@@ -55,7 +59,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
 
   async function getTamirciList() {
     setLoadingTamirci(true);
-    await axios.get(API_URL.BASE_URL + API_URL.ARIZA_TAMIRCI_LIST + "?garajKodu=" + GarajId, {
+    await axios.get(API_URL.DEV_URL + API_URL.ARIZA_TAMIRCI_LIST + "?garajKodu=" + GarajId, {
       headers: {
         "Authorization": "Bearer " + userToken
       }
@@ -69,6 +73,17 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
         console.log("Ariza TAMIRCI: ", error)
       })
       .finally(() => setLoadingTamirci(false))
+  }
+
+  const SearchTamirci = async () => {
+    let temp = dataTamirci.filter((filter: any) => {
+      return (
+        filter?.fullName.toLocaleLowerCase('tr').includes(
+          searchTamirci.toLocaleLowerCase(),
+        )
+      );
+    });
+    setDataTamirciFiltered(temp);
   }
   async function getUserId() {
     const decoded: any = await jwtDecode(userToken);
@@ -92,7 +107,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       ArizaId: ArizaId
     }]))
 
-    await axios.post(API_URL.BASE_URL + API_URL.ARIZA_GONDER_URL, formData, {
+    await axios.post(API_URL.DEV_URL + API_URL.ARIZA_GONDER_URL, formData, {
       headers: {
         "Authorization": "Bearer " + userToken,
         "Content-Type": "multipart/form-data"
@@ -101,7 +116,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       .then((response: any) => {
         console.log("MAL GONDER RES: ", response.data)
         Tts.setDefaultLanguage('tr-TR');
-       
+
         Tts.speak('Tamamlandi', {
           iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
           rate: 0.5,
@@ -190,12 +205,38 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
                     <Text style={styles.textSmall}>{selectedTamirci?.fullName}</Text>
                   </CardView>
                   :
-                  <FlatList data={dataTamirci}
+                  <FlatList data={dataTamirciFiltered.length < 1 ? dataTamirci : dataTamirciFiltered}
+                    ListHeaderComponent={
+                      <View style={{
+                        flexDirection: "row",
+                        alignItems: "center"
+                      }}>
+                        <TextInput style={[styles.textInput, { flex: 1, marginEnd: 8 }]}
+                          value={searchTamirci}
+                          onChangeText={setSearchTamirci}
+                          placeholder='Tamirci Ara'
+                          placeholderTextColor={colors.gray}
+                        />
+                        <Pressable onPress={() => SearchTamirci()}>
+                          <SearchZoomIn size="32" color={colors.primaryColor} />
+                        </Pressable>
+                        <Pressable onPress={() => setDataTamirciFiltered([])}>
+                          <Image source={require("../../assets/images/trashIcon1.png")}
+                            style={{
+                              width: 30,
+                              height: 30,
+                              marginStart: 6,
+                            }}
+                          />
+                        </Pressable>
+                      </View>
+                    }
                     renderItem={({ item }: any) => {
                       return (
                         <View>
                           <TouchableOpacity style={{ paddingVertical: 4, }} onPress={() => {
                             setSelectedTamirci(item)
+                            setSearchTamirci("")
                             setVisibleTamirci(false)
                           }}>
                             <Text style={styles.textSmall}>{item?.fullName}</Text>

@@ -4,6 +4,7 @@ export const API_URL = {
     REFRESH_TOKEN_URL: "/api/MobileAccountApi/Refresh",
     LOGIN_URL: "/api/MobileAccountApi/Login",
     ARIZA_LIST: "/api/ArizaApi/ArizaList",
+    ARIZA_LIST_KAPI_NO: "/api/ArizaApi/ArizaListMobil",
     ARIZA_DETAIL_LIST: "/api/ArizaApi/ArizaMalzemeList",
     COMPANY_LIST: "",
 
