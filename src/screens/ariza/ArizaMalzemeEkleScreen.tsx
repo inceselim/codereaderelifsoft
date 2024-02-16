@@ -65,7 +65,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       }
     })
       .then((response: any) => {
-        // console.log(response.data);
+        console.log(response.data);
         setDataTamirci(response.data);
       })
       .catch((error: any) => {
