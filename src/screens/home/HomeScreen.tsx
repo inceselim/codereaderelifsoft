@@ -16,10 +16,9 @@ export default function HomeScreen() {
     const dispatch: any = useDispatch();
     const userName = useSelector((state: any) => state.auth.userName)
     const companies: any[] = useSelector((state: any) => state.auth.companies)
-    console.log(companies)
 
     const [visibleCompanies, setVisibleCompanies] = useState(false);
-    const [selectedCompany, setSelectedCompany] = useState<any>(companies[0]);
+    const [selectedCompany, setSelectedCompany] = useState<any>();
 
     async function logoutDecide() {
         Alert.alert('Oturum Kapat', 'Çıkış yapmak istediğinize emin misiniz?', [
@@ -40,11 +39,23 @@ export default function HomeScreen() {
         ]);
     }
     useEffect(() => {
-        const setCompany = async () => {
-            console.log(companies[0])
-            dispatch(companySelect(companies[0]))
+        if (companies?.length > 0) {
+            const setCompany = async () => {
+                console.log(companies[0])
+                setSelectedCompany(companies[0])
+                dispatch(companySelect(companies[0]))
+            }
+            setCompany()
         }
-        setCompany()
+        else {
+            const logout = async () => {
+                dispatch(logoutUser())
+                await AsyncStorage.removeItem("@token")
+                await AsyncStorage.removeItem("@tokenExpires")
+                await AsyncStorage.removeItem("@tokenUserName")
+                await AsyncStorage.removeItem("@mobileMenu")
+            }
+        }
     }, [])
     return (
         <SafeAreaView style={styles.container}>
