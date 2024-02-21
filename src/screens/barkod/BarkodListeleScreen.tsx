@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, Alert, TextInput, ScrollView, TouchableOpacity, Platform, Image, FlatList, Pressable, Modal } from 'react-native';
+import { View, Text, SafeAreaView, Alert, TextInput, ScrollView, TouchableOpacity, Platform, Image, FlatList, Pressable, Modal, Keyboard } from 'react-native';
 import { styles } from '../../styles/styles';
 import { colors } from '../../styles/colors';
 import Tts from 'react-native-tts';
@@ -28,7 +28,9 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
     const [isState, setIsState] = useState(false);
     const [productSearch, setProductSearch] = useState<any[]>([]);
-    const [barcodeText, setBarcodeText] = useState<any>("")
+    const [barcodeText, setBarcodeText] = useState<string>("")
+    const [barcodeTextState, setBarcodeTextState] = useState<boolean>(true)
+    const [barkodFetchState, setFetchState] = useState<boolean>(false)
     const [barcodeMiktar, setBarcodeMiktar] = useState<any>("");
     const [loading, setLoading] = useState(false);
     const [loadingDelete, setLoadingDelete] = useState(false);
@@ -41,8 +43,6 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
     const [loadingSearch, setLoadingSearch] = useState(false);
     const [loadingAddProduct, setLoadingAddProduct] = useState(false);
-
-
 
     const [segment, setSegment] = useState(0);
 
@@ -295,25 +295,36 @@ export default function BarkodListeleScreen({ props, route }: any) {
         }
     }
 
+
     const handleSearchProduct = async () => {
-        setLoadingSearch(true);
-        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
-            "?companyId=" + selectedCompany?.Id + "&name=" + barcodeText + "&garajNo=" + ProjectCode, {}, {
-            headers: {
-                "Authorization": "Bearer " + userToken
-            }
-        })
-            .then((response: any) => {
-                console.log("URUN ARA", response.data)
-                setProductSearch(response.data)
+        if (barcodeTextState == false && barcodeText != "") {
+            setLoadingSearch(true);
+            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
+                "?companyId=" + selectedCompany?.Id + "&name=" + barcodeText + "&garajNo=" + ProjectCode, {}, {
+                headers: {
+                    "Authorization": "Bearer " + userToken
+                },
             })
-            .catch((error: any) => {
-                console.log(error)
-            })
-            .finally(() => {
-                setLoadingSearch(false);
-            })
+                .then((response: any) => {
+                    console.log("URUN ARA", response.data)
+                    console.log("URUN ARA", response.data[0]?.Logicalref)
+                    setProductSearch(response.data)
+                    console.log("productSearch ", productSearch)
+                    console.log("", productSearch.length)
+                })
+                .catch((error: any) => {
+                    Alert.alert("Kayıt Bulunamadı...")
+                    console.log(error)
+                    setBarcodeTextState(true)
+                    setBarcodeText("")
+                })
+                .finally(() => {
+                    setLoadingSearch(false);
+                    setFetchState(false)
+                })
+        }
     }
+
 
     const handleAddList = async ({ ItemId, LogoAmount }: any) => {
         setLoadingAddProduct(true);
@@ -327,48 +338,52 @@ export default function BarkodListeleScreen({ props, route }: any) {
         formData.append("values", JSON.stringify({
             SayimId: Id,
             ItemId: ItemId,
-            ItemAmount: barcodeMiktar,
+            ItemAmount: 1,
             LogoAmount: LogoAmount
 
         }))
-        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
-            headers: {
-                "Authorization": "Bearer " + userToken,
-                "Content-Type": "multipart/form-data"
-            }
-        })
-            .then((response: any) => {
-                console.log("URUN EKLE", response.data)
-                Tts.setDefaultLanguage('tr-TR');
-                Tts.speak('Eklendi', {
-                    iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-                    rate: 0.5,
-                    androidParams: {
-                        KEY_PARAM_PAN: 0,
-                        KEY_PARAM_VOLUME: 1.0,
-                        KEY_PARAM_STREAM: 'STREAM_DTMF',
-                    },
-                });
+        if (ItemId != "" || ItemId != 0) {
+            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
+                headers: {
+                    "Authorization": "Bearer " + userToken,
+                    "Content-Type": "multipart/form-data"
+                }
             })
-            .catch((error: any) => {
-                console.log("URUN EKLE", error)
-                Tts.setDefaultLanguage('tr-TR');
-                Tts.speak('Hata oluştu', {
-                    iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-                    rate: 0.5,
-                    androidParams: {
-                        KEY_PARAM_PAN: 0,
-                        KEY_PARAM_VOLUME: 1.0,
-                        KEY_PARAM_STREAM: 'STREAM_DTMF',
-                    },
-                });
-            })
-            .finally(() => {
-                setLoadingAddProduct(false);
-                setBarcodeMiktar("")
-                setProductSearch([])
-                setBarcodeText("")
-            })
+                .then((response: any) => {
+                    console.log("URUN EKLE", response.data)
+                    Tts.setDefaultLanguage('tr-TR');
+                    Tts.speak('Eklendi', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 1.0,
+                            KEY_PARAM_STREAM: 'STREAM_DTMF',
+                        },
+                    });
+                })
+                .catch((error: any) => {
+                    console.log("URUN EKLE", error)
+                    Tts.setDefaultLanguage('tr-TR');
+                    Tts.speak('Hata oluştu', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 1.0,
+                            KEY_PARAM_STREAM: 'STREAM_DTMF',
+                        },
+                    });
+                })
+                .finally(() => {
+                    setLoadingAddProduct(false);
+                    setBarcodeMiktar("")
+                    setProductSearch([])
+                    setBarcodeText("")
+                    setBarcodeTextState(true)
+                    setFetchState(false)
+                })
+        }
     }
 
     useEffect(() => {
@@ -388,22 +403,6 @@ export default function BarkodListeleScreen({ props, route }: any) {
         navigation.setOptions({
             headerRight: () => (
                 <>
-                    {/* {
-                        (barcodeText != "") || (barcodeMiktar != "") || (email != "") ?
-                            <TouchableOpacity onPress={() => {
-                                setBarcodeText("")
-                                setBarcodeMiktar("")
-                            }}>
-                                <Image
-                                    source={require("../../assets/images/trashIcon1.png")}
-                                    style={{
-                                        width: 30,
-                                        height: 30
-                                    }}
-                                />
-                            </TouchableOpacity>
-                            : null
-                    } */}
                     {
                         StatusSayim == 1 || okutulanlar.length < 1 ?
                             null :
@@ -422,7 +421,47 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 </>
             ),
         });
-    }, [navigation, loadingDelete, loadingSave, loadingUpdateCount, loadingAddProduct, segment, isState]);
+    }, [navigation, loadingDelete, loadingSave, loadingUpdateCount, loadingAddProduct, segment, isState, barcodeText]);
+
+    useEffect(() => {
+        if (barcodeText != "") {
+            setImmediate(() => {
+                console.log("")
+                console.log("")
+                console.log("CALISTI", barcodeTextState)
+                console.log("CALISTI barcodeText", barcodeText)
+                console.log("")
+                console.log("")
+                setBarcodeTextState(false)
+                console.log("CALISTI", barcodeTextState)
+            });
+            setTimeout(() => {
+                setFetchState(true)
+            }, 1.2 * 2000);
+        }
+    }, [barcodeText])
+
+    useEffect(() => {
+        console.log("")
+        console.log("")
+        console.log("CALISTI barcodeTextState", barcodeTextState)
+        console.log("")
+        console.log("")
+        if (barkodFetchState == true) {
+            handleSearchProduct()
+        }
+    }, [barkodFetchState])
+    useEffect(() => {
+        if (barcodeTextState == false) {
+            console.log("ItemID: ", productSearch[0]?.Logicalref)
+            if (productSearch.length > 0) {
+                handleAddList({
+                    ItemId: productSearch[0]?.Logicalref,
+                    LogoAmount: productSearch[0]?.Onhand
+                })
+            }
+        }
+    }, [productSearch])
     return (
         <SafeAreaView style={styles.container}>
             {
@@ -456,14 +495,18 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                             <TextInput
                                                 style={styles.textInput}
                                                 value={barcodeText}
-                                                onChangeText={setBarcodeText}
+                                                onChangeText={(e) => {
+                                                    setBarcodeText(e)
+                                                    setFetchState(false)
+                                                }}
                                                 onEndEditing={() => handleSearchProduct()}
+                                                onBlur={(e) => console.log("eEEEEEeee", e)}
                                                 placeholder='Barkod Giriniz'
                                                 placeholderTextColor={"#666"}
-                                                autoFocus={true}
+                                                autoFocus={barcodeTextState}
                                             />
-                                            <ButtonPrimary text={"Malzeme Bul"} onPress={() => handleSearchProduct()}
-                                                disabled={barcodeText == "" ? true : false} />
+                                            {/* <ButtonPrimary text={"Malzeme Bul"} onPress={() => handleSearchProduct()}
+                                                disabled={barcodeText == "" ? true : false} /> */}
                                             {
                                                 productSearch.length == 0 ?
                                                     null
@@ -481,10 +524,10 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                                         </Text>
                                                                     </View>
                                                                     <View style={styles.viewTwoRowJustify}>
-                                                                        <Text style={styles.textNormal}>
+                                                                        <Text style={[styles.textBold, { flex: 0.2 }]}>
                                                                             Ürün Adı
                                                                         </Text>
-                                                                        <Text style={styles.textNormal}>
+                                                                        <Text style={[styles.textNormal, { flex: 0.8, textAlign: "right" }]}>
                                                                             {item?.Name}
                                                                         </Text>
                                                                     </View>
@@ -509,7 +552,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                     </View>
                                 </ScrollView>
                                 :
-                                <View>
+                                <View style={{ flex: 1 }}>
                                     <TextInput style={styles.textInput}
                                         value={email}
                                         onChangeText={setEmail}
@@ -518,44 +561,46 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                     />
                                     <ButtonPrimary text={"Kaydet ve Gönder"} onPress={() => handleSave()}
                                         disabled={(StatusSayim == 1) || (email == "") ? true : false} />
-                                    <FlatList data={okutulanlar}
-                                        ListEmptyComponent={<NoData />}
-                                        renderItem={({ item }: any) => {
-                                            return (
-                                                <CardView>
-                                                    <View style={{
-                                                        flexDirection: "column",
-                                                    }}>
-                                                        <View>
-                                                            <Text style={styles.textBold}>{item?.ItemCode}</Text>
-                                                            <Text style={styles.textNormal}>{item?.ItemBarcode}</Text>
+                                    <View style={{ flex: 1 }}>
+                                        <FlatList data={okutulanlar}
+                                            ListEmptyComponent={<NoData />}
+                                            renderItem={({ item }: any) => {
+                                                return (
+                                                    <CardView>
+                                                        <View style={{
+                                                            flexDirection: "column",
+                                                        }}>
+                                                            <View>
+                                                                <Text style={styles.textBold}>{item?.ItemCode}</Text>
+                                                                <Text style={styles.textNormal}>{item?.ItemBarcode}</Text>
+                                                            </View>
+                                                            <View style={styles.viewTwoRowJustify}>
+                                                                <Text style={[styles.textNormal, { flex: 1 }]}>{item?.ItemName}</Text>
+                                                                <Text style={[{ paddingEnd: 14, }, styles.textBold]}>{item?.ItemAmount} {item?.ItemUnitName}</Text>
+                                                                {
+                                                                    StatusSayim == 1 ?
+                                                                        null :
+                                                                        <Pressable onPress={() => handleDelete({ key: item?.CountingId, isAll: false })}>
+                                                                            <Trash size={30} variant="Bold" color={colors.primaryColor} style={{ marginEnd: 4 }} />
+                                                                        </Pressable>
+                                                                }
+                                                                {
+                                                                    StatusSayim == 1 ?
+                                                                        null :
+                                                                        <Pressable onPress={() => {
+                                                                            setModalVisible(true)
+                                                                            setSelectedItem(item?.CountingId)
+                                                                        }}>
+                                                                            <ExportSquare size={30} variant="Bulk" color={colors.primaryColor} />
+                                                                        </Pressable>
+                                                                }
+                                                            </View>
                                                         </View>
-                                                        <View style={styles.viewTwoRowJustify}>
-                                                            <Text style={[styles.textNormal, { flex: 1 }]}>{item?.ItemName}</Text>
-                                                            <Text style={[{ paddingEnd: 14, }, styles.textBold]}>{item?.ItemAmount} {item?.ItemUnitName}</Text>
-                                                            {
-                                                                StatusSayim == 1 ?
-                                                                    null :
-                                                                    <Pressable onPress={() => handleDelete({ key: item?.CountingId, isAll: false })}>
-                                                                        <Trash size={30} variant="Bold" color={colors.primaryColor} style={{ marginEnd: 4 }} />
-                                                                    </Pressable>
-                                                            }
-                                                            {
-                                                                StatusSayim == 1 ?
-                                                                    null :
-                                                                    <Pressable onPress={() => {
-                                                                        setModalVisible(true)
-                                                                        setSelectedItem(item?.CountingId)
-                                                                    }}>
-                                                                        <ExportSquare size={30} variant="Bulk" color={colors.primaryColor} />
-                                                                    </Pressable>
-                                                            }
-                                                        </View>
-                                                    </View>
-                                                </CardView>
-                                            )
-                                        }}
-                                    />
+                                                    </CardView>
+                                                )
+                                            }}
+                                        />
+                                    </View>
                                 </View>
                         }
                         <Modal
@@ -563,7 +608,6 @@ export default function BarkodListeleScreen({ props, route }: any) {
                             transparent={true}
                             visible={modalVisible}
                             onRequestClose={() => {
-                                Alert.alert('Modal has been closed.');
                                 setModalVisible(!modalVisible);
                             }}>
                             <View style={styleModal.centeredView}>
