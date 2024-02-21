@@ -55,7 +55,7 @@ export default function LoginScreen() {
         formData.append('password', userPass);
         await axios
           .post(
-            API_URL.BASE_URL + API_URL.LOGIN_URL,
+            API_URL.DEV_URL + API_URL.LOGIN_URL,
             // formData,
             {
               username: userName,

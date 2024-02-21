@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, Alert, TextInput, ScrollView, TouchableOpacity, Platform, Image, FlatList, Pressable, Modal, Keyboard } from 'react-native';
+import { View, Text, SafeAreaView, Alert, TextInput, ScrollView, TouchableOpacity, Platform, Image, FlatList, Pressable, Modal, Keyboard, Switch } from 'react-native';
 import { styles } from '../../styles/styles';
 import { colors } from '../../styles/colors';
 import Tts from 'react-native-tts';
@@ -26,6 +26,8 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const ProjectCode = route.params.ProjectCode
     const StatusSayim = route.params.StatusSayim
 
+    const [isOto, setIsOto] = useState(true);
+
     const [isState, setIsState] = useState(false);
     const [productSearch, setProductSearch] = useState<any[]>([]);
     const [barcodeText, setBarcodeText] = useState<string>("")
@@ -46,11 +48,16 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
     const [segment, setSegment] = useState(0);
 
+    const [barcodeTextManuel, setBarkodTextManuel] = useState("")
+    const [barcodeMiktarManuel, setBarcodeMiktarManuel] = useState("1")
+    const [loadingSearchManuel, setLoadingSearchManuel] = useState(false)
+    const [productSearchManuel, setProductSearchManuel] = useState<any[]>([])
+
     const handleBarcode = async () => {
         setLoading(true);
         console.log(Id)
         console.log(selectedCompany.Id)
-        await axios.get(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI +
+        await axios.get(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI +
             "?sayimId=" + Id +
             "&companyId=" + selectedCompany?.Id, {
             headers: {
@@ -83,7 +90,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
         const handleDelete = async ({ key }: any) => {
             setLoadingDelete(true);
-            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?key=" + key,
+            await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?key=" + key,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken
@@ -137,7 +144,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
         const handleDeleteAll = async () => {
             setLoadingDelete(true);
 
-            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE_ALL + "?sayimId=" + Id,
+            await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE_ALL + "?sayimId=" + Id,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -195,7 +202,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             formData.append("Id", Id)
             formData.append("email", email)
             formData.append("companyId", selectedCompany.Id)
-            await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_SEND_MAIL, formData,
+            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_SEND_MAIL, formData,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -254,7 +261,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             formData.append("key", key)
             formData.append("values", JSON.stringify({ "ItemAmount": productAmount }))
             console.log(formData)
-            await axios.put(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_AMOUNT_UPDATE, formData,
+            await axios.put(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_AMOUNT_UPDATE, formData,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -299,7 +306,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const handleSearchProduct = async () => {
         if (barcodeTextState == false && barcodeText != "") {
             setLoadingSearch(true);
-            await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
+            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
                 "?companyId=" + selectedCompany?.Id + "&name=" + barcodeText + "&garajNo=" + ProjectCode, {}, {
                 headers: {
                     "Authorization": "Bearer " + userToken
@@ -324,6 +331,28 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 })
         }
     }
+    const handleSearchProductManuel = async () => {
+        setLoadingSearchManuel(true);
+        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
+            "?companyId=" + selectedCompany?.Id + "&name=" + barcodeTextManuel + "&garajNo=" + ProjectCode, {}, {
+            headers: {
+                "Authorization": "Bearer " + userToken
+            },
+        })
+            .then((response: any) => {
+                setProductSearchManuel(response.data)
+                console.log("SEARCH MANUEL: ", response.data)
+            })
+            .catch((error: any) => {
+                Alert.alert("Kayıt Bulunamadı...")
+                console.log(error)
+                setBarcodeTextState(true)
+                setBarcodeText("")
+            })
+            .finally(() => {
+                setLoadingSearchManuel(false);
+            })
+    }
 
 
     const handleAddList = async ({ ItemId, LogoAmount }: any) => {
@@ -343,7 +372,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
         }))
         if (ItemId != "" || ItemId != 0) {
-            await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
+            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
                 headers: {
                     "Authorization": "Bearer " + userToken,
                     "Content-Type": "multipart/form-data"
@@ -386,17 +415,78 @@ export default function BarkodListeleScreen({ props, route }: any) {
         }
     }
 
+    const handleAddListManuel = async ({ ItemId, LogoAmount, ItemAmount }: any) => {
+        setLoadingAddProduct(true);
+        console.log("Id?.Id", Id)
+        console.log("barcodeText", barcodeText)
+        console.log("ItemId", ItemId)
+        console.log("barcodeMiktar", barcodeMiktar)
+        console.log("LogoAmount", LogoAmount)
+
+        const formData = new FormData();
+        formData.append("values", JSON.stringify({
+            SayimId: Id,
+            ItemId: ItemId,
+            ItemAmount: ItemAmount,
+            LogoAmount: LogoAmount
+
+        }))
+        if (ItemId != "" || ItemId != 0) {
+            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
+                headers: {
+                    "Authorization": "Bearer " + userToken,
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+                .then((response: any) => {
+                    console.log("URUN EKLE", response.data)
+                    Tts.setDefaultLanguage('tr-TR');
+                    Tts.speak('Eklendi', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 1.0,
+                            KEY_PARAM_STREAM: 'STREAM_DTMF',
+                        },
+                    });
+                })
+                .catch((error: any) => {
+                    console.log("URUN EKLE", error)
+                    Tts.setDefaultLanguage('tr-TR');
+                    Tts.speak('Hata oluştu', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 1.0,
+                            KEY_PARAM_STREAM: 'STREAM_DTMF',
+                        },
+                    });
+                })
+                .finally(() => {
+                    setLoadingAddProduct(false);
+                    setBarcodeMiktarManuel("")
+                    setProductSearch([])
+                    setBarkodTextManuel("")
+                    setBarcodeTextState(true)
+                    setFetchState(false)
+                })
+        }
+    }
     useEffect(() => {
         handleBarcode()
     }, [loadingDelete, loadingSave, loadingUpdateCount, loadingAddProduct, segment, isState]);
 
     useEffect(() => {
-        const durumKontrol = async () => {
-            if (StatusSayim == 1) {
-                setSegment(1)
+        if (isOto == true) {
+            const durumKontrol = async () => {
+                if (StatusSayim == 1) {
+                    setSegment(1)
+                }
             }
+            durumKontrol()
         }
-        durumKontrol()
     }, []);
 
     useEffect(() => {
@@ -424,48 +514,52 @@ export default function BarkodListeleScreen({ props, route }: any) {
     }, [navigation, loadingDelete, loadingSave, loadingUpdateCount, loadingAddProduct, segment, isState, barcodeText]);
 
     useEffect(() => {
-        if (barcodeText != "") {
-            setImmediate(() => {
-                console.log("")
-                console.log("")
-                console.log("CALISTI", barcodeTextState)
-                console.log("CALISTI barcodeText", barcodeText)
-                console.log("")
-                console.log("")
-                setBarcodeTextState(false)
-                console.log("CALISTI", barcodeTextState)
-            });
-            setTimeout(() => {
-                setFetchState(true)
-            }, 1.0 * 1000);
+        if (isOto == true) {
+            if (barcodeText != "") {
+                setImmediate(() => {
+                    console.log("")
+                    console.log("")
+                    console.log("CALISTI", barcodeTextState)
+                    console.log("CALISTI barcodeText", barcodeText)
+                    console.log("")
+                    console.log("")
+                    setBarcodeTextState(false)
+                    console.log("CALISTI", barcodeTextState)
+                });
+                setTimeout(() => {
+                    setFetchState(true)
+                }, 1.0 * 1000);
+            }
         }
     }, [barcodeText])
 
     useEffect(() => {
-        console.log("")
-        console.log("")
-        console.log("CALISTI barcodeTextState", barcodeTextState)
-        console.log("")
-        console.log("")
-        if (barkodFetchState == true) {
-            handleSearchProduct()
+        if (isOto == true) {
+            console.log("")
+            console.log("")
+            console.log("CALISTI barcodeTextState", barcodeTextState)
+            if (barkodFetchState == true) {
+                handleSearchProduct()
+            }
         }
     }, [barkodFetchState])
     useEffect(() => {
-        if (barcodeTextState == false) {
-            console.log("ItemID: ", productSearch[0]?.Logicalref)
-            if (productSearch.length > 0) {
-                handleAddList({
-                    ItemId: productSearch[0]?.Logicalref,
-                    LogoAmount: productSearch[0]?.Onhand
-                })
+        if (isOto == true) {
+            if (barcodeTextState == false) {
+                console.log("ItemID: ", productSearch[0]?.Logicalref)
+                if (productSearch.length > 0) {
+                    handleAddList({
+                        ItemId: productSearch[0]?.Logicalref,
+                        LogoAmount: productSearch[0]?.Onhand
+                    })
+                }
             }
         }
     }, [productSearch])
     return (
         <SafeAreaView style={styles.container}>
             {
-                loading || loadingDelete || loadingSearch || loadingAddProduct ?
+                loading || loadingDelete || loadingSearch || loadingAddProduct || loadingSearchManuel ?
                     <LoadingCard />
                     :
                     <View style={styles.content}>
@@ -486,69 +580,119 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                 </ButtonPrimary>
                             </View>
                         </CardView>
+                        <CardView>
+                            <View style={styles.viewTwoRowJustify}>
+                                <Text style={styles.textBold}>Otomatik</Text>
+                                <Switch value={isOto} onValueChange={() => setIsOto(!isOto)} />
+                            </View>
+                        </CardView>
 
                         {
                             segment == 0 ?
                                 <ScrollView>
                                     <View>
-                                        <CardView>
-                                            <TextInput
-                                                style={styles.textInput}
-                                                value={barcodeText}
-                                                onChangeText={(e) => {
-                                                    setBarcodeText(e)
-                                                    setFetchState(false)
-                                                }}
-                                                onEndEditing={() => handleSearchProduct()}
-                                                onBlur={(e) => console.log("eEEEEEeee", e)}
-                                                placeholder='Barkod Giriniz'
-                                                placeholderTextColor={"#666"}
-                                                autoFocus={barcodeTextState}
-                                            />
-                                            {/* <ButtonPrimary text={"Malzeme Bul"} onPress={() => handleSearchProduct()}
-                                                disabled={barcodeText == "" ? true : false} /> */}
-                                            {
-                                                productSearch.length == 0 ?
-                                                    null
-                                                    :
-                                                    productSearch?.map((item: any) => {
-                                                        return (
-                                                            <View key={item?.Code}>
-                                                                <CardView>
-                                                                    <View style={styles.viewTwoRowJustify}>
-                                                                        <Text style={[styles.textLarge, styles.textBold]}>
-                                                                            Ürün Kodu
-                                                                        </Text>
-                                                                        <Text style={[styles.textLarge, styles.textBold]}>
-                                                                            {item?.Code}
-                                                                        </Text>
+                                        {
+                                            isOto == true ?
+                                                <CardView>
+                                                    <TextInput
+                                                        style={styles.textInput}
+                                                        value={barcodeText}
+                                                        onChangeText={(e) => {
+                                                            setBarcodeText(e)
+                                                            setFetchState(false)
+                                                        }}
+                                                        onEndEditing={() => handleSearchProduct()}
+                                                        onBlur={(e) => console.log("eEEEEEeee", e)}
+                                                        placeholder='Barkod Giriniz'
+                                                        placeholderTextColor={"#666"}
+                                                        autoFocus={barcodeTextState}
+                                                    />
+                                                    {
+                                                        productSearch.length == 0 ?
+                                                            null
+                                                            :
+                                                            productSearch?.map((item: any) => {
+                                                                return (
+                                                                    <View key={item?.Code}>
+                                                                        <CardView>
+                                                                            <View style={styles.viewTwoRowJustify}>
+                                                                                <Text style={[styles.textLarge, styles.textBold]}>
+                                                                                    Ürün Kodu
+                                                                                </Text>
+                                                                                <Text style={[styles.textLarge, styles.textBold]}>
+                                                                                    {item?.Code}
+                                                                                </Text>
+                                                                            </View>
+                                                                            <View style={styles.viewTwoRowJustify}>
+                                                                                <Text style={[styles.textBold, { flex: 0.2 }]}>
+                                                                                    Ürün Adı
+                                                                                </Text>
+                                                                                <Text style={[styles.textNormal, { flex: 0.8, textAlign: "right" }]}>
+                                                                                    {item?.Name}
+                                                                                </Text>
+                                                                            </View>
+                                                                        </CardView>
                                                                     </View>
-                                                                    <View style={styles.viewTwoRowJustify}>
-                                                                        <Text style={[styles.textBold, { flex: 0.2 }]}>
-                                                                            Ürün Adı
-                                                                        </Text>
-                                                                        <Text style={[styles.textNormal, { flex: 0.8, textAlign: "right" }]}>
-                                                                            {item?.Name}
-                                                                        </Text>
+                                                                )
+                                                            })
+                                                    }
+                                                </CardView>
+                                                :
+                                                <CardView>
+                                                    <TextInput
+                                                        style={styles.textInput}
+                                                        value={barcodeTextManuel}
+                                                        onChangeText={(e) => {
+                                                            setBarkodTextManuel(e)
+                                                        }}
+                                                        placeholder='Barkod Giriniz'
+                                                        placeholderTextColor={"#666"}
+                                                        autoFocus={true}
+                                                    />
+                                                    <ButtonPrimary text={"Malzeme Bul"} onPress={() => handleSearchProductManuel()}
+                                                        disabled={barcodeTextManuel == "" ? true : false} />
+                                                    {
+                                                        productSearchManuel.length == 0 ?
+                                                            null
+                                                            :
+                                                            productSearchManuel?.map((item: any) => {
+                                                                return (
+                                                                    <View key={item?.Code}>
+                                                                        <View style={styles.viewTwoRowJustify}>
+                                                                            <Text style={[styles.textLarge, styles.textBold]}>
+                                                                                Ürün Kodu
+                                                                            </Text>
+                                                                            <Text style={[styles.textLarge, styles.textBold]}>
+                                                                                {item?.Code}
+                                                                            </Text>
+                                                                        </View>
+                                                                        <View style={styles.viewTwoRowJustify}>
+                                                                            <Text style={[styles.textBold, { flex: 0.2 }]}>
+                                                                                Ürün Adı
+                                                                            </Text>
+                                                                            <Text style={[styles.textNormal, { flex: 0.8, textAlign: "right" }]}>
+                                                                                {item?.Name}
+                                                                            </Text>
+                                                                        </View>
                                                                     </View>
-                                                                </CardView>
-                                                            </View>
-                                                        )
-                                                    })
-                                            }
-                                            <TextInput style={styles.textInput}
-                                                value={barcodeMiktar} onChangeText={setBarcodeMiktar}
-                                                placeholder='Miktar Giriniz'
-                                                keyboardType='decimal-pad'
-                                                placeholderTextColor={"#666"}
-                                            />
-                                            <ButtonPrimary text={"Listeye Ekle"}
-                                                onPress={() => handleAddList({
-                                                    ItemId: productSearch[0].Logicalref,
-                                                    LogoAmount: productSearch[0].Onhand
-                                                })}
-                                                disabled={productSearch.length != 0 && barcodeMiktar != "" ? false : true} />
-                                        </CardView>
+                                                                )
+                                                            })
+                                                    }
+                                                    <TextInput style={styles.textInput}
+                                                        value={barcodeMiktarManuel} onChangeText={setBarcodeMiktarManuel}
+                                                        placeholder='Miktar Giriniz'
+                                                        keyboardType='decimal-pad'
+                                                        placeholderTextColor={"#666"}
+                                                    />
+                                                    <ButtonPrimary text={"Listeye Ekle"}
+                                                        onPress={() => handleAddListManuel({
+                                                            ItemId: productSearchManuel[0].Logicalref,
+                                                            LogoAmount: productSearchManuel[0].Onhand,
+                                                            ItemAmount: barcodeMiktarManuel
+                                                        })}
+                                                        disabled={productSearchManuel.length != 0 && barcodeMiktarManuel != "" ? false : true} />
+                                                </CardView>
+                                        }
                                     </View>
                                 </ScrollView>
                                 :

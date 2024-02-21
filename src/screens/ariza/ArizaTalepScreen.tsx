@@ -55,7 +55,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
     };
     const getArizaTalepList = async () => {
         setLoading(true);
-        await axios.get(API_URL.BASE_URL + API_URL.ARIZA_LIST +
+        await axios.get(API_URL.DEV_URL + API_URL.ARIZA_LIST +
             "?begDate=" + begDate?.toISOString() + "&endDate=" + endDate?.toISOString() +
             "&DurumLogo=" + "1" + "&IsDeleted=false", {
             headers: {
@@ -74,7 +74,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
     }
     const getArizaTalepListKapı = async () => {
         setLoadingSearchDoor(true);
-        await axios.get(API_URL.BASE_URL + API_URL.ARIZA_LIST_KAPI_NO +
+        await axios.get(API_URL.DEV_URL + API_URL.ARIZA_LIST_KAPI_NO +
             "?searchText=" + searchDoorText, {
             headers: {
                 Authorization: "Bearer " + userToken
