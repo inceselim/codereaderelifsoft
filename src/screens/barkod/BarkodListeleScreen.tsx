@@ -437,7 +437,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             });
             setTimeout(() => {
                 setFetchState(true)
-            }, 1.2 * 2000);
+            }, 1.0 * 1000);
         }
     }, [barcodeText])
 
