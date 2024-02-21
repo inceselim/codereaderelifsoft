@@ -6,7 +6,7 @@ import Tts from 'react-native-tts';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { ArrowRight2, Car, ExportSquare, Trash } from 'iconsax-react-native';
+import { ArrowRight2, Car, ExportSquare, Magicpen, Trash } from 'iconsax-react-native';
 import ButtonPrimary from '../../components/ButtonPrimary/ButtonPrimary';
 import CardView from '../../components/CardView';
 import { NoData } from '../../components/NoData/NoData';
@@ -591,7 +591,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                                             setModalVisible(true)
                                                                             setSelectedItem(item?.CountingId)
                                                                         }}>
-                                                                            <ExportSquare size={30} variant="Bulk" color={colors.primaryColor} />
+                                                                            <Magicpen size={30} variant="Bulk" color={colors.primaryColor} />
                                                                         </Pressable>
                                                                 }
                                                             </View>
