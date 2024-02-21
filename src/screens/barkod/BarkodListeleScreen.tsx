@@ -222,6 +222,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                             KEY_PARAM_STREAM: 'STREAM_DTMF',
                         },
                     });
+                    navigation.goBack()
                 })
                 .catch((error: any) => {
                     console.log("HATA KAYIT İŞLEMİ", error)
