@@ -20,7 +20,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
     const dispatch: any = useDispatch();
     const userToken = useSelector((state: any) => state.auth?.userToken)
     const [loading, setLoading] = useState(false);
-    const [filterMenu, setFilterMenu] = useState(true);
+    const [filterMenu, setFilterMenu] = useState(false);
     const [data, setData] = useState([]);
     const [pickerShowBegDate, setPickerShowBegDate] = useState(false);
     const [pickerShowEndDate, setPickerShowEndDate] = useState(false);
@@ -53,10 +53,46 @@ export default function ArizaTalepScreen({ props, route }: any) {
         setEndDate(date)
         hideDatePickerEndDate();
     };
-    const getArizaTalepList = async () => {
+    const getArizaTalepListAll = async () => {
+        const today = new Date();
+
+        const oneYearAgo = new Date(today);
+        oneYearAgo.setFullYear(today.getFullYear() - 1);
+        oneYearAgo.setDate(1)
+        console.log("oneYearAgo", oneYearAgo)
+
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        console.log(tomorrow)
+        setBegDate(today)
+        setEndDate(tomorrow)
         setLoading(true);
+        const istenenFormatBegDate = `${oneYearAgo.getUTCFullYear()}-${(oneYearAgo.getUTCMonth() + 1).toString().padStart(2, '0')}-${oneYearAgo.getUTCDate().toString().padStart(2, '0')}T${oneYearAgo.getUTCHours().toString().padStart(2, '0')}:${oneYearAgo.getUTCMinutes().toString().padStart(2, '0')}:${oneYearAgo.getUTCSeconds().toString().padStart(2, '0')}.${oneYearAgo.getUTCMilliseconds().toString().padStart(3, '0')}Z`;
+        const istenenFormatEndDate = `${tomorrow.getUTCFullYear()}-${(tomorrow.getUTCMonth() + 1).toString().padStart(2, '0')}-${tomorrow.getUTCDate().toString().padStart(2, '0')}T${tomorrow.getUTCHours().toString().padStart(2, '0')}:${tomorrow.getUTCMinutes().toString().padStart(2, '0')}:${tomorrow.getUTCSeconds().toString().padStart(2, '0')}.${tomorrow.getUTCMilliseconds().toString().padStart(3, '0')}Z`;
+
         await axios.get(API_URL.BASE_URL + API_URL.ARIZA_LIST +
-            "?begDate=" + begDate?.toISOString() + "&endDate=" + endDate?.toISOString() +
+            "?begDate=" + istenenFormatBegDate + "&endDate=" + istenenFormatEndDate +
+            "&DurumLogo=" + "1" + "&IsDeleted=false", {
+            headers: {
+                Authorization: "Bearer " + userToken
+            }
+        })
+            .then((response: any) => {
+                console.log("response", response?.data)
+                setData(response?.data);
+            })
+            .catch((error: any) => console.log("ERROR", error))
+            .finally(() => {
+                setLoading(false)
+                setFilterMenu(false);
+            })
+    }
+    const getArizaTalepList = async () => {
+        console.log("qw", begDate, endDate)
+        setLoading(true);
+        // begDate?.toISOString()
+        await axios.get(API_URL.BASE_URL + API_URL.ARIZA_LIST +
+            "?begDate=" + begDate + "&endDate=" + endDate +
             "&DurumLogo=" + "1" + "&IsDeleted=false", {
             headers: {
                 Authorization: "Bearer " + userToken
@@ -93,22 +129,22 @@ export default function ArizaTalepScreen({ props, route }: any) {
     }
 
     useEffect(() => {
+        getArizaTalepListAll()
+    }, [])
+
+    useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
                 <>
-                    {
-                        !filterMenu ?
-                            <TouchableOpacity onPress={() => setFilterMenu(true)}>
-                                <Image
-                                    source={require("../../assets/images/filterIcon1.png")}
-                                    style={{
-                                        width: 30,
-                                        height: 30
-                                    }}
-                                />
-                            </TouchableOpacity>
-                            : null
-                    }
+                    <TouchableOpacity onPress={() => setFilterMenu(!filterMenu)}>
+                        <Image
+                            source={require("../../assets/images/filterIcon1.png")}
+                            style={{
+                                width: 30,
+                                height: 30
+                            }}
+                        />
+                    </TouchableOpacity>
                 </>
             ),
         });
@@ -134,14 +170,18 @@ export default function ArizaTalepScreen({ props, route }: any) {
                             </ViewColCard>
                             <ViewColCard>
                                 <Text style={[styles.textBold, { paddingTop: 4 }]}>Tarihe Göre Arama Yap</Text>
-                                <ButtonPrimary text={`Başlangıç Tarihi ${"\t"} ${begDate != undefined ? begDate?.toLocaleDateString("tr-TR") : ""}`} onPress={showDatePickerBegDate} />
+                                <ButtonPrimary
+                                    text={`Başlangıç Tarihi ${"\t"}`}
+                                    onPress={showDatePickerBegDate} />
                                 <DateTimePickerModal
                                     isVisible={pickerShowBegDate}
                                     mode="date"
                                     onConfirm={handleBegDate}
                                     onCancel={hideDatePickerBegDate}
                                 />
-                                <ButtonPrimary text={`Bitiş Tarihi${"\t"} ${endDate != undefined ? endDate?.toLocaleDateString("tr-TR") : ""}`} onPress={showDatePickerEndDate} />
+                                <ButtonPrimary
+                                    text={`Bitiş Tarihi`}
+                                    onPress={showDatePickerEndDate} />
                                 <DateTimePickerModal
                                     isVisible={pickerShowEndDate}
                                     mode="date"
