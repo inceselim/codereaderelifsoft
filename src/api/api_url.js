@@ -2,7 +2,7 @@ export const API_URL = {
     BASE_URL: "https://app.elifsoft.com.tr",
     DEV_URL: "https://dev.elifsoft.com.tr",
     REFRESH_TOKEN_URL: "/api/MobileAccountApi/Refresh",
-    LOGIN_URL: "/api/MobileAccountApi/Login",
+    LOGIN_URL: "/api/AccountApi/Login",
     ARIZA_LIST: "/api/ArizaApi/ArizaList",
     ARIZA_ALL_LIST: "/api/ArizaApi/ArizaAllListMobil",
     ARIZA_LIST_KAPI_NO: "/api/ArizaApi/ArizaListMobil",
