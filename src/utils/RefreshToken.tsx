@@ -21,20 +21,28 @@ async function RefreshToken() {
     // REFRESH TOKEN ALMA SURESI
     //
     if (time < 3 * 24 * 60 * 60 * 1000) {
-        await axios({
-            url: API_URL.BASE_URL + API_URL.REFRESH_TOKEN_URL + '?token=' + userToken,
-            method: 'post',
-            maxBodyLength: Infinity,
-        })
-            .then((response: any) => {
+        console.log("")
+        console.log("REFRESH TOKEN ALMA SURESI")
+        console.log("ss")
+        // await axios({
+        //     url: API_URL.BASE_URL + API_URL.REFRESH_TOKEN_URL + '?token=' + userToken,
+        //     method: 'post',
+        //     maxBodyLength: Infinity,
+        // })
+        fetch(API_URL.BASE_URL + API_URL.LOGIN_URL + '?token=' + userToken,
+            {
+                method: "POST",
+            })
+            .then(response => response.json())
+            .then(async (json: any) => {
                 // HandleNotification({
                 //   data: { title: 'ElifSoft', message: 'Yeni Token Alındı' },
                 // });
-                AsyncStorage.setItem('@token', response.data.token);
-                AsyncStorage.setItem('@tokenExpires', response.data.expires);
+                AsyncStorage.setItem('@token', json?.token);
+                AsyncStorage.setItem('@tokenExpires', json?.expires);
                 // AsyncStorage.setItem('@companies', response.data.companies);
                 // AsyncStorage.setItem('@tokenUserName', response.data.displayName);
-                dispatch(rememberUser(response.data));
+                dispatch(rememberUser(json));
             })
             .catch(async (err: any) => {
                 await AsyncStorage.removeItem('@token');

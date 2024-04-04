@@ -55,6 +55,7 @@ export default function HomeScreen() {
                 await AsyncStorage.removeItem("@tokenUserName")
                 await AsyncStorage.removeItem("@mobileMenu")
             }
+            logout()
         }
     }, [])
     return (

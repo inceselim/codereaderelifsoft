@@ -124,12 +124,12 @@ export default function LoginScreen() {
         })
         .then(response => response.json())
         .then(async json => {
-          console.log("")
-          console.log("")
-          console.log("")
-          console.log("JSON: ", json)
-          console.log("")
-          console.log("")
+          // console.log("")
+          // console.log("")
+          // console.log("")
+          // console.log("JSON: ", json)
+          // console.log("")
+          // console.log("")
           setData(json)
           if (remember === true) {
             await AsyncStorage.setItem('@token', json?.token)
