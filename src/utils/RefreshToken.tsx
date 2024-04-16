@@ -25,11 +25,11 @@ async function RefreshToken() {
         console.log("REFRESH TOKEN ALMA SURESI")
         console.log("ss")
         // await axios({
-        //     url: API_URL.BASE_URL + API_URL.REFRESH_TOKEN_URL + '?token=' + userToken,
+        //     url: API_URL.DEV_URL + API_URL.REFRESH_TOKEN_URL + '?token=' + userToken,
         //     method: 'post',
         //     maxBodyLength: Infinity,
         // })
-        fetch(API_URL.BASE_URL + API_URL.LOGIN_URL + '?token=' + userToken,
+        fetch(API_URL.DEV_URL + API_URL.LOGIN_URL + '?token=' + userToken,
             {
                 method: "POST",
             })

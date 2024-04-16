@@ -23,6 +23,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Eye, EyeSlash } from 'iconsax-react-native';
 import MainInput from '../../components/MainInput/MainInput';
+import fetch from 'isomorphic-fetch';
 
 
 
@@ -30,8 +31,8 @@ export default function LoginScreen() {
   const dispatch: any = useDispatch();
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false);
-  const [userName, setUserName] = useState('selim.ince');
-  const [userPass, setUserPass] = useState('Selim91.');
+  const [userName, setUserName] = useState('abdurrahman.demir');
+  const [userPass, setUserPass] = useState('Abdurrahman2023**');
   const [deviceId, setDeviceId] = useState('');
 
   const [remember, setRemember] = useState(true);
@@ -49,102 +50,41 @@ export default function LoginScreen() {
   const handleUserLogin = async ({ userName, userPass, deviceId = "", platformName = "" }: any) => {
     if (userName !== '' && userPass !== '') {
       setLoading(true)
-      console.log(userName, userPass)
-      console.log(userName, userPass)
-      console.log(userName, userPass)
-      console.log(userName, userPass)
       const formData = new FormData();
       formData.append('username', userName);
       formData.append('password', userPass);
-      // fetch(API_URL.DEV_URL + API_URL.LOGIN_URL, {
-      //   method: 'post',
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      //   body: formData
-      // })
+      await fetch("https://jsonplaceholder.typicode.com/todos/1")
+
       await axios
         .post(
           API_URL.DEV_URL + API_URL.LOGIN_URL,
           formData,
-          // {
-          //   username: userName,
-          //   password: userPass,
-          //   deviceId: "deviceId",
-          //   mobileType: "platformName",
-          // },
           {
             headers: {
               "Accept": 'application/json',
-              'Content-Type': "multipart/form-data"
+              'Content-Type': "multipart/form-data",
             },
           })
-        .then((result: any) => {
-          console.log("RESULT: ", result)
-          // setData(result)
-          // if (remember === true) {
-          //   await AsyncStorage.setItem('@token', result.data.token).catch((e) => console.log("token", e))
-          //   await AsyncStorage.setItem('@tokenExpires', result.data.expires);
-          //   await AsyncStorage.setItem(
-          //     '@tokenUserName',
-          //     result.data.displayName,
-          //   );
-          //   await AsyncStorage.setItem('@companies', JSON.stringify(result.data.companies));
-          //   // await AsyncStorage.setItem('@mobileMenu', JSON.stringify(result.data.mobileMenu));
-          //   // await AsyncStorage.setItem('@appMenuYeni', JSON.stringify(result.data.appMenuYeni));
-          // }
-          // await AsyncStorage.setItem('@userName', userName);
-          // dispatch(loginUser(result?.data));
-          // dispatch(loginAppCompanies(result?.data?.companies))
-          // console.log(result.data.companies)
-        })
-        .catch((err: any) => {
-          console.log("LOGIN ERR: ", err)
-          console.log("LOGIN ERR: ", err.response)
-          Alert.alert("Hata Oluştu", err)
-        })
-        .finally(() => setLoading(false))
-
-      // const result = await response.json()
-    }
-    else {
-      Alert.alert('Uyarı', 'Tüm alanları doldurunuz...');
-    }
-  }
-  const denemeIstek = async () => {
-    const formData = new FormData();
-    formData.append("username", userName)
-    formData.append("password", userPass)
-    setLoading(true);
-    if (userName !== '' && userPass !== '') {
-      fetch(API_URL.BASE_URL + API_URL.LOGIN_URL,
-        {
-          method: "POST",
-          body: formData
-        })
-        .then(response => response.json())
-        .then(async json => {
-          // console.log("")
-          // console.log("")
-          // console.log("")
-          // console.log("JSON: ", json)
-          // console.log("")
-          // console.log("")
-          setData(json)
+        .then(async (result: any) => {
+          setData(result)
           if (remember === true) {
-            await AsyncStorage.setItem('@token', json?.token)
-            await AsyncStorage.setItem('@tokenExpires', json?.expires);
+            await AsyncStorage.setItem('@token', result.data.token).catch((e) => console.log("token", e))
+            await AsyncStorage.setItem('@tokenExpires', result.data.expires);
             await AsyncStorage.setItem(
               '@tokenUserName',
-              json.displayName,
+              result.data.displayName,
             );
-            await AsyncStorage.setItem('@companies', JSON.stringify(json?.companies));
-            await AsyncStorage.setItem('@mobileMenu', JSON.stringify(json?.mobileMenu));
-            await AsyncStorage.setItem('@appMenuYeni', JSON.stringify(json?.appMenuYeni));
+            await AsyncStorage.setItem('@companies', JSON.stringify(result.data.companies));
+            await AsyncStorage.setItem('@mobileMenu', JSON.stringify(result.data.mobileMenu));
+            await AsyncStorage.setItem('@appMenuYeni', JSON.stringify(result.data.appMenuYeni));
           }
           await AsyncStorage.setItem('@userName', userName);
-          dispatch(loginUser(json));
-          dispatch(loginAppCompanies(json?.companies))
+          dispatch(loginUser(result?.data));
+          dispatch(loginAppCompanies(result?.data?.companies))
+          console.log(result.data.companies)
+        })
+        .catch((err: any) => {
+          console.log("HATA ERROR", err)
         })
         .finally(() => setLoading(false))
     }
@@ -153,20 +93,21 @@ export default function LoginScreen() {
     }
   }
 
-  //
+
+  
   // Daha önceden giriş yapmış kullanıcı adının getirilmesi
-  //
-  // async function getOldUser() {
-  //   let oldUser: any = await AsyncStorage.getItem('@userName');
-  //   console.log("oldUser", oldUser)
-  //   console.log(oldUser);
-  //   if (oldUser !== '') {
-  //     setUserName(oldUser);
-  //   }
-  // }
-  // useEffect(() => {
-  //   getOldUser()
-  // }, [])
+
+  async function getOldUser() {
+    let oldUser: any = await AsyncStorage.getItem('@userName');
+    console.log("oldUser", oldUser)
+    console.log(oldUser);
+    if (oldUser !== '') {
+      setUserName(oldUser);
+    }
+  }
+  useEffect(() => {
+    getOldUser()
+  }, [])
   // //-----------------------------------------------------
   return (
     <SafeAreaView style={styles.container}>
@@ -208,6 +149,7 @@ export default function LoginScreen() {
               <TextInput style={styles.textInput}
                 placeholder='Kullanıcı Adı Giriniz'
                 value={userName}
+                autoCapitalize='none'
                 onChangeText={setUserName}
                 placeholderTextColor={"#666"} />
               <MainInput value={userPass} setValue={setUserPass} placeholder={"Parola Giriniz"}
@@ -244,8 +186,6 @@ export default function LoginScreen() {
 
               <ButtonPrimary onPress={() => handleUserLogin({ userName, userPass, })}
                 text={"Giriş Yap"} />
-              <ButtonPrimary onPress={() => denemeIstek()}
-                text={"Giriş Yap111"} />
             </View>
           </View>
       }
