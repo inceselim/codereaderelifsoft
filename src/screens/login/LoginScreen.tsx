@@ -57,7 +57,7 @@ export default function LoginScreen() {
 
       await axios
         .post(
-          API_URL.BASE_URL + API_URL.LOGIN_URL,
+          API_URL.DEV_URL + API_URL.LOGIN_URL,
           formData,
           {
             headers: {
