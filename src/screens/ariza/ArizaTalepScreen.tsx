@@ -22,12 +22,14 @@ export default function ArizaTalepScreen({ props, route }: any) {
     const [loading, setLoading] = useState(false);
     const [filterMenu, setFilterMenu] = useState(false);
     const [data, setData] = useState([]);
+    const [filterData, setFilterData] = useState([]);
     const [pickerShowBegDate, setPickerShowBegDate] = useState(false);
     const [pickerShowEndDate, setPickerShowEndDate] = useState(false);
     const [begDate, setBegDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
     const [searchDoorText, setSearchDoorText] = useState("");
     const [loadingSearchDoor, setLoadingSearchDoor] = useState(false);
+    const [searchFisText, setSearchFisText] = useState("");
 
     const company = route?.params?.company
 
@@ -78,8 +80,12 @@ export default function ArizaTalepScreen({ props, route }: any) {
             }
         })
             .then((response: any) => {
-                console.log("response", response?.data)
-                setData(response?.data);
+                // console.log("response", response?.data)
+                let data: any = response.data;
+                data = data.sort()
+                data = data.reverse()
+                setData(data)
+                // setData(response?.data);
             })
             .catch((error: any) => console.log("ERROR", error))
             .finally(() => {
@@ -99,7 +105,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
             }
         })
             .then((response: any) => {
-                console.log("response", response?.data)
+                // console.log("response", response?.data)
                 setData(response?.data);
             })
             .catch((error: any) => console.log("ERROR", error))
@@ -117,7 +123,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
             }
         })
             .then((response: any) => {
-                console.log("response", response?.data)
+                // console.log("response", response?.data)
                 setData(response?.data);
             })
             .catch((error: any) => console.log("ERROR", error))
@@ -131,6 +137,20 @@ export default function ArizaTalepScreen({ props, route }: any) {
     useEffect(() => {
         getArizaTalepListAll()
     }, [])
+
+    useEffect(() => {
+        if (searchFisText.length > 0) {
+            let temp = data.filter((filter: any) => {
+                console.log(filter)
+                return (
+                    filter?.FisNo?.toLocaleLowerCase('tr').includes(
+                        searchFisText.toLocaleLowerCase(),
+                    )
+                );
+            });
+            setFilterData(temp);
+        }
+    }, [searchFisText])
 
     useEffect(() => {
         navigation.setOptions({
@@ -196,7 +216,17 @@ export default function ArizaTalepScreen({ props, route }: any) {
                         <View style={styles.content}>
                             <FlatList
                                 ListEmptyComponent={<NoData />}
-                                data={data}
+                                ListHeaderComponent={
+                                    <>
+                                        <TextInput style={styles.textInput}
+                                            value={searchFisText}
+                                            onChangeText={setSearchFisText}
+                                            placeholder="Fiş No Giriniz..."
+                                            placeholderTextColor={colors.gray}
+                                        />
+                                    </>
+                                }
+                                data={filterData.length > 0 ? filterData : data}
                                 renderItem={({ item }: any) => {
                                     return (
                                         <CardView>
