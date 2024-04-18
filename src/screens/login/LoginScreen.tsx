@@ -94,17 +94,17 @@ export default function LoginScreen() {
   }
 
 
-  console.log(userName)
-  console.log(userPass)
   // Daha önceden giriş yapmış kullanıcı adının getirilmesi
-
   async function getOldUser() {
-    let oldUser: any = await AsyncStorage.getItem('@userName');
-    console.log("oldUser", oldUser)
-    console.log(oldUser);
-    if (oldUser !== '' || oldUser !== undefined || oldUser == null) {
-      setUserName(oldUser);
-    }
+    await AsyncStorage.getItem('@userName')
+      .then((e: any) => {
+        if (e == null) {
+          console.log("e is null")
+        }
+        else {
+          setUserName(e)
+        }
+      })
   }
   useEffect(() => {
     getOldUser()
@@ -186,7 +186,7 @@ export default function LoginScreen() {
               </TouchableOpacity>
 
               <ButtonPrimary onPress={() => handleUserLogin({ userName, userPass, })}
-                text={"Giriş Yap"} 
+                text={"Giriş Yap"}
                 disabled={((userName == "") || (userName == null) || (userPass == null) || (userPass == "")) ? true : false} />
             </View>
           </View>
