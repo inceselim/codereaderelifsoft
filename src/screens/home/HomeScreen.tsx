@@ -40,17 +40,17 @@ export default function HomeScreen() {
     }
     useEffect(() => {
         // console.log(useSelector((state: any) => state.auth))
-        // if (useSelector((state: any) => state.auth.userName) == undefined) {
-        //     console.log("Kullanıcı bulunamadı ÇIKIŞ...")
-        //     const logout = async () => {
-        //         dispatch(logoutUser())
-        //         await AsyncStorage.removeItem("@token")
-        //         await AsyncStorage.removeItem("@tokenExpires")
-        //         await AsyncStorage.removeItem("@tokenUserName")
-        //         await AsyncStorage.removeItem("@mobileMenu")
-        //     }
-        //     logout()
-        // }
+        if (userName == undefined) {
+            console.log("Kullanıcı bulunamadı ÇIKIŞ...")
+            const logout = async () => {
+                dispatch(logoutUser())
+                await AsyncStorage.removeItem("@token")
+                await AsyncStorage.removeItem("@tokenExpires")
+                await AsyncStorage.removeItem("@tokenUserName")
+                await AsyncStorage.removeItem("@mobileMenu")
+            }
+            logout()
+        }
         if (companies?.length > 0) {
             const setCompany = async () => {
                 console.log(companies[0])
