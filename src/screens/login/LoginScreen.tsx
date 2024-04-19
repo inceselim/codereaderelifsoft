@@ -53,11 +53,11 @@ export default function LoginScreen() {
       const formData = new FormData();
       formData.append('username', userName);
       formData.append('password', userPass);
-      await fetch("https://jsonplaceholder.typicode.com/todos/1")
+      // await fetch("https://jsonplaceholder.typicode.com/todos/1")
 
       await axios
         .post(
-          API_URL.DEV_URL + API_URL.LOGIN_URL,
+          API_URL.BASE_URL + API_URL.LOGIN_URL,
           formData,
           {
             headers: {

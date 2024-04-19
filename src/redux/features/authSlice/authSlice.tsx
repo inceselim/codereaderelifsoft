@@ -59,16 +59,17 @@ const authSlice = createSlice({
         loginAppCompanies: (state, { payload }) => {
             state.companies = payload
         },
-        rememberUser: (state, { payload }) => {
-            state.isLogin = true
-            state.userToken = payload.userToken
-            state.tokenExpires = payload.tokenExpires
-        },
         rememberUserName: (state, { payload }) => {
             state.userName = payload.userName
         },
+        rememberUserToken: (state, { payload }) => {
+            state.userToken = payload.userToken
+        },
         rememberUserId: (state, { payload }) => {
             state.userId = payload
+        },
+        rememberUserTokenExpires: (state, { payload }) => {
+            state.tokenExpires = payload.tokenExpires
         },
         logoutUser: (state) => {
             state.isLogin = false
@@ -86,9 +87,10 @@ export const {
     loginAppCompanies,
     notFetchingUser,
     isFetchingUser,
-    rememberUser,
     rememberUserName,
+    rememberUserToken,
     rememberUserId,
+    rememberUserTokenExpires,
     logoutUser, } = authSlice.actions
 
 export const selectAuth = (state: any) => state.auth

@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, Image, StatusBar } from 'react-native';
 import { styles } from '../../styles/styles';
 import GetUserData from '../../utils/GetUserData';
 import RefreshToken from '../../utils/RefreshToken';
 import style from './style';
-import { colors } from '../../styles/colors';
 
 export default function SplashScreen() {
     GetUserData()

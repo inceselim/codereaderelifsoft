@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, Alert, TextInput, ScrollView, TouchableOpacity, Platform, Image } from 'react-native';
+import { View, Text, SafeAreaView, Alert, TextInput, ScrollView, TouchableOpacity, Platform, Image, Button } from 'react-native';
 import { styles } from '../../styles/styles';
 import { colors } from '../../styles/colors';
 import Tts from 'react-native-tts';
@@ -10,11 +10,14 @@ import { logoutUser } from '../../redux/features/authSlice/authSlice';
 import { ArrowDown2, ArrowRight2 } from 'iconsax-react-native';
 import CardView from '../../components/CardView';
 import { companySelect } from '../../redux/features/companySlice/companySlice';
+import axios from 'axios';
+import { API_URL } from '../../api/api_url';
 
 export default function HomeScreen() {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
     const userName = useSelector((state: any) => state.auth.userName)
+    const userToken = useSelector((state: any) => state.auth.userToken)
     const companies: any[] = useSelector((state: any) => state.auth.companies)
 
     const [visibleCompanies, setVisibleCompanies] = useState(false);
@@ -60,6 +63,7 @@ export default function HomeScreen() {
             setCompany()
         }
         else {
+            console.log("COMPANY BULUNAMADI CIKIS YAPILIYOR")
             const logout = async () => {
                 dispatch(logoutUser())
                 await AsyncStorage.removeItem("@token")

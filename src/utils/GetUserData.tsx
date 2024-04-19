@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { isFetchingUser, loginAppCompanies, logoutUser, notFetchingUser, rememberUser, rememberUserName } from '../redux/features/authSlice/authSlice';
+import { isFetchingUser, loginAppCompanies, logoutUser, notFetchingUser, rememberUserName, rememberUserToken, rememberUserTokenExpires } from '../redux/features/authSlice/authSlice';
 
 
 function GetUserData() {
@@ -10,8 +10,18 @@ function GetUserData() {
 
     const getUserData = async () => {
         dispatch(isFetchingUser())
-        const token = await AsyncStorage.getItem("@token")
-        const tokenExpires = await AsyncStorage.getItem("@tokenExpires")
+        await AsyncStorage.getItem("@token")
+            .then((response: any) => {
+                dispatch(rememberUserToken({ userToken: response }))
+            })
+            .catch(() => dispatch(logoutUser()))
+
+        await AsyncStorage.getItem("@tokenExpires")
+            .then((response: any) => {
+                dispatch(rememberUserTokenExpires({ tokenExpires: response }))
+            })
+            .catch(() => dispatch(logoutUser()))
+
         await AsyncStorage.getItem("@userName")
             .then(async (response: any) => {
                 console.log("")
@@ -26,18 +36,21 @@ function GetUserData() {
                 console.log("")
                 console.log("KULLANICI ASYNC VERİ: ", response)
                 setUserName(response)
-                await dispatch(rememberUserName({ userName: response }))
+                dispatch(rememberUserName({ userName: response }))
             })
+            .catch(() => dispatch(logoutUser()))
 
-        if (token || tokenExpires) {
-            dispatch(rememberUser({ userToken: token, tokenExpires: tokenExpires }))
-            await AsyncStorage.getItem("@companies").then((res: any) => {
+        await AsyncStorage.getItem("@companies")
+            .then((res: any) => {
+                console.log("companies")
+                console.log("companies")
+                console.log("companies", res)
+                console.log("companies")
+                console.log("companies")
                 dispatch(loginAppCompanies(JSON.parse(res)))
             })
-        }
-        else {
-            dispatch(logoutUser())
-        }
+            .catch(() => dispatch(logoutUser()))
+
         setTimeout(() => {
             dispatch(notFetchingUser())
         }, 2.5 * 1000);
