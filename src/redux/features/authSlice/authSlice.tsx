@@ -61,9 +61,11 @@ const authSlice = createSlice({
         },
         rememberUser: (state, { payload }) => {
             state.isLogin = true
-            state.userToken = payload.token
+            state.userToken = payload.userToken
             state.tokenExpires = payload.tokenExpires
-            state.userName = payload.displayName
+        },
+        rememberUserName: (state, { payload }) => {
+            state.userName = payload.userName
         },
         rememberUserId: (state, { payload }) => {
             state.userId = payload
@@ -85,6 +87,7 @@ export const {
     notFetchingUser,
     isFetchingUser,
     rememberUser,
+    rememberUserName,
     rememberUserId,
     logoutUser, } = authSlice.actions
 

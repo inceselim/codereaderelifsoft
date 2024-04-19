@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { isFetchingUser, loginAppCompanies, logoutUser, notFetchingUser, rememberUser } from '../redux/features/authSlice/authSlice';
+import { isFetchingUser, loginAppCompanies, logoutUser, notFetchingUser, rememberUser, rememberUserName } from '../redux/features/authSlice/authSlice';
 
 
 function GetUserData() {
@@ -13,12 +13,24 @@ function GetUserData() {
         const token = await AsyncStorage.getItem("@token")
         const tokenExpires = await AsyncStorage.getItem("@tokenExpires")
         await AsyncStorage.getItem("@userName")
-            .then((response: any) => {
+            .then(async (response: any) => {
+                console.log("")
+                console.log("")
+                console.log("")
+                console.log("")
+                console.log("")
+                console.log("")
+                console.log("")
+                console.log("")
+                console.log("")
+                console.log("")
+                console.log("KULLANICI ASYNC VERİ: ", response)
                 setUserName(response)
+                await dispatch(rememberUserName({ userName: response }))
             })
 
-        if (token || tokenExpires || userName) {
-            dispatch(rememberUser({ token, tokenExpires, userName }))
+        if (token || tokenExpires) {
+            await dispatch(rememberUser({ userToken: token, tokenExpires: tokenExpires }))
             await AsyncStorage.getItem("@companies").then((res: any) => {
                 dispatch(loginAppCompanies(JSON.parse(res)))
             })
