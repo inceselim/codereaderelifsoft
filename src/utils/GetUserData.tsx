@@ -30,7 +30,7 @@ function GetUserData() {
             })
 
         if (token || tokenExpires) {
-            await dispatch(rememberUser({ userToken: token, tokenExpires: tokenExpires }))
+            dispatch(rememberUser({ userToken: token, tokenExpires: tokenExpires }))
             await AsyncStorage.getItem("@companies").then((res: any) => {
                 dispatch(loginAppCompanies(JSON.parse(res)))
             })
