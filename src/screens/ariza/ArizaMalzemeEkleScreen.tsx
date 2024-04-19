@@ -46,7 +46,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       }
     })
       .then((response: any) => {
-        console.log("MALZEME data: ", response.data);
+        // console.log("MALZEME data: ", response.data);
         setDataMalzeme(response.data)
         console.log("dataMalzeme", dataMalzeme)
       })
@@ -65,7 +65,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       }
     })
       .then((response: any) => {
-        console.log(response.data);
+        // console.log(response.data);
         setDataTamirci(response.data);
       })
       .catch((error: any) => {
@@ -145,11 +145,27 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       })
       .finally(() => setLoadingGonder(false))
   }
-  console.log("object")
+
   useEffect(() => {
     getUserId()
     getTamirciList()
   }, [])
+
+  const [fetchState, setFetchState] = useState(false)
+  useEffect(() => {
+    console.log("BARKOD: ", barkod)
+    if (barkod != "") {
+      setTimeout(() => {
+        // setFetchState(true)
+        getMalzeme()
+      }, 0.7 * 1000);
+    }
+  }, [barkod])
+  // useEffect(() => {
+  //   if (barkod != "") {
+  //     getMalzeme()
+  //   }
+  // }, [fetchState])
   return (
     <SafeAreaView style={styles.container}>
       {
@@ -173,12 +189,15 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
                   placeholder='Barkod & Malzeme Adı Giriniz...'
                   placeholderTextColor={colors.gray}
                   value={barkod}
+                  enablesReturnKeyAutomatically
                   onChangeText={setBarkod}
                   autoFocus
                 />
                 <ButtonPrimary text={"Malzeme Ara"} onPress={() => getMalzeme()} disabled={barkod != "" ? false : true} />
-                {
-                  dataMalzeme?.map((item: any) => {
+                <ButtonPrimary text={"Temizle"} onPress={() => setBarkod("")} disabled={barkod != "" ? false : true} />
+
+                <FlatList data={dataMalzeme}
+                  renderItem={(item: any) => {
                     return (
                       <View key={item?.Code}>
                         <Text style={styles.textBold}>{item?.Code}</Text>
@@ -189,8 +208,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
                         <Text style={styles.textNormal}>{item?.Name}</Text>
                       </View>
                     )
-                  })
-                }
+                  }} />
               </CardView>
 
 

@@ -84,12 +84,14 @@ export const styles = StyleSheet.create({
     },
     viewTwoRows: {
         flexDirection: "row",
+        flexWrap: "wrap",
         paddingVertical: 4
     },
     viewTwoRowJustify: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        flexWrap: "wrap",
         paddingVertical: 4
     },
 })
