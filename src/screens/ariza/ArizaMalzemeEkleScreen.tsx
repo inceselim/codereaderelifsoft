@@ -158,7 +158,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       setTimeout(() => {
         // setFetchState(true)
         getMalzeme()
-      }, 0.7 * 1000);
+      }, 0.8 * 1000);
     }
   }, [barkod])
   // useEffect(() => {
