@@ -14,6 +14,7 @@ import axios from 'axios';
 import { API_URL } from '../../api/api_url';
 import LoadingCard from '../../components/LoadingCard/LoadingCard';
 import { styleModal } from '../../styles/styleModal';
+import { Camera, CameraType } from 'react-native-camera-kit';
 
 export default function BarkodListeleScreen({ props, route }: any) {
     const navigation: any = useNavigation();
@@ -26,7 +27,9 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const ProjectCode = route.params.ProjectCode
     const StatusSayim = route.params.StatusSayim
 
+    const [barcodeStatus, setBarcodeStatus] = useState(true);
     const [isOto, setIsOto] = useState(true);
+    const [isCamera, setIsCamera] = useState(true);
 
     const [isState, setIsState] = useState(false);
     const [productSearch, setProductSearch] = useState<any[]>([]);
@@ -57,7 +60,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
         setLoading(true);
         console.log("ID: ", Id)
         console.log("selected COMPANY: ", selectedCompany.Id)
-        await axios.get(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI +
+        await axios.get(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI +
             "?sayimId=" + Id +
             "&companyId=" + selectedCompany?.Id, {
             headers: {
@@ -73,7 +76,10 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 // Alert.alert("Uyarı","Eklenmiş Malzeme Bulunamadı...")
                 setOkutulanlar([])
             })
-            .finally(() => setLoading(false))
+            .finally(() => {
+                setLoading(false)
+                setBarcodeStatus(true)
+            })
     }
 
     const handleDelete = async ({ key }: any) => {
@@ -90,7 +96,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
         const handleDelete = async ({ key }: any) => {
             setLoadingDelete(true);
-            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?key=" + key,
+            await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?key=" + key,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken
@@ -144,7 +150,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
         const handleDeleteAll = async () => {
             setLoadingDelete(true);
 
-            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE_ALL + "?sayimId=" + Id,
+            await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE_ALL + "?sayimId=" + Id,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -202,7 +208,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             formData.append("Id", Id)
             formData.append("email", email)
             formData.append("companyId", selectedCompany.Id)
-            await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_SEND_MAIL, formData,
+            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_SEND_MAIL, formData,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -262,7 +268,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             formData.append("key", key)
             formData.append("values", JSON.stringify({ "ItemAmount": productAmount }))
             console.log(formData)
-            await axios.put(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_AMOUNT_UPDATE, formData,
+            await axios.put(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_AMOUNT_UPDATE, formData,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -309,7 +315,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
         console.log("barcodeText", barcodeText)
         if (barcodeTextState == false && barcodeText != "") {
             setLoadingSearch(true);
-            await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
+            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
                 "?companyId=" + selectedCompany?.Id + "&name=" + barcodeText + "&garajNo=" + ProjectCode, {}, {
                 headers: {
                     "Authorization": "Bearer " + userToken
@@ -336,7 +342,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
     }
     const handleSearchProductManuel = async () => {
         setLoadingSearchManuel(true);
-        await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
+        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
             "?companyId=" + selectedCompany?.Id + "&name=" + barcodeTextManuel + "&garajNo=" + ProjectCode, {}, {
             headers: {
                 "Authorization": "Bearer " + userToken
@@ -375,7 +381,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
         }))
         if (ItemId != "" || ItemId != 0) {
-            await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
+            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
                 headers: {
                     "Authorization": "Bearer " + userToken,
                     "Content-Type": "multipart/form-data"
@@ -435,7 +441,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
         }))
         if (ItemId != "" || ItemId != 0) {
-            await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
+            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
                 headers: {
                     "Authorization": "Bearer " + userToken,
                     "Content-Type": "multipart/form-data"
@@ -590,7 +596,28 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                 <Switch value={isOto} onValueChange={() => setIsOto(!isOto)} />
                             </View>
                         </CardView>
-
+                        <CardView>
+                            <View style={styles.viewTwoRowJustify}>
+                                <Text style={styles.textBold}>{isCamera ? "Kamera Açık" : "Elle Giriş Açık"}</Text>
+                                <Switch value={isCamera} onValueChange={() => setIsCamera(!isCamera)} />
+                            </View>
+                        </CardView>
+                        {
+                            isCamera ?
+                                <Camera
+                                    // Barcode props
+                                    scanBarcode={barcodeStatus}
+                                    onReadCode={(event: any) => {
+                                        Alert.alert("BARKOD: ",event?.nativeEvent?.codeStringValue)
+                                        console.log("EVENT: ", event?.nativeEvent?.codeStringValue)
+                                        setBarcodeStatus(false);
+                                        setBarcodeText(event?.nativeEvent?.codeStringValue)
+                                    }}
+                                    showFrame={true} // (default false) optional, show frame with transparent layer (qr code or barcode will be read on this area ONLY), start animation for scanner, that stops when a code has been found. Frame always at center of the screen
+                                    laserColor='red' // (default red) optional, color of laser in scanner frame
+                                    frameColor='white' // (default white) optional, color of border of scanner frame
+                                /> : null
+                        }
                         {
                             segment == 0 ?
                                 <ScrollView>

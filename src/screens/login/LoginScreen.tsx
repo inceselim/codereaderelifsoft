@@ -23,9 +23,6 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Eye, EyeSlash } from 'iconsax-react-native';
 import MainInput from '../../components/MainInput/MainInput';
-import fetch from 'isomorphic-fetch';
-
-
 
 export default function LoginScreen() {
   const dispatch: any = useDispatch();
@@ -47,7 +44,7 @@ export default function LoginScreen() {
   //
   // Show-Hide Password
   //
-  const handleUserLogin = async ({ userName, userPass, deviceId = "", platformName = "" }: any) => {
+  const handleUserLogin = async ({ userName, userPass }: any) => {
     if (userName !== '' && userPass !== '') {
       setLoading(true)
       const formData = new FormData();
@@ -57,7 +54,7 @@ export default function LoginScreen() {
 
       await axios
         .post(
-          API_URL.BASE_URL + API_URL.LOGIN_URL,
+          API_URL.DEV_URL + API_URL.LOGIN_URL,
           formData,
           {
             headers: {
@@ -81,6 +78,7 @@ export default function LoginScreen() {
           await AsyncStorage.setItem('@userName', userName);
           dispatch(loginUser(result?.data));
           dispatch(loginAppCompanies(result?.data?.companies))
+          console.log("Login cevap",result.data)
           console.log(result.data.companies)
         })
         .catch((err: any) => {
