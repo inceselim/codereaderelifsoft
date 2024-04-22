@@ -78,7 +78,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             })
             .finally(() => {
                 setLoading(false)
-                setBarcodeStatus(true)
+                // setBarcodeStatus(true)
             })
     }
 
@@ -596,33 +596,11 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                 <Switch value={isOto} onValueChange={() => setIsOto(!isOto)} />
                             </View>
                         </CardView>
-                        <CardView>
-                            <View style={styles.viewTwoRowJustify}>
-                                <Text style={styles.textBold}>{isCamera ? "Kamera Açık" : "Elle Giriş Açık"}</Text>
-                                <Switch value={isCamera} onValueChange={() => setIsCamera(!isCamera)} />
-                            </View>
-                        </CardView>
-                        {
-                            isCamera ?
-                                <Camera
-                                    // Barcode props
-                                    scanBarcode={barcodeStatus}
-                                    onReadCode={(event: any) => {
-                                        Alert.alert("BARKOD: ",event?.nativeEvent?.codeStringValue)
-                                        console.log("EVENT: ", event?.nativeEvent?.codeStringValue)
-                                        setBarcodeStatus(false);
-                                        setBarcodeText(event?.nativeEvent?.codeStringValue)
-                                    }}
-                                    showFrame={true} // (default false) optional, show frame with transparent layer (qr code or barcode will be read on this area ONLY), start animation for scanner, that stops when a code has been found. Frame always at center of the screen
-                                    laserColor='red' // (default red) optional, color of laser in scanner frame
-                                    frameColor='white' // (default white) optional, color of border of scanner frame
-                                /> : null
-                        }
                         {
                             segment == 0 ?
                                 <ScrollView>
                                     <View>
-                                        {
+                                        {/* {
                                             isOto == true ?
                                                 <CardView>
                                                     <TextInput
@@ -722,6 +700,28 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                         })}
                                                         disabled={productSearchManuel.length != 0 && barcodeMiktarManuel != "" ? false : true} />
                                                 </CardView>
+                                        } */}
+                                        <CardView>
+                                            <View style={styles.viewTwoRowJustify}>
+                                                <Text style={styles.textBold}>{isCamera ? "Kamera Açık" : "Elle Giriş Açık"}</Text>
+                                                <Switch value={isCamera} onValueChange={() => setIsCamera(!isCamera)} />
+                                            </View>
+                                        </CardView>
+                                        {
+                                            isCamera ?
+                                                <Camera
+                                                    style={{ height: 300 }}
+                                                    scanBarcode={isCamera}
+                                                    onReadCode={(event: any) => {
+                                                        // Alert.alert("BARKOD: ", event?.nativeEvent?.codeStringValue)
+                                                        console.log("EVENT: ", event?.nativeEvent?.codeStringValue)
+                                                        setBarcodeStatus(false);
+                                                        setBarcodeText(event?.nativeEvent?.codeStringValue)
+                                                    }}
+                                                    showFrame={true} // (default false) optional, show frame with transparent layer (qr code or barcode will be read on this area ONLY), start animation for scanner, that stops when a code has been found. Frame always at center of the screen
+                                                    laserColor='red' // (default red) optional, color of laser in scanner frame
+                                                    frameColor='white' // (default white) optional, color of border of scanner frame
+                                                /> : null
                                         }
                                     </View>
                                 </ScrollView>
