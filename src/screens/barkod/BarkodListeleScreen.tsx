@@ -429,6 +429,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                     setBarcodeText("")
                     setBarcodeTextState(true)
                     setFetchState(false)
+                    setBarcodeTextManuel("")
                 })
         }
     }
