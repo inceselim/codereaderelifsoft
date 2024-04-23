@@ -271,7 +271,6 @@ export default function BarkodScreen({ props, route }: any) {
                     transparent={true}
                     visible={modalVisible}
                     onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
                         setModalVisible(!modalVisible);
                     }}>
                     <View style={styleModal.centeredView}>
