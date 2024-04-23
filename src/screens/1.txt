@@ -9,3 +9,6 @@ https://app.elifsoft.com.tr/api/ArizaApi/ArizaMalzemeList?ArizaId=1
 
  durumLogo parametresi 0 ise logoya aktarılmamış
  durumLogo parametresi 1 ise logoya aktarılmış
+
+
+const onHand = true   //Stokta olanlar için true hepsi için false seçilir.

@@ -151,7 +151,6 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
     getTamirciList()
   }, [])
 
-  const [fetchState, setFetchState] = useState(false)
   useEffect(() => {
     console.log("BARKOD: ", barkod)
     if (barkod != "") {
@@ -161,133 +160,129 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       }, 0.8 * 1000);
     }
   }, [barkod])
-  // useEffect(() => {
-  //   if (barkod != "") {
-  //     getMalzeme()
-  //   }
-  // }, [fetchState])
   return (
     <SafeAreaView style={styles.container}>
       {
         loadingMalzeme || loadingTamirci || loadingGonder ?
           <LoadingCard />
           :
-          <ScrollView>
-            <View style={styles.content}>
-              <CardView>
-                <TextInput style={[styles.textInput, {
-                  backgroundColor: colors.white,
-                  marginVertical: 8,
-                  borderRadius: 8,
-                  borderColor: colors.gray,
-                  borderWidth: 1,
-                  paddingStart: 12,
-                  fontSize: 15,
-                  fontWeight: "normal"
-                }]}
-                  focusable={true}
-                  placeholder='Barkod & Malzeme Adı Giriniz...'
-                  placeholderTextColor={colors.gray}
-                  value={barkod}
-                  enablesReturnKeyAutomatically
-                  onChangeText={setBarkod}
-                  autoFocus
-                />
-                <ButtonPrimary text={"Malzeme Ara"} onPress={() => getMalzeme()} disabled={barkod != "" ? false : true} />
+          <View style={styles.content}>
+            <CardView>
+              <TextInput style={[styles.textInput, {
+                backgroundColor: colors.white,
+                marginVertical: 8,
+                borderRadius: 8,
+                borderColor: colors.gray,
+                borderWidth: 1,
+                paddingStart: 12,
+                fontSize: 15,
+                fontWeight: "normal"
+              }]}
+                focusable={true}
+                placeholder='Barkod & Malzeme Adı Giriniz...'
+                placeholderTextColor={colors.gray}
+                value={barkod}
+                enablesReturnKeyAutomatically
+                onChangeText={setBarkod}
+                autoFocus
+              />
+              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                 <ButtonPrimary text={"Temizle"} onPress={() => setBarkod("")} disabled={barkod != "" ? false : true} />
+                <ButtonPrimary text={"Malzeme Ara"} onPress={() => getMalzeme()} disabled={barkod != "" ? false : true} />
+              </View>
 
-                <FlatList data={dataMalzeme}
-                  renderItem={(item: any) => {
+              <FlatList data={dataMalzeme}
+                renderItem={({ item }: any) => {
+                  console.log("İTEM SSSSS:", item)
+                  return (
+                    <View key={item?.Code}>
+                      <Text style={styles.textBold}>{item?.Code}</Text>
+                      <View style={styles.viewTwoRowJustify}>
+                        <Text style={styles.textNormal}>Stok Adet:</Text>
+                        <Text style={styles.textNormal}>{item?.Onhand} {item?.UnitName}</Text>
+                      </View>
+                      <Text style={styles.textNormal}>{item?.Name}</Text>
+                    </View>
+                  )
+                }} />
+            </CardView>
+
+
+            {
+              !visibleTamirci ?
+                <CardView>
+                  <ButtonPrimary text={"Tamirci Seç"}
+                    onPress={() => {
+                      setVisibleTamirci(true)
+                    }} />
+                  <Text style={styles.textBold}>Tamirci</Text>
+                  <Text style={styles.textSmall}>{selectedTamirci?.fullName}</Text>
+                </CardView>
+                :
+                <FlatList data={dataTamirciFiltered.length < 1 ? dataTamirci : dataTamirciFiltered}
+                  ListHeaderComponent={
+                    <View style={{
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}>
+                      <TextInput style={[styles.textInput, { flex: 1, marginEnd: 8 }]}
+                        value={searchTamirci}
+                        onChangeText={setSearchTamirci}
+                        placeholder='Tamirci Ara'
+                        placeholderTextColor={colors.gray}
+                      />
+                      <Pressable onPress={() => SearchTamirci()}>
+                        <SearchZoomIn size="32" color={colors.primaryColor} />
+                      </Pressable>
+                      <Pressable onPress={() => setDataTamirciFiltered([])}>
+                        <Image source={require("../../assets/images/trashIcon1.png")}
+                          style={{
+                            width: 30,
+                            height: 30,
+                            marginStart: 6,
+                          }}
+                        />
+                      </Pressable>
+                    </View>
+                  }
+                  renderItem={({ item }: any) => {
                     return (
-                      <View key={item?.Code}>
-                        <Text style={styles.textBold}>{item?.Code}</Text>
-                        <View style={styles.viewTwoRowJustify}>
-                          <Text style={styles.textNormal}>Stok Adet:</Text>
-                          <Text style={styles.textNormal}>{item?.Onhand} {item?.UnitName}</Text>
-                        </View>
-                        <Text style={styles.textNormal}>{item?.Name}</Text>
+                      <View>
+                        <TouchableOpacity style={{ paddingVertical: 4, }} onPress={() => {
+                          setSelectedTamirci(item)
+                          setSearchTamirci("")
+                          setVisibleTamirci(false)
+                        }}>
+                          <Text style={styles.textSmall}>{item?.fullName}</Text>
+                        </TouchableOpacity>
                       </View>
                     )
-                  }} />
-              </CardView>
+                  }}
+                />
+            }
 
-
-              {
-                !visibleTamirci ?
-                  <CardView>
-                    <ButtonPrimary text={"Tamirci Seç"}
-                      onPress={() => {
-                        setVisibleTamirci(true)
-                      }} />
-                    <Text style={styles.textBold}>Tamirci</Text>
-                    <Text style={styles.textSmall}>{selectedTamirci?.fullName}</Text>
-                  </CardView>
-                  :
-                  <FlatList data={dataTamirciFiltered.length < 1 ? dataTamirci : dataTamirciFiltered}
-                    ListHeaderComponent={
-                      <View style={{
-                        flexDirection: "row",
-                        alignItems: "center"
-                      }}>
-                        <TextInput style={[styles.textInput, { flex: 1, marginEnd: 8 }]}
-                          value={searchTamirci}
-                          onChangeText={setSearchTamirci}
-                          placeholder='Tamirci Ara'
-                          placeholderTextColor={colors.gray}
-                        />
-                        <Pressable onPress={() => SearchTamirci()}>
-                          <SearchZoomIn size="32" color={colors.primaryColor} />
-                        </Pressable>
-                        <Pressable onPress={() => setDataTamirciFiltered([])}>
-                          <Image source={require("../../assets/images/trashIcon1.png")}
-                            style={{
-                              width: 30,
-                              height: 30,
-                              marginStart: 6,
-                            }}
-                          />
-                        </Pressable>
-                      </View>
-                    }
-                    renderItem={({ item }: any) => {
-                      return (
-                        <View>
-                          <TouchableOpacity style={{ paddingVertical: 4, }} onPress={() => {
-                            setSelectedTamirci(item)
-                            setSearchTamirci("")
-                            setVisibleTamirci(false)
-                          }}>
-                            <Text style={styles.textSmall}>{item?.fullName}</Text>
-                          </TouchableOpacity>
-                        </View>
-                      )
-                    }}
-                  />
-              }
-
-              <TextInput style={styles.textInput}
-                placeholder='Malzeme Adet'
-                inputMode='decimal'
-                value={malzemeAdet}
-                onChangeText={setMalzemeAdet}
-                placeholderTextColor={"#555"} />
-              <ButtonPrimary text={"Kaydet"}
-                onPress={() => {
-                  parseInt(malzemeAdet) > 0 ?
-                    dataMalzeme?.length > 0 && (parseInt(dataMalzeme[0].Onhand) < parseInt(malzemeAdet)) ?
-                      // console.log("Onhand", dataMalzeme[0].Onhand)
-                      Alert.alert("Uyarı", "Stok Yeterli Değil")
-                      :
-                      // console.log("object", (dataMalzeme[0].Onhand))
-                      handleData()
-                    : Alert.alert("Uyarı", "Sıfır Girilemez")
-                }}
-                disabled={
-                  (malzemeAdet != "") &&
-                    (selectedTamirci != "") &&
-                    (dataMalzeme?.length > 0) ? false : true}></ButtonPrimary>
-            </View>
-          </ScrollView>
+            <TextInput style={styles.textInput}
+              placeholder='Malzeme Adet'
+              inputMode='decimal'
+              value={malzemeAdet}
+              onChangeText={setMalzemeAdet}
+              placeholderTextColor={"#555"} />
+            <ButtonPrimary text={"Kaydet"}
+              onPress={() => {
+                parseInt(malzemeAdet) > 0 ?
+                  dataMalzeme?.length > 0 && (parseInt(dataMalzeme[0].Onhand) < parseInt(malzemeAdet)) ?
+                    // console.log("Onhand", dataMalzeme[0].Onhand)
+                    Alert.alert("Uyarı", "Stok Yeterli Değil")
+                    :
+                    // console.log("object", (dataMalzeme[0].Onhand))
+                    handleData()
+                  : Alert.alert("Uyarı", "Sıfır Girilemez")
+              }}
+              disabled={
+                (malzemeAdet != "") &&
+                  (selectedTamirci != "") &&
+                  (dataMalzeme?.length > 0) ? false : true}></ButtonPrimary>
+          </View>
       }
     </SafeAreaView>
   );

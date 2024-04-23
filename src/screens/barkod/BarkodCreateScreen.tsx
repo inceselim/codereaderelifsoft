@@ -10,6 +10,7 @@ import CardView from '../../components/CardView';
 import ButtonPrimary from '../../components/ButtonPrimary/ButtonPrimary';
 import { colors } from '../../styles/colors';
 import { ISelectAmbar } from '../../types/ISelectAmbar';
+import Tts from 'react-native-tts';
 
 export default function BarkodCreateScreen({ props, route }: any) {
     const navigation: any = useNavigation();
@@ -75,7 +76,17 @@ export default function BarkodCreateScreen({ props, route }: any) {
                 .then((response: any) => {
                     console.log("CREATE SAYIM RESPONSE: ", response.data)
                     setDataAmbarList(response.data)
-                    Alert.alert("Başarılı", "Sayım Oluşturuldu")
+                    // Alert.alert("Başarılı", "Sayım Oluşturuldu")
+                    Tts.setDefaultLanguage('tr-TR');
+                    Tts.speak('Eklendi', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 1.0,
+                            KEY_PARAM_STREAM: 'STREAM_DTMF',
+                        },
+                    });
                 })
                 .then(() => navigation.navigate("Barkod"))
                 .catch((error: any) => {
@@ -118,13 +129,12 @@ export default function BarkodCreateScreen({ props, route }: any) {
                                     <FlatList data={dataAmbarList}
                                         renderItem={({ item }: any) => {
                                             return (
-                                                <TouchableOpacity
+                                                <ButtonPrimary text={item?.Name}
                                                     onPress={() => {
                                                         setSelectedAmbar(item)
                                                         setIsEnabledAmbarList(false)
-                                                    }}>
-                                                    <Text style={styles.textNormal}>{item?.Name}</Text>
-                                                </TouchableOpacity>
+                                                    }}
+                                                />
                                             )
                                         }}
                                     />

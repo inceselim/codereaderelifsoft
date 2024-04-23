@@ -12,6 +12,7 @@ import { API_URL } from '../../api/api_url';
 import LoadingCard from '../../components/LoadingCard/LoadingCard';
 import { styleModal } from '../../styles/styleModal';
 import { Camera } from 'react-native-camera-kit';
+import Tts from 'react-native-tts';
 
 export default function BarkodScreen({ props, route }: any) {
     const navigation: any = useNavigation();
@@ -92,6 +93,16 @@ export default function BarkodScreen({ props, route }: any) {
             })
                 .then((response: any) => {
                     console.log("CREATE SAYIM RESPONSE: ", response.data)
+                    Tts.setDefaultLanguage('tr-TR');
+                    Tts.speak('Sayım Silindi', {
+                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                        rate: 0.5,
+                        androidParams: {
+                            KEY_PARAM_PAN: 0,
+                            KEY_PARAM_VOLUME: 1.0,
+                            KEY_PARAM_STREAM: 'STREAM_DTMF',
+                        },
+                    });
                 })
                 .catch((error: any) => {
                     console.log("CREATE SAYIM ERROR: ", error)

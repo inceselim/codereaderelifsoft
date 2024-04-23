@@ -52,7 +52,6 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const [segment, setSegment] = useState(0);
 
     const [barcodeTextManuel, setBarkodTextManuel] = useState("")
-    const [barcodeMiktarManuel, setBarcodeMiktarManuel] = useState("1")
     const [loadingSearchManuel, setLoadingSearchManuel] = useState(false)
     const [productSearchManuel, setProductSearchManuel] = useState<any[]>([])
 
@@ -475,7 +474,6 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 })
                 .finally(() => {
                     setLoadingAddProduct(false);
-                    setBarcodeMiktarManuel("")
                     setProductSearch([])
                     setBarkodTextManuel("")
                     setBarcodeTextState(true)
@@ -590,28 +588,58 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                 </ButtonPrimary>
                             </View>
                         </CardView>
-                        <CardView>
-                            <View style={styles.viewTwoRowJustify}>
-                                <Text style={styles.textBold}>Otomatik</Text>
-                                <Switch value={isOto} onValueChange={() => setIsOto(!isOto)} />
-                            </View>
-                        </CardView>
                         {
                             segment == 0 ?
                                 <ScrollView>
                                     <View>
-                                        {/* {
-                                            isOto == true ?
-                                                <CardView>
+                                        <CardView>
+                                            <View style={styles.viewTwoRowJustify}>
+                                                <Text style={styles.textBold}>{isOto ? "Hızlı Giriş" : "Manuel Giriş"}</Text>
+                                                <Switch value={isOto} onValueChange={() => setIsOto(!isOto)} />
+                                            </View>
+                                            <View style={styles.viewTwoRowJustify}>
+                                                <Text style={styles.textBold}>{isCamera ? "Kamera Açık" : "Elle Giriş Açık"}</Text>
+                                                <Switch value={isCamera} onValueChange={() => setIsCamera(!isCamera)} />
+                                            </View>
+                                        </CardView>
+                                        {
+                                            isCamera ?
+                                                <Camera
+                                                    style={{ height: 200, width: "100%" }}
+                                                    scanBarcode={isCamera}
+                                                    onReadCode={(event: any) => {
+                                                        // Alert.alert("BARKOD: ", event?.nativeEvent?.codeStringValue)
+                                                        console.log("EVENT: ", event?.nativeEvent?.codeStringValue)
+                                                        setBarcodeStatus(false);
+                                                        setBarcodeText(event?.nativeEvent?.codeStringValue)
+                                                    }}
+                                                    showFrame={true} // (default false) optional, show frame with transparent layer (qr code or barcode will be read on this area ONLY), start animation for scanner, that stops when a code has been found. Frame always at center of the screen
+                                                    laserColor='red' // (default red) optional, color of laser in scanner frame
+                                                    frameColor='white' // (default white) optional, color of border of scanner frame
+                                                /> :
+                                                <TextInput
+                                                    style={styles.textInput}
+                                                    value={barcodeText}
+                                                    onChangeText={(e) => {
+                                                        setBarcodeText(e)
+                                                        setFetchState(false)
+                                                    }}
+                                                    placeholder='Barkod Giriniz'
+                                                    placeholderTextColor={"#666"}
+                                                    autoFocus={barcodeTextState}
+                                                />
+                                        }
+                                        {
+                                            isOto == false ?
+                                                <View>
                                                     <TextInput
                                                         style={styles.textInput}
                                                         value={barcodeText}
                                                         onChangeText={(e) => {
-                                                            setBarcodeText(e)
+                                                            setBarcodeMiktar(e)
                                                             setFetchState(false)
                                                         }}
-                                                        onEndEditing={() => handleSearchProduct()}
-                                                        placeholder='Barkod Giriniz'
+                                                        placeholder='Miktar Giriniz'
                                                         placeholderTextColor={"#666"}
                                                         autoFocus={barcodeTextState}
                                                     />
@@ -644,84 +672,10 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                                 )
                                                             })
                                                     }
-                                                </CardView>
+                                                    <ButtonPrimary text="Listele" onPress={() => handleAddListManuel()} />
+                                                </View>
                                                 :
-                                                <CardView>
-                                                    <TextInput
-                                                        style={styles.textInput}
-                                                        value={barcodeTextManuel}
-                                                        onChangeText={(e) => {
-                                                            setBarkodTextManuel(e)
-                                                        }}
-                                                        placeholder='Barkod Giriniz'
-                                                        placeholderTextColor={"#666"}
-                                                        autoFocus={true}
-                                                    />
-                                                    <ButtonPrimary text={"Malzeme Bul"} onPress={() => handleSearchProductManuel()}
-                                                        disabled={barcodeTextManuel == "" ? true : false} />
-                                                    {
-                                                        productSearchManuel.length == 0 ?
-                                                            null
-                                                            :
-                                                            productSearchManuel?.map((item: any) => {
-                                                                return (
-                                                                    <View key={item?.Code}>
-                                                                        <View style={styles.viewTwoRowJustify}>
-                                                                            <Text style={[styles.textLarge, styles.textBold]}>
-                                                                                Ürün Kodu
-                                                                            </Text>
-                                                                            <Text style={[styles.textLarge, styles.textBold]}>
-                                                                                {item?.Code}
-                                                                            </Text>
-                                                                        </View>
-                                                                        <View style={styles.viewTwoRowJustify}>
-                                                                            <Text style={[styles.textBold, { flex: 0.2 }]}>
-                                                                                Ürün Adı
-                                                                            </Text>
-                                                                            <Text style={[styles.textNormal, { flex: 0.8, textAlign: "right" }]}>
-                                                                                {item?.Name}
-                                                                            </Text>
-                                                                        </View>
-                                                                    </View>
-                                                                )
-                                                            })
-                                                    }
-                                                    <TextInput style={styles.textInput}
-                                                        value={barcodeMiktarManuel} onChangeText={setBarcodeMiktarManuel}
-                                                        placeholder='Miktar Giriniz'
-                                                        keyboardType='decimal-pad'
-                                                        placeholderTextColor={"#666"}
-                                                    />
-                                                    <ButtonPrimary text={"Listeye Ekle"}
-                                                        onPress={() => handleAddListManuel({
-                                                            ItemId: productSearchManuel[0].Logicalref,
-                                                            LogoAmount: productSearchManuel[0].Onhand,
-                                                            ItemAmount: barcodeMiktarManuel
-                                                        })}
-                                                        disabled={productSearchManuel.length != 0 && barcodeMiktarManuel != "" ? false : true} />
-                                                </CardView>
-                                        } */}
-                                        <CardView>
-                                            <View style={styles.viewTwoRowJustify}>
-                                                <Text style={styles.textBold}>{isCamera ? "Kamera Açık" : "Elle Giriş Açık"}</Text>
-                                                <Switch value={isCamera} onValueChange={() => setIsCamera(!isCamera)} />
-                                            </View>
-                                        </CardView>
-                                        {
-                                            isCamera ?
-                                                <Camera
-                                                    style={{ height: 300 }}
-                                                    scanBarcode={isCamera}
-                                                    onReadCode={(event: any) => {
-                                                        // Alert.alert("BARKOD: ", event?.nativeEvent?.codeStringValue)
-                                                        console.log("EVENT: ", event?.nativeEvent?.codeStringValue)
-                                                        setBarcodeStatus(false);
-                                                        setBarcodeText(event?.nativeEvent?.codeStringValue)
-                                                    }}
-                                                    showFrame={true} // (default false) optional, show frame with transparent layer (qr code or barcode will be read on this area ONLY), start animation for scanner, that stops when a code has been found. Frame always at center of the screen
-                                                    laserColor='red' // (default red) optional, color of laser in scanner frame
-                                                    frameColor='white' // (default white) optional, color of border of scanner frame
-                                                /> : null
+                                                null
                                         }
                                     </View>
                                 </ScrollView>

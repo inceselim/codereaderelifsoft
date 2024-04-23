@@ -139,9 +139,9 @@ export default function ArizaTalepScreen({ props, route }: any) {
     }, [])
 
     useEffect(() => {
-        if (searchFisText.length > 0) {
+        if (searchFisText.length > 3) {
             let temp = data.filter((filter: any) => {
-                console.log(filter)
+                // console.log(filter)
                 return (
                     filter?.FisNo?.toLocaleLowerCase('tr').includes(
                         searchFisText.toLocaleLowerCase(),
@@ -226,7 +226,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
                                         />
                                     </>
                                 }
-                                data={filterData.length > 0 ? filterData : data}
+                                data={searchFisText != "" ? filterData.length > 0 ? filterData : data : data}
                                 renderItem={({ item }: any) => {
                                     return (
                                         <CardView>
