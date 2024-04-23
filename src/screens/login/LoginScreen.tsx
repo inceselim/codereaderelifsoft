@@ -28,8 +28,8 @@ export default function LoginScreen() {
   const dispatch: any = useDispatch();
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false);
-  const [userName, setUserName] = useState('abdurrahman.demir');
-  const [userPass, setUserPass] = useState('Abdurrahman2023**');
+  const [userName, setUserName] = useState('');
+  const [userPass, setUserPass] = useState('');
   const [deviceId, setDeviceId] = useState('');
 
   const [remember, setRemember] = useState(true);
