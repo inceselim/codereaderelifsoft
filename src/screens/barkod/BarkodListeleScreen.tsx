@@ -34,6 +34,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const [isState, setIsState] = useState(false);
     const [productSearch, setProductSearch] = useState<any[]>([]);
     const [barcodeText, setBarcodeText] = useState<string>("")
+    const [barcodeTextManuel, setBarcodeTextManuel] = useState<string>("")
     const [barcodeTextState, setBarcodeTextState] = useState<boolean>(true)
     const [barkodFetchState, setFetchState] = useState<boolean>(false)
     const [barcodeMiktar, setBarcodeMiktar] = useState<any>("");
@@ -50,10 +51,6 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const [loadingAddProduct, setLoadingAddProduct] = useState(false);
 
     const [segment, setSegment] = useState(0);
-
-    const [barcodeTextManuel, setBarkodTextManuel] = useState("")
-    const [loadingSearchManuel, setLoadingSearchManuel] = useState(false)
-    const [productSearchManuel, setProductSearchManuel] = useState<any[]>([])
 
     const handleBarcode = async () => {
         setLoading(true);
@@ -337,6 +334,34 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 setFetchState(false)
             })
     }
+    const handleSearchProductManuel = async () => {
+        console.log("selectedCompany?.Id", selectedCompany?.Id)
+        console.log("barcodeText", barcodeText)
+        setLoadingSearch(true);
+        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
+            "?companyId=" + selectedCompany?.Id + "&name=" + barcodeTextManuel + "&garajNo=" + ProjectCode, {}, {
+            headers: {
+                "Authorization": "Bearer " + userToken
+            },
+        })
+            .then((response: any) => {
+                console.log("URUN ARA", response.data)
+                console.log("URUN ARA", response.data[0]?.Logicalref)
+                setProductSearch(response.data)
+                console.log("productSearch ", productSearch)
+                console.log("", productSearch.length)
+            })
+            .catch((error: any) => {
+                Alert.alert("Kayıt Bulunamadı...")
+                console.log(error)
+                setBarcodeTextState(true)
+                setBarcodeText("")
+            })
+            .finally(() => {
+                setLoadingSearch(false);
+                setFetchState(false)
+            })
+    }
     const handleAddList = async ({ ItemId, LogoAmount }: any) => {
         setLoadingAddProduct(true);
         console.log("Id?.Id", Id)
@@ -491,10 +516,17 @@ export default function BarkodListeleScreen({ props, route }: any) {
             }
         }
     }, [productSearch])
+    useEffect(() => {
+        console.log("ÇAlıştı 1")
+        if (isCamera == false) {
+            setIsOto(false)
+            console.log("ÇAlıştı 111")
+        }
+    }, [isCamera])
     return (
         <SafeAreaView style={styles.container}>
             {
-                loading || loadingDelete || loadingSearch || loadingAddProduct || loadingSearchManuel ?
+                loading || loadingDelete || loadingSearch || loadingAddProduct ?
                     <LoadingCard />
                     :
                     <View style={styles.content}>
@@ -522,11 +554,15 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                         <CardView>
                                             <View style={styles.viewTwoRowJustify}>
                                                 <Text style={styles.textBold}>{isOto ? "Hızlı Giriş" : "Manuel Giriş"}</Text>
-                                                <Switch value={isOto} onValueChange={() => setIsOto(!isOto)} />
+                                                <Switch value={isOto} onValueChange={() => {
+                                                    setIsOto(!isOto)
+                                                }} />
                                             </View>
                                             <View style={styles.viewTwoRowJustify}>
                                                 <Text style={styles.textBold}>{isCamera ? "Kamera Açık" : "Elle Giriş Açık"}</Text>
-                                                <Switch value={isCamera} onValueChange={() => setIsCamera(!isCamera)} />
+                                                <Switch value={isCamera} onValueChange={() => {
+                                                    setIsCamera(!isCamera)
+                                                }} />
                                             </View>
                                         </CardView>
                                         {
@@ -547,16 +583,16 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                 <>
                                                     <TextInput
                                                         style={styles.textInput}
-                                                        value={barcodeText}
+                                                        value={barcodeTextManuel}
                                                         onChangeText={(e) => {
-                                                            setBarcodeText(e)
+                                                            setBarcodeTextManuel(e)
                                                             setFetchState(false)
                                                         }}
                                                         placeholder='Barkod Giriniz'
                                                         placeholderTextColor={"#666"}
                                                         autoFocus={barcodeTextState}
                                                     />
-                                                    <ButtonPrimary text="Listele" onPress={() => handleSearchProduct()} />
+                                                    <ButtonPrimary text="Listele" onPress={() => handleSearchProductManuel()} />
                                                 </>
                                         }
                                         {
