@@ -57,8 +57,8 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
     const handleBarcode = async () => {
         setLoading(true);
-        console.log("ID: ", Id)
-        console.log("selected COMPANY: ", selectedCompany.Id)
+        // console.log("ID: ", Id)
+        // console.log("selected COMPANY: ", selectedCompany.Id)
         await axios.get(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI +
             "?sayimId=" + Id +
             "&companyId=" + selectedCompany?.Id, {
@@ -312,44 +312,19 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const handleSearchProduct = async () => {
         console.log("selectedCompany?.Id", selectedCompany?.Id)
         console.log("barcodeText", barcodeText)
-        if (barcodeTextState == false && barcodeText != "") {
-            setLoadingSearch(true);
-            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
-                "?companyId=" + selectedCompany?.Id + "&name=" + barcodeText + "&garajNo=" + ProjectCode, {}, {
-                headers: {
-                    "Authorization": "Bearer " + userToken
-                },
-            })
-                .then((response: any) => {
-                    console.log("URUN ARA", response.data)
-                    console.log("URUN ARA", response.data[0]?.Logicalref)
-                    setProductSearch(response.data)
-                    console.log("productSearch ", productSearch)
-                    console.log("", productSearch.length)
-                })
-                .catch((error: any) => {
-                    Alert.alert("Kayıt Bulunamadı...")
-                    console.log(error)
-                    setBarcodeTextState(true)
-                    setBarcodeText("")
-                })
-                .finally(() => {
-                    setLoadingSearch(false);
-                    setFetchState(false)
-                })
-        }
-    }
-    const handleSearchProductManuel = async () => {
-        setLoadingSearchManuel(true);
+        setLoadingSearch(true);
         await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
-            "?companyId=" + selectedCompany?.Id + "&name=" + barcodeTextManuel + "&garajNo=" + ProjectCode, {}, {
+            "?companyId=" + selectedCompany?.Id + "&name=" + barcodeText + "&garajNo=" + ProjectCode, {}, {
             headers: {
                 "Authorization": "Bearer " + userToken
             },
         })
             .then((response: any) => {
-                setProductSearchManuel(response.data)
-                console.log("SEARCH MANUEL: ", response.data)
+                console.log("URUN ARA", response.data)
+                console.log("URUN ARA", response.data[0]?.Logicalref)
+                setProductSearch(response.data)
+                console.log("productSearch ", productSearch)
+                console.log("", productSearch.length)
             })
             .catch((error: any) => {
                 Alert.alert("Kayıt Bulunamadı...")
@@ -358,11 +333,10 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 setBarcodeText("")
             })
             .finally(() => {
-                setLoadingSearchManuel(false);
+                setLoadingSearch(false);
+                setFetchState(false)
             })
     }
-
-
     const handleAddList = async ({ ItemId, LogoAmount }: any) => {
         setLoadingAddProduct(true);
         console.log("Id?.Id", Id)
@@ -372,14 +346,25 @@ export default function BarkodListeleScreen({ props, route }: any) {
         console.log("LogoAmount", LogoAmount)
 
         const formData = new FormData();
-        formData.append("values", JSON.stringify({
-            SayimId: Id,
-            ItemId: ItemId,
-            ItemAmount: 1,
-            LogoAmount: LogoAmount
+        if (isOto) {
+            formData.append("values", JSON.stringify({
+                SayimId: Id,
+                ItemId: ItemId,
+                ItemAmount: 1,
+                LogoAmount: LogoAmount
 
-        }))
-        if (ItemId != "" || ItemId != 0) {
+            }))
+        }
+        else {
+            formData.append("values", JSON.stringify({
+                SayimId: Id,
+                ItemId: ItemId,
+                ItemAmount: barcodeMiktar,
+                LogoAmount: LogoAmount
+
+            }))
+        }
+        if (ItemId != "") {
             await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
                 headers: {
                     "Authorization": "Bearer " + userToken,
@@ -423,64 +408,6 @@ export default function BarkodListeleScreen({ props, route }: any) {
         }
     }
 
-    const handleAddListManuel = async ({ ItemId, LogoAmount, ItemAmount }: any) => {
-        setLoadingAddProduct(true);
-        console.log("Id?.Id", Id)
-        console.log("barcodeText", barcodeText)
-        console.log("ItemId", ItemId)
-        console.log("barcodeMiktar", barcodeMiktar)
-        console.log("LogoAmount", LogoAmount)
-
-        const formData = new FormData();
-        formData.append("values", JSON.stringify({
-            SayimId: Id,
-            ItemId: ItemId,
-            ItemAmount: ItemAmount,
-            LogoAmount: LogoAmount
-
-        }))
-        if (ItemId != "" || ItemId != 0) {
-            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
-                headers: {
-                    "Authorization": "Bearer " + userToken,
-                    "Content-Type": "multipart/form-data"
-                }
-            })
-                .then((response: any) => {
-                    console.log("URUN EKLE", response.data)
-                    Tts.setDefaultLanguage('tr-TR');
-                    Tts.speak('Eklendi', {
-                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-                        rate: 0.5,
-                        androidParams: {
-                            KEY_PARAM_PAN: 0,
-                            KEY_PARAM_VOLUME: 1.0,
-                            KEY_PARAM_STREAM: 'STREAM_DTMF',
-                        },
-                    });
-                })
-                .catch((error: any) => {
-                    console.log("URUN EKLE", error)
-                    Tts.setDefaultLanguage('tr-TR');
-                    Tts.speak('Hata oluştu', {
-                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-                        rate: 0.5,
-                        androidParams: {
-                            KEY_PARAM_PAN: 0,
-                            KEY_PARAM_VOLUME: 1.0,
-                            KEY_PARAM_STREAM: 'STREAM_DTMF',
-                        },
-                    });
-                })
-                .finally(() => {
-                    setLoadingAddProduct(false);
-                    setProductSearch([])
-                    setBarkodTextManuel("")
-                    setBarcodeTextState(true)
-                    setFetchState(false)
-                })
-        }
-    }
     useEffect(() => {
         handleBarcode()
     }, [loadingDelete, loadingSave, loadingUpdateCount, loadingAddProduct, segment, isState]);
@@ -617,24 +544,28 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                     laserColor='red' // (default red) optional, color of laser in scanner frame
                                                     frameColor='white' // (default white) optional, color of border of scanner frame
                                                 /> :
-                                                <TextInput
-                                                    style={styles.textInput}
-                                                    value={barcodeText}
-                                                    onChangeText={(e) => {
-                                                        setBarcodeText(e)
-                                                        setFetchState(false)
-                                                    }}
-                                                    placeholder='Barkod Giriniz'
-                                                    placeholderTextColor={"#666"}
-                                                    autoFocus={barcodeTextState}
-                                                />
+                                                <>
+                                                    <TextInput
+                                                        style={styles.textInput}
+                                                        value={barcodeText}
+                                                        onChangeText={(e) => {
+                                                            setBarcodeText(e)
+                                                            setFetchState(false)
+                                                        }}
+                                                        placeholder='Barkod Giriniz'
+                                                        placeholderTextColor={"#666"}
+                                                        autoFocus={barcodeTextState}
+                                                    />
+                                                    <ButtonPrimary text="Listele" onPress={() => handleSearchProduct()} />
+                                                </>
                                         }
                                         {
                                             isOto == false ?
                                                 <View>
                                                     <TextInput
                                                         style={styles.textInput}
-                                                        value={barcodeText}
+                                                        value={barcodeMiktar}
+                                                        keyboardType='decimal-pad'
                                                         onChangeText={(e) => {
                                                             setBarcodeMiktar(e)
                                                             setFetchState(false)
@@ -643,6 +574,12 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                         placeholderTextColor={"#666"}
                                                         autoFocus={barcodeTextState}
                                                     />
+                                                    <ButtonPrimary text="Ekle"
+                                                        disabled={productSearch.length < 1 || barcodeMiktar == "" ? true : false}
+                                                        onPress={() => handleAddList({
+                                                            ItemId: productSearch[0]?.Logicalref,
+                                                            LogoAmount: productSearch[0]?.Onhand
+                                                        })} />
                                                     {
                                                         productSearch.length == 0 ?
                                                             null
@@ -672,7 +609,6 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                                 )
                                                             })
                                                     }
-                                                    <ButtonPrimary text="Listele" onPress={() => handleAddListManuel()} />
                                                 </View>
                                                 :
                                                 null
