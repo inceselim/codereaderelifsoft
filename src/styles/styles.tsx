@@ -14,10 +14,10 @@ export const styles = StyleSheet.create({
         backgroundColor: "#eee",
         color: "#111",
         borderRadius: 8,
-        paddingVertical: 12,
+        paddingVertical: 8,
         paddingStart: 12,
-        marginVertical: 14,
-        fontSize: 12,
+        marginVertical: 8,
+        fontSize: 13,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

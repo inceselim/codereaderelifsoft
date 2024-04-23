@@ -8,7 +8,7 @@ export default function ButtonPrimary({ onPress, text, disabled = false }: any) 
             disabled={disabled}
             style={{
                 backgroundColor: colors.primaryColor,
-                marginVertical: 8,
+                marginVertical: 6,
                 borderRadius: 8,
                 opacity: disabled ? 0.61 : 1
             }}>
@@ -17,7 +17,7 @@ export default function ButtonPrimary({ onPress, text, disabled = false }: any) 
                 color: colors.white,
                 fontWeight: "bold",
                 textAlign: "center",
-                paddingVertical: 10,
+                paddingVertical: 8,
                 paddingHorizontal: 12,
             }}>{text}</Text>
         </TouchableOpacity>

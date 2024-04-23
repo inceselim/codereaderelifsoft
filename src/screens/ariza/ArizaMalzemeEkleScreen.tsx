@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, Pressable, Modal, StyleSheet, Alert, TextInput, TouchableOpacity, FlatList, ScrollView, Platform, Image } from 'react-native';
+import { View, Text, SafeAreaView, Pressable, Modal, StyleSheet, Alert, TextInput, TouchableOpacity, FlatList, ScrollView, Platform, Image, Switch } from 'react-native';
 import { styles } from '../../styles/styles';
 import { colors } from '../../styles/colors';
 import ButtonPrimary from '../../components/ButtonPrimary/ButtonPrimary';
@@ -14,6 +14,7 @@ import jwtDecode from 'jwt-decode';
 import Tts from 'react-native-tts';
 import { ViewTwoRowsCard } from '../../components/ViewTwoRowsCard/ViewTwoRowsCard';
 import { ViewColCard } from '../../components/ViewColCard/ViewColCard';
+import { Camera } from 'react-native-camera-kit';
 
 export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   const userToken = useSelector((state: any) => state.auth?.userToken)
@@ -21,6 +22,8 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
   const company = route?.params?.company
   const ArizaId = route?.params?.ArizaId
   const onHand = true   //Stokta olanlar için true hepsi için false seçilir.
+
+  const [isCamera, setIsCamera] = useState(true)
 
   const [loadingMalzeme, setLoadingMalzeme] = useState(false);
   const [loadingTamirci, setLoadingTamirci] = useState(false);
@@ -48,7 +51,17 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       .then((response: any) => {
         // console.log("MALZEME data: ", response.data);
         setDataMalzeme(response.data)
-        console.log("dataMalzeme", dataMalzeme)
+        // console.log("dataMalzeme", dataMalzeme)
+        Tts.setDefaultLanguage('tr-TR');
+        Tts.speak('Malzeme Bulundu', {
+          iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+          rate: 0.5,
+          androidParams: {
+            KEY_PARAM_PAN: 0,
+            KEY_PARAM_VOLUME: 1.0,
+            KEY_PARAM_STREAM: 'STREAM_DTMF',
+          },
+        });
       })
       .catch((err: any) => {
         console.log("HATA ariza malzeme ara: ", err)
@@ -116,8 +129,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
       .then((response: any) => {
         console.log("MAL GONDER RES: ", response.data)
         Tts.setDefaultLanguage('tr-TR');
-
-        Tts.speak('Tamamlandi', {
+        Tts.speak('Kaydedildi', {
           iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
           rate: 0.5,
           androidParams: {
@@ -126,6 +138,10 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
             KEY_PARAM_STREAM: 'STREAM_SYSTEM',
           },
         });
+        setSelectedTamirci("")
+        setBarkod("")
+        setDataMalzeme([])
+        setMalzemeAdet("")
       })
       .catch((error: any) => {
         console.log("MAL GONDER ERROR: ", error)
@@ -151,13 +167,21 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
     getTamirciList()
   }, [])
 
+  //
+  // Barkod kamera aktifse ve bulunmuş ürün yoksa otomatik arayacak
+  //
   useEffect(() => {
     console.log("BARKOD: ", barkod)
-    if (barkod != "") {
-      setTimeout(() => {
-        // setFetchState(true)
-        getMalzeme()
-      }, 0.8 * 1000);
+    if (dataMalzeme.length < 1) {
+      if (isCamera) {
+        if (barkod != "") {
+          console.log("barkod useeffect çalıştı")
+          setTimeout(() => {
+            // setFetchState(true)
+            getMalzeme()
+          }, 0.8 * 1000);
+        }
+      }
     }
   }, [barkod])
   return (
@@ -168,32 +192,58 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
           :
           <View style={styles.content}>
             <CardView>
-              <TextInput style={[styles.textInput, {
-                backgroundColor: colors.white,
-                marginVertical: 8,
-                borderRadius: 8,
-                borderColor: colors.gray,
-                borderWidth: 1,
-                paddingStart: 12,
-                fontSize: 15,
-                fontWeight: "normal"
-              }]}
-                focusable={true}
-                placeholder='Barkod & Malzeme Adı Giriniz...'
-                placeholderTextColor={colors.gray}
-                value={barkod}
-                enablesReturnKeyAutomatically
-                onChangeText={setBarkod}
-                autoFocus
-              />
-              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                <ButtonPrimary text={"Temizle"} onPress={() => setBarkod("")} disabled={barkod != "" ? false : true} />
-                <ButtonPrimary text={"Malzeme Ara"} onPress={() => getMalzeme()} disabled={barkod != "" ? false : true} />
+              <View style={styles.viewTwoRowJustify}>
+                <Text style={styles.textBold}>{isCamera ? "Kamera Açık" : "Elle Giriş Açık"}</Text>
+                <Switch value={isCamera} onValueChange={() => setIsCamera(!isCamera)} />
               </View>
+              {
+                isCamera ?
+                  <Camera style={{ height: 150, width: "100%" }}
+                    scanBarcode={dataMalzeme.length > 0 ? false : true}
+                    onReadCode={(event: any) => {
+                      // Alert.alert("BARKOD: ", event?.nativeEvent?.codeStringValue)
+                      console.log("EVENT: ", event?.nativeEvent?.codeStringValue)
+                      setBarkod(event?.nativeEvent?.codeStringValue)
+                      setBarkod(event?.nativeEvent?.codeStringValue)
+                    }}
+                    showFrame={true} // (default false) optional, show frame with transparent layer (qr code or barcode will be read on this area ONLY), start animation for scanner, that stops when a code has been found. Frame always at center of the screen
+                    laserColor='red' // (default red) optional, color of laser in scanner frame
+                    frameColor='white' // (default white) optional, color of border of scanner frame
+                  />
+                  :
+                  <View>
+                    <TextInput style={[styles.textInput, {
+                      backgroundColor: colors.white,
+                      marginVertical: 8,
+                      borderRadius: 8,
+                      borderColor: colors.gray,
+                      borderWidth: 1,
+                      paddingStart: 12,
+                      fontSize: 15,
+                      fontWeight: "normal"
+                    }]}
+                      focusable={true}
+                      placeholder='Barkod & Malzeme Adı Giriniz...'
+                      placeholderTextColor={colors.gray}
+                      value={barkod}
+                      enablesReturnKeyAutomatically
+                      onChangeText={setBarkod}
+                      autoFocus
+                    />
+                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                      <ButtonPrimary text={"Temizle"} onPress={() => setBarkod("")} disabled={barkod != "" ? false : true} />
+                      <ButtonPrimary text={"Malzeme Ara"} onPress={() => getMalzeme()} disabled={barkod != "" ? false : true} />
+                    </View>
 
+                  </View>
+              }
+              {
+                dataMalzeme?.length > 0 ?
+                  <ButtonPrimary text={"Temizle"} onPress={() => setDataMalzeme([])} />
+                  : null
+              }
               <FlatList data={dataMalzeme}
                 renderItem={({ item }: any) => {
-                  console.log("İTEM SSSSS:", item)
                   return (
                     <View key={item?.Code}>
                       <Text style={styles.textBold}>{item?.Code}</Text>
@@ -206,7 +256,6 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
                   )
                 }} />
             </CardView>
-
 
             {
               !visibleTamirci ?

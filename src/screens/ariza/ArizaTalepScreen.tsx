@@ -239,7 +239,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
                                                         flex: 1,
                                                     }]}>Fiş Kodu: {item?.FisNo}</Text>
                                                 <TouchableOpacity
-                                                    onLongPress={() => Alert.alert("Malzeme Ekle")}
+                                                    onLongPress={() => Alert.alert("Eklenmiş Malzemeler")}
                                                     onPress={() => navigation.navigate("ArizaDetail", { id: item?.Id })}>
                                                     <Image source={require("../../assets/images/infoIcon2.png")}
                                                         style={{
