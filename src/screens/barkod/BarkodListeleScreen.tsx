@@ -609,7 +609,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                         }}
                                                         placeholder='Miktar Giriniz'
                                                         placeholderTextColor={"#666"}
-                                                        autoFocus={barcodeTextState}
+                                                        // autoFocus={barcodeTextState}
                                                     />
                                                     <ButtonPrimary text="Ekle"
                                                         disabled={productSearch.length < 1 || barcodeMiktar == "" ? true : false}
