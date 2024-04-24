@@ -32,7 +32,7 @@ async function RefreshToken() {
             console.log("ss", userToken)
             const formData = new FormData();
             formData.append('userToken', userToken);
-            await axios.post(API_URL.BASE_URL + API_URL.REFRESH_TOKEN_URL +
+            await axios.post(API_URL.DEV_URL + API_URL.REFRESH_TOKEN_URL +
                 '?token=' + userToken,
                 // formData,
                 {
