@@ -18,6 +18,11 @@ const Stack = createNativeStackNavigator();
 
 export default function MainNavigation() {
     let userToken = useSelector((state: any) => state.auth.userToken)
+    console.log("")
+    console.log("")
+    console.log("NAVIGATION")
+    console.log("userToken: ",userToken)
+    console.log("")
     let authVal = useSelector((state: any) => state.auth)
     let connect: any = true
     const navigation: any = useNavigation();

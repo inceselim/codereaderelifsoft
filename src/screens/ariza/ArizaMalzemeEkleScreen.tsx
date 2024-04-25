@@ -226,7 +226,10 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
                         <Pressable onPress={() => SearchTamirci()}>
                           <SearchZoomIn size="32" color={colors.primaryColor} />
                         </Pressable>
-                        <Pressable onPress={() => setDataTamirciFiltered([])}>
+                        <Pressable onPress={() => {
+                          setDataTamirciFiltered([])
+                          setSearchTamirci("")
+                        }}>
                           <Image source={require("../../assets/images/trashIcon1.png")}
                             style={{
                               width: 30,
@@ -251,7 +254,7 @@ export default function ArizaMalzemeEkleScreen({ props, route }: any) {
                       )
                     }}
                   />
-              }     
+              }
 
               <TextInput style={styles.textInput}
                 placeholder='Malzeme Adet'
