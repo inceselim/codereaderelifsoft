@@ -45,18 +45,6 @@ const authSlice = createSlice({
             state.isFetching = true
         },
         loginUser: (state, { payload }: any) => {
-            console.log("loginUser payload")
-            console.log("loginUser payload")
-            console.log("loginUser payload")
-            console.log("loginUser payload")
-            console.log("")
-            console.log("")
-            console.log(payload)
-            console.log("")
-            console.log("")
-            console.log("")
-            console.log("")
-            console.log("")
             state.isLogin = true
             state.userToken = payload.token
             state.userName = payload.displayName
@@ -75,10 +63,6 @@ const authSlice = createSlice({
             state.userName = payload.userName
         },
         rememberUserToken: (state, { payload }) => {
-            console.log("rememberUserToken",)
-            console.log("rememberUserToken", payload)
-            console.log("rememberUserToken",)
-            console.log("rememberUserToken",)
             state.userToken = payload
         },
         rememberUserId: (state, { payload }) => {
