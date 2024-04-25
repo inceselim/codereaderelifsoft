@@ -31,7 +31,7 @@ export default function BarkodCreateScreen({ props, route }: any) {
     const [descriptionText, setDescriptionText] = useState("")
     const getAmbarList = async () => {
         setLoadingAmbarList(true);
-        await axios.get(API_URL.DEV_URL + API_URL.AMBAR_LIST + "?companyId=" + selectedCompany?.Id, {
+        await axios.get(API_URL.BASE_URL + API_URL.AMBAR_LIST + "?companyId=" + selectedCompany?.Id, {
             headers: {
                 "Authorization": "Bearer " + userToken
             }
@@ -67,7 +67,7 @@ export default function BarkodCreateScreen({ props, route }: any) {
                 "ProjectCode": selectedAmbar?.Code,
                 "Definition": descriptionText,
             }))
-            await axios.post(API_URL.DEV_URL + API_URL.BARKOD_SAYIM_CREATE, formData, {
+            await axios.post(API_URL.BASE_URL + API_URL.BARKOD_SAYIM_CREATE, formData, {
                 headers: {
                     "Authorization": "Bearer " + userToken,
                     "Content-Type": "multipart/form-data"
