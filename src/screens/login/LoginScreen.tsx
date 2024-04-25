@@ -26,7 +26,6 @@ import MainInput from '../../components/MainInput/MainInput';
 
 export default function LoginScreen() {
   const dispatch: any = useDispatch();
-  const [data, setData] = useState([])
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState('');
   const [userPass, setUserPass] = useState('');
@@ -63,8 +62,8 @@ export default function LoginScreen() {
             },
           })
         .then(async (result: any) => {
-          setData(result)
           if (remember === true) {
+            console.log(result.data)
             await AsyncStorage.setItem('@token', result.data.token).catch((e) => console.log("token", e))
             await AsyncStorage.setItem('@tokenExpires', result.data.expires);
             await AsyncStorage.setItem(
@@ -78,8 +77,6 @@ export default function LoginScreen() {
           await AsyncStorage.setItem('@userName', userName);
           dispatch(loginUser(result?.data));
           dispatch(loginAppCompanies(result?.data?.companies))
-          console.log("Login cevap",result.data)
-          console.log(result.data.companies)
         })
         .catch((err: any) => {
           console.log("HATA ERROR", err)
