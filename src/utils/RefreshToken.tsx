@@ -41,21 +41,6 @@ async function RefreshToken() {
                     }
                 })
                 .then((response: any) => {
-                    console.log("")
-                    console.log("")
-                    console.log("")
-                    console.log("")
-                    console.log("")
-                    console.log("")
-                    console.log("")
-                    console.log("")
-                    console.log("REFRESH TOKEN CEVAP: ", response.data)
-                    console.log("")
-                    console.log("")
-                    console.log("")
-                    console.log("")
-                    console.log("")
-                    console.log("")
                     // HandleNotification({
                     //   data: { title: 'ElifSoft', message: 'Yeni Token Alındı' },
                     // });

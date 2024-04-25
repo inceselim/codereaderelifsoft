@@ -21,7 +21,7 @@ export default function MainNavigation() {
     console.log("")
     console.log("")
     console.log("NAVIGATION")
-    console.log("userToken: ", userToken.userToken)
+    console.log("userToken: ", userToken)
     console.log("")
     let authVal = useSelector((state: any) => state.auth)
     let connect: any = true
@@ -44,7 +44,7 @@ export default function MainNavigation() {
                             name="NoConnection"
                             component={NoConnection}
                         />
-                    ) : userToken == "" || null || undefined ? (
+                    ) : userToken == "" || userToken == null || userToken == undefined ? (
                         <Stack.Screen name="Login" component={LoginScreen} />
                     ) : (
                         <>

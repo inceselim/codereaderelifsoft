@@ -12,13 +12,13 @@ function GetUserData() {
         dispatch(isFetchingUser())
         await AsyncStorage.getItem("@token")
             .then((response: any) => {
-                dispatch(rememberUserToken({ userToken: response }))
+                dispatch(rememberUserToken(response))
             })
             .catch(() => dispatch(logoutUser()))
 
         await AsyncStorage.getItem("@tokenExpires")
             .then((response: any) => {
-                dispatch(rememberUserTokenExpires({ tokenExpires: response }))
+                dispatch(rememberUserTokenExpires(response))
             })
             .catch(() => dispatch(logoutUser()))
 
