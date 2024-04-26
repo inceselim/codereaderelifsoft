@@ -107,7 +107,10 @@ export default function ArizaTalepScreen({ props, route }: any) {
         })
             .then((response: any) => {
                 // console.log("response", response?.data)
-                setData(response?.data);
+                let data: any = response.data;
+                data = data.sort()
+                data = data.reverse()
+                setData(data)
             })
             .catch((error: any) => console.log("ERROR", error))
             .finally(() => {
