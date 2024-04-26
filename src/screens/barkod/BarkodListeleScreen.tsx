@@ -336,7 +336,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
     }
     const handleSearchProductManuel = async () => {
         console.log("selectedCompany?.Id", selectedCompany?.Id)
-        console.log("barcodeText", barcodeText)
+        console.log("barcodeTextManuel", barcodeTextManuel)
         setLoadingSearch(true);
         await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
             "?companyId=" + selectedCompany?.Id + "&name=" + barcodeTextManuel + "&garajNo=" + ProjectCode, {}, {
@@ -348,14 +348,12 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 console.log("URUN ARA", response.data)
                 console.log("URUN ARA", response.data[0]?.Logicalref)
                 setProductSearch(response.data)
-                console.log("productSearch ", productSearch)
-                console.log("", productSearch.length)
             })
             .catch((error: any) => {
                 Alert.alert("Kayıt Bulunamadı...")
                 console.log(error)
                 setBarcodeTextState(true)
-                setBarcodeText("")
+                setBarcodeTextManuel("")
             })
             .finally(() => {
                 setLoadingSearch(false);
@@ -376,7 +374,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 SayimId: Id,
                 ItemId: ItemId,
                 ItemAmount: 1,
-                LogoAmount: LogoAmount
+                LogoItemAmount: LogoAmount
 
             }))
         }
@@ -385,7 +383,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 SayimId: Id,
                 ItemId: ItemId,
                 ItemAmount: barcodeMiktar,
-                LogoAmount: LogoAmount
+                LogoItemAmount: LogoAmount
 
             }))
         }
@@ -517,13 +515,6 @@ export default function BarkodListeleScreen({ props, route }: any) {
             }
         }
     }, [productSearch])
-    useEffect(() => {
-        console.log("ÇAlıştı 1")
-        if (isCamera == false) {
-            setIsOto(false)
-            console.log("ÇAlıştı 111")
-        }
-    }, [isCamera])
     return (
         <SafeAreaView style={styles.container}>
             {
@@ -609,14 +600,18 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                         }}
                                                         placeholder='Miktar Giriniz'
                                                         placeholderTextColor={"#666"}
-                                                        // autoFocus={barcodeTextState}
+                                                    // autoFocus={barcodeTextState}
                                                     />
                                                     <ButtonPrimary text="Ekle"
                                                         disabled={productSearch.length < 1 || barcodeMiktar == "" ? true : false}
-                                                        onPress={() => handleAddList({
-                                                            ItemId: productSearch[0]?.Logicalref,
-                                                            LogoAmount: productSearch[0]?.Onhand
-                                                        })} />
+                                                        onPress={() => {
+                                                            console.log("productSearch[0]?.Logicalref", productSearch[0]?.Logicalref)
+                                                            console.log("productSearch[0]?.Onhand: ", productSearch[0]?.Onhand)
+                                                            handleAddList({
+                                                                ItemId: productSearch[0]?.Logicalref,
+                                                                LogoAmount: productSearch[0]?.Onhand
+                                                            })
+                                                        }} />
                                                     {
                                                         productSearch.length == 0 ?
                                                             null
