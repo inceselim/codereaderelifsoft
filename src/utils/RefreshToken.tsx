@@ -25,7 +25,7 @@ async function RefreshToken() {
     // REFRESH TOKEN ALMA SURESI
     //
     const deneme = async () => {
-        if (time < 3 * 24 * 60 * 60 * 1000) {
+        if (time < 1 * 24 * 60 * 60 * 1000) {
             // await fetch("https://jsonplaceholder.typicode.com/todos/1")
             console.log("")
             console.log("REFRESH TOKEN ALMA SURESI")

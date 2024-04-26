@@ -143,7 +143,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
     }, [])
 
     useEffect(() => {
-        if (searchFisText.length > 3) {
+        if (searchFisText.length > 1) {
             let temp = data.filter((filter: any) => {
                 // console.log(filter)
                 return (
@@ -222,18 +222,19 @@ export default function ArizaTalepScreen({ props, route }: any) {
                         </View>
                         :
                         <View style={styles.content}>
+                            <TextInput style={styles.textInput}
+                                value={searchFisText}
+                                onChangeText={setSearchFisText}
+                                placeholder="Fiş No Giriniz..."
+                                placeholderTextColor={colors.gray}
+                            />
                             <FlatList
                                 ListEmptyComponent={<NoData />}
-                                ListHeaderComponent={
-                                    <>
-                                        <TextInput style={styles.textInput}
-                                            value={searchFisText}
-                                            onChangeText={setSearchFisText}
-                                            placeholder="Fiş No Giriniz..."
-                                            placeholderTextColor={colors.gray}
-                                        />
-                                    </>
-                                }
+                                // ListHeaderComponent={
+                                //     <>
+
+                                //     </>
+                                // }
                                 data={searchFisText != "" ? filterData.length > 0 ? filterData : data : data}
                                 renderItem={({ item }: any) => {
                                     return (
