@@ -79,8 +79,8 @@ android {
         applicationId "com.codereaderelifsoft"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 22
-        versionName "18.4"
+        versionCode 23
+        versionName "18.4.01"
         resConfigs "en","tr"
     }
     signingConfigs {

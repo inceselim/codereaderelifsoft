@@ -14,6 +14,7 @@ import LoadingCard from '../../components/LoadingCard/LoadingCard';
 import { NoData } from '../../components/NoData/NoData';
 import CardView from '../../components/CardView';
 import { ViewTwoRow } from '../../components/ViewTwoRow/ViewTwoRow';
+import { RefreshSquare } from 'iconsax-react-native';
 
 export default function ArizaTalepScreen({ props, route }: any) {
     const navigation: any = useNavigation();
@@ -98,7 +99,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
         setLoading(true);
         // begDate?.toISOString()
         await axios.get(API_URL.BASE_URL + API_URL.ARIZA_LIST +
-            "?begDate=" + begDate + "&endDate=" + endDate +
+            "?begDate=" + begDate?.toISOString() + "&endDate=" + endDate?.toISOString() +
             "&DurumLogo=" + "1" + "&IsDeleted=false", {
             headers: {
                 Authorization: "Bearer " + userToken
@@ -160,10 +161,14 @@ export default function ArizaTalepScreen({ props, route }: any) {
                         <Image
                             source={require("../../assets/images/filterIcon1.png")}
                             style={{
-                                width: 30,
-                                height: 30
+                                width: 28,
+                                height: 28,
+                                marginEnd: 12,
                             }}
                         />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => getArizaTalepListAll()}>
+                        <RefreshSquare size="34" color={colors.primaryColor} />
                     </TouchableOpacity>
                 </>
             ),
@@ -191,7 +196,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
                             <ViewColCard>
                                 <Text style={[styles.textBold, { paddingTop: 4 }]}>Tarihe Göre Arama Yap</Text>
                                 <ButtonPrimary
-                                    text={`Başlangıç Tarihi ${"\t"}`}
+                                    text={`Başlangıç Tarihi ${"\t" + begDate != "" ? begDate?.toLocaleDateString("tr-TR") : null}`}
                                     onPress={showDatePickerBegDate} />
                                 <DateTimePickerModal
                                     isVisible={pickerShowBegDate}
@@ -200,7 +205,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
                                     onCancel={hideDatePickerBegDate}
                                 />
                                 <ButtonPrimary
-                                    text={`Bitiş Tarihi`}
+                                    text={`Bitiş Tarihi ${"\t" + endDate != "" ? endDate?.toLocaleDateString("tr-TR") : null}`}
                                     onPress={showDatePickerEndDate} />
                                 <DateTimePickerModal
                                     isVisible={pickerShowEndDate}
