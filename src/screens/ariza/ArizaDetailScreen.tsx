@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, Alert, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, Alert, FlatList, Image, Pressable, TouchableOpacity } from 'react-native';
 import { styles } from '../../styles/styles';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
@@ -34,6 +34,24 @@ export default function ArizaDetailScreen({ props }: any) {
             })
             .finally(() => setLoading(false))
     }
+    const deleteProduct = async ({ itemId }: any) => {
+        console.log(itemId)
+        // setLoading(true)
+        // await axios.get(API_URL.BASE_URL + API_URL.ARIZA_MALZEME_SIL + "?ArizaId=" + id, {
+        //     headers: {
+        //         "Authorization": "Bearer " + userToken
+        //     }
+        // })
+        //     .then((response: any) => {
+        //         console.log("arizaDetail response: ", response.data)
+        //         setData(response.data)
+        //     })
+        //     .catch((error: any) => {
+        //         console.log("Ariza detail ERROR: ", error)
+        //         Alert.alert("Hata Oluştu", error)
+        //     })
+        //     .finally(() => setLoading(false))
+    }
     useEffect(() => {
         getData()
     }, [])
@@ -50,26 +68,34 @@ export default function ArizaDetailScreen({ props }: any) {
                             renderItem={({ item }: any) => {
                                 return (
                                     <CardView>
-                                        <View>
-                                            <Text style={styles.textTitle}>Ürün Kodu: {item?.UrunKod}</Text>
-                                            {/* <Text style={styles.textNormal}>Ürün Id: {item?.UrunId}</Text> */}
-                                            <View style={styles.viewTwoRows}>
-                                                <Text style={styles.textBold}>Ürün Adı:</Text>
-                                                <Text style={styles.textNormal}>{item?.UrunAd}</Text>
+                                        <View style={{ flexDirection: "row", }}>
+                                            <View style={{ marginEnd: 30, flex: 1, }}>
+                                                <Text style={[styles.textTitle, { flexWrap: "wrap", }]}>Ürün Adı: {item?.UrunAd}</Text>
                                             </View>
-                                            <View style={styles.viewTwoRows}>
-                                                <Text style={styles.textBold}>Üretici Kod:</Text>
-                                                <Text style={styles.textNormal}>{item?.UreticiKod}</Text>
+                                            <View>
+                                                <TouchableOpacity onPress={() => {
+                                                    deleteProduct({ itemId: item?.ArizaMalzemeId })
+                                                }}>
+                                                    <Image style={{ width: 40, height: 40 }}
+                                                        source={require('../../assets/images/deleteIcon1.png')}
+                                                    />
+                                                </TouchableOpacity>
                                             </View>
-                                            <View style={styles.viewTwoRows}>
-                                                <Text style={styles.textBold}>Birim:</Text>
-                                                <Text style={styles.textNormal}>{item?.Birim}</Text>
-                                            </View>
-                                            <View style={styles.viewTwoRows}>
-                                                <Text style={styles.textBold}>Miktar:</Text>
-                                                <Text style={styles.textNormal}>{item?.Miktar}</Text>
-                                            </View>
-                                            <View style={styles.viewTwoRows}>
+                                        </View>
+                                        {/* <Text style={styles.textNormal}>Ürün Id: {item?.UrunId}</Text> */}
+                                        <View style={styles.viewTwoRows}>
+                                            <Text style={styles.textBold}>Ürün Kodu:</Text>
+                                            <Text style={styles.textNormal}>{item?.UrunKod}</Text>
+                                        </View>
+                                        <View style={styles.viewTwoRows}>
+                                            <Text style={styles.textBold}>Üretici Kod:</Text>
+                                            <Text style={styles.textNormal}>{item?.UreticiKod}</Text>
+                                        </View>
+                                        <View style={styles.viewTwoRows}>
+                                            <Text style={styles.textBold}>Miktar:</Text>
+                                            <Text style={styles.textNormal}>{item?.Miktar} {item?.Birim}</Text>
+                                        </View>
+                                        {/* <View style={styles.viewTwoRows}>
                                                 <Text style={styles.textBold}>Stok Miktarı:</Text>
                                                 <Text style={styles.textNormal}>{item?.D1}</Text>
                                             </View>
@@ -84,14 +110,13 @@ export default function ArizaDetailScreen({ props }: any) {
                                             <View style={styles.viewTwoRows}>
                                                 <Text style={styles.textBold}>Kullanıcı:</Text>
                                                 <Text style={styles.textNormal}>{item?.KullaniciAdSoyad}</Text>
-                                            </View>
-                                        </View>
+                                            </View> */}
                                     </CardView>
                                 )
                             }}
                         />
                     </View>
             }
-        </SafeAreaView>
+        </SafeAreaView >
     );
 }
