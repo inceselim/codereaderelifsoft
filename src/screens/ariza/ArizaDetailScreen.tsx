@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import LoadingCard from '../../components/LoadingCard/LoadingCard';
 import { NoData } from '../../components/NoData/NoData';
 import CardView from '../../components/CardView';
+import Tts from 'react-native-tts';
 
 export default function ArizaDetailScreen({ props }: any) {
     const navigation: any = useNavigation();
@@ -16,6 +17,7 @@ export default function ArizaDetailScreen({ props }: any) {
     const userToken = useSelector((state: any) => state.auth?.userToken)
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [loadingDelete, setLoadingDelete] = useState(false);
 
     const getData = async () => {
         setLoading(true)
@@ -36,7 +38,7 @@ export default function ArizaDetailScreen({ props }: any) {
     }
     const deleteProduct = async ({ itemId }: any) => {
         console.log(itemId)
-        setLoading(true)
+        setLoadingDelete(true)
         await axios.delete(API_URL.DEV_URL + API_URL.ARIZA_MALZEME_SIL + "?key=" + itemId, {
             headers: {
                 "Authorization": "Bearer " + userToken
@@ -44,13 +46,31 @@ export default function ArizaDetailScreen({ props }: any) {
         })
             .then((response: any) => {
                 console.log("arizaDetail response: ", response.data)
-                setData(response.data)
+                Tts.speak('Silindi', {
+                    iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                    rate: 0.5,
+                    androidParams: {
+                        KEY_PARAM_PAN: 0,
+                        KEY_PARAM_VOLUME: 1.0,
+                        KEY_PARAM_STREAM: 'STREAM_SYSTEM',
+                    },
+                });
             })
             .catch((error: any) => {
                 console.log("Ariza detail ERROR: ", error)
-                Alert.alert("Hata Oluştu", error)
+                Tts.setDefaultLanguage('tr-TR');
+
+                Tts.speak('Hata oluştu', {
+                    iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                    rate: 0.5,
+                    androidParams: {
+                        KEY_PARAM_PAN: 0,
+                        KEY_PARAM_VOLUME: 1.0,
+                        KEY_PARAM_STREAM: 'STREAM_SYSTEM',
+                    },
+                });
             })
-            .finally(() => setLoading(false))
+            .finally(() => setLoadingDelete(false))
     }
     useEffect(() => {
         getData()
@@ -58,7 +78,7 @@ export default function ArizaDetailScreen({ props }: any) {
     return (
         <SafeAreaView style={styles.container}>
             {
-                loading ?
+                loading || loadingDelete ?
                     <LoadingCard />
                     :
                     <View style={styles.content}>
