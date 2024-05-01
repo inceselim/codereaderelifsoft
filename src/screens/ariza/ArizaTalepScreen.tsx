@@ -73,7 +73,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
         const istenenFormatBegDate = `${oneYearAgo.getUTCFullYear()}-${(oneYearAgo.getUTCMonth() + 1).toString().padStart(2, '0')}-${oneYearAgo.getUTCDate().toString().padStart(2, '0')}T${oneYearAgo.getUTCHours().toString().padStart(2, '0')}:${oneYearAgo.getUTCMinutes().toString().padStart(2, '0')}:${oneYearAgo.getUTCSeconds().toString().padStart(2, '0')}.${oneYearAgo.getUTCMilliseconds().toString().padStart(3, '0')}Z`;
         const istenenFormatEndDate = `${tomorrow.getUTCFullYear()}-${(tomorrow.getUTCMonth() + 1).toString().padStart(2, '0')}-${tomorrow.getUTCDate().toString().padStart(2, '0')}T${tomorrow.getUTCHours().toString().padStart(2, '0')}:${tomorrow.getUTCMinutes().toString().padStart(2, '0')}:${tomorrow.getUTCSeconds().toString().padStart(2, '0')}.${tomorrow.getUTCMilliseconds().toString().padStart(3, '0')}Z`;
 
-        await axios.get(API_URL.BASE_URL + API_URL.ARIZA_LIST +
+        await axios.get(API_URL.DEV_URL + API_URL.ARIZA_LIST +
             "?begDate=" + istenenFormatBegDate + "&endDate=" + istenenFormatEndDate +
             "&DurumLogo=" + "1" + "&IsDeleted=false", {
             headers: {
@@ -98,7 +98,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
         console.log("qw", begDate, endDate)
         setLoading(true);
         // begDate?.toISOString()
-        await axios.get(API_URL.BASE_URL + API_URL.ARIZA_LIST +
+        await axios.get(API_URL.DEV_URL + API_URL.ARIZA_LIST +
             "?begDate=" + begDate?.toISOString() + "&endDate=" + endDate?.toISOString() +
             "&DurumLogo=" + "1" + "&IsDeleted=false", {
             headers: {
@@ -120,7 +120,7 @@ export default function ArizaTalepScreen({ props, route }: any) {
     }
     const getArizaTalepListKapı = async () => {
         setLoadingSearchDoor(true);
-        await axios.get(API_URL.BASE_URL + API_URL.ARIZA_LIST_KAPI_NO +
+        await axios.get(API_URL.DEV_URL + API_URL.ARIZA_LIST_KAPI_NO +
             "?searchText=" + searchDoorText, {
             headers: {
                 Authorization: "Bearer " + userToken
