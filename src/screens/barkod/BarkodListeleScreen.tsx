@@ -665,6 +665,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                                 </View>
                                                             }}
                                                         />
+                                                        <ButtonPrimary text="Gönder"/>
                                                     </CardView>
                                                     : null
                                             }
