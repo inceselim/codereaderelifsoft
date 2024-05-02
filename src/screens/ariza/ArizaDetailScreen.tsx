@@ -39,6 +39,7 @@ export default function ArizaDetailScreen({ props }: any) {
     const deleteProduct = async ({ itemId }: any) => {
         console.log(itemId)
         setLoadingDelete(true)
+        console.log(API_URL.DEV_URL + API_URL.ARIZA_MALZEME_SIL + "?key=" + itemId)
         await axios.delete(API_URL.DEV_URL + API_URL.ARIZA_MALZEME_SIL + "?key=" + itemId, {
             headers: {
                 "Authorization": "Bearer " + userToken
@@ -74,7 +75,7 @@ export default function ArizaDetailScreen({ props }: any) {
     }
     useEffect(() => {
         getData()
-    }, [])
+    }, [loadingDelete])
     return (
         <SafeAreaView style={styles.container}>
             {
