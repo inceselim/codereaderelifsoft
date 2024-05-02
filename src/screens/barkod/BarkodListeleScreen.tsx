@@ -649,6 +649,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                                             {item?.Name}
                                                                         </Text>
                                                                     </View>
+                                                                    <ButtonPrimary text="Listeye Ekle" onPress={() => setDataEklenenler(item)} />
                                                                 </CardView>
                                                             </View>
                                                         )
@@ -659,13 +660,14 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                     <CardView>
                                                         <Text style={styles.textTitle}>Eklenenler</Text>
                                                         <FlatList data={dataEklenenler}
+                                                        
                                                             renderItem={({ item }: any) => {
                                                                 <View>
                                                                     <Text></Text>
                                                                 </View>
                                                             }}
                                                         />
-                                                        <ButtonPrimary text="Gönder"/>
+                                                        <ButtonPrimary text="Gönder" />
                                                     </CardView>
                                                     : null
                                             }
