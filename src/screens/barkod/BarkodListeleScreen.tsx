@@ -52,6 +52,10 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
     const [segment, setSegment] = useState(0);
 
+    //
+    //Ön Listeye Eklenen Kayıtlar
+    const [dataEklenenler, setDataEklenenler] = useState([]);
+
     const handleBarcode = async () => {
         setLoading(true);
         // console.log("ID: ", Id)
@@ -649,6 +653,20 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                             </View>
                                                         )
                                                     })
+                                            }
+                                            {
+                                                dataEklenenler?.length > 0 ?
+                                                    <CardView>
+                                                        <Text style={styles.textTitle}>Eklenenler</Text>
+                                                        <FlatList data={dataEklenenler}
+                                                            renderItem={({ item }: any) => {
+                                                                <View>
+                                                                    <Text></Text>
+                                                                </View>
+                                                            }}
+                                                        />
+                                                    </CardView>
+                                                    : null
                                             }
                                         </View>
                                     </View>
