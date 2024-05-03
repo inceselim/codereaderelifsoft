@@ -57,6 +57,16 @@ export default function BarkodListeleScreen({ props, route }: any) {
     const [dataEklenenler, setDataEklenenler] = useState<any[]>([]);
     const addItemToArray = (newItem: any) => {
         console.log("newItem: ", newItem)
+        const newItemCode = newItem.ItemCode;
+
+        // dataEklenenler içinde aynı ItemCode değerine sahip öğe var mı kontrol ediyoruz
+        const isDuplicate = dataEklenenler.some(item => item.ItemCode === newItemCode);
+    
+        if (isDuplicate) {
+          Alert.alert('Uyarı', 'Bu öğe zaten eklenmiş.', [{ text: 'Tamam' }]);
+        } else {
+          setDataEklenenler(prevArray => [...prevArray, newItem]);
+        }
         setDataEklenenler((prevArray: any) => [...prevArray, newItem]);
         console.log(dataEklenenler)
     };
@@ -711,7 +721,11 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                                             <Text style={styles.textNormal}>{item?.Name}</Text>
                                                                         </View>
                                                                         <View>
-                                                                            <Text style={styles.textBold}>{item?.ItemAmount} {item?.ItemUnitName}</Text>
+                                                                            <Text style={styles.textBold}>{item?.ItemAmount} {item?.UnitName}</Text>
+                                                                            <TouchableOpacity onPress={() => removeItemFromArray(index)}>
+                                                                                <Image source={require("../../assets/images/deleteIcon1.png")}
+                                                                                    style={{ height: 30, width: 30 }} />
+                                                                            </TouchableOpacity>
                                                                             <TouchableOpacity onPress={() => removeItemFromArray(index)}>
                                                                                 <Image source={require("../../assets/images/deleteIcon1.png")}
                                                                                     style={{ height: 30, width: 30 }} />
