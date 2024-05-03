@@ -54,8 +54,16 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
     //
     //Ön Listeye Eklenen Kayıtlar
-    const [dataEklenenler, setDataEklenenler] = useState([]);
+    const [dataEklenenler, setDataEklenenler] = useState<any[]>([]);
+    const addItemToArray = (newItem: any) => {
+        console.log("newItem: ", newItem)
+        setDataEklenenler((prevArray: any) => [...prevArray, newItem]);
+        console.log(dataEklenenler)
+    };
 
+    const removeItemFromArray = (indexToRemove: number) => {
+        setDataEklenenler(prevData => prevData.filter((_, index) => index !== indexToRemove));
+    };
     const handleBarcode = async () => {
         setLoading(true);
         // console.log("ID: ", Id)
@@ -584,12 +592,15 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                         productSearch?.length > 0 ?
                                                             <>
                                                                 <ButtonPrimary text={"Temizle"} onPress={() => setProductSearch([])} />
-                                                                <ButtonPrimary text={"Ekle"} onPress={() => {
+                                                                <ButtonPrimary text="Listeye Ekle" onPress={() => {
+                                                                    addItemToArray(productSearch[0])
+                                                                }} />
+                                                                {/* <ButtonPrimary text={"Ekle"} onPress={() => {
                                                                     handleAddList({
                                                                         ItemId: productSearch[0]?.Logicalref,
                                                                         LogoAmount: productSearch[0]?.Onhand
                                                                     })
-                                                                }} />
+                                                                }} /> */}
                                                             </>
                                                             : null
                                                     }
@@ -649,7 +660,27 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                                             {item?.Name}
                                                                         </Text>
                                                                     </View>
-                                                                    <ButtonPrimary text="Listeye Ekle" onPress={() => setDataEklenenler(item)} />
+                                                                    <ButtonPrimary text="Listeye Ekle" onPress={() => {
+                                                                        addItemToArray({
+                                                                            Code: item?.Code,
+                                                                            Firm: item?.Firm,
+                                                                            GarajNo: item?.GarajNo,
+                                                                            Kdv: item?.Kdv,
+                                                                            Logicalref: item?.Logicalref,
+                                                                            Name: item?.Name,
+                                                                            Name4: item?.Name4,
+                                                                            Onhand: item?.Onhand,
+                                                                            ProducerCode: item?.ProducerCode,
+                                                                            UnitLineRef: item?.UnitLineRef,
+                                                                            UnitName: item?.UnitName,
+                                                                            WHouseNr: item?.WHouseNr,
+                                                                            WhouseName: item?.WhouseName,
+                                                                            ItemId: item?.Logicalref,
+                                                                            LogoAmount: item?.Onhand,
+                                                                            SayimId: Id,
+                                                                            ItemAmount: barcodeMiktar != "" ? barcodeMiktar : 1,
+                                                                        })
+                                                                    }} />
                                                                 </CardView>
                                                             </View>
                                                         )
@@ -658,16 +689,38 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                             {
                                                 dataEklenenler?.length > 0 ?
                                                     <CardView>
+                                                        <ButtonPrimary text="Gönder" onPress={() => {
+                                                            handleAddList({
+                                                                ItemId: productSearch[0]?.Logicalref,
+                                                                LogoAmount: productSearch[0]?.Onhand
+                                                            })
+                                                        }} />
                                                         <Text style={styles.textTitle}>Eklenenler</Text>
-                                                        <FlatList data={dataEklenenler}
-                                                        
-                                                            renderItem={({ item }: any) => {
-                                                                <View>
-                                                                    <Text></Text>
-                                                                </View>
-                                                            }}
-                                                        />
-                                                        <ButtonPrimary text="Gönder" />
+                                                        {
+                                                            dataEklenenler?.map((item: any, index: number) => {
+                                                                console.log("dataEklenenler", item.Code)
+                                                                console.log("dataEklenenler", index)
+                                                                return (
+                                                                    <View key={index} style={[styles.textBold, {
+                                                                        paddingVertical: 1,
+                                                                        flexDirection: "row",
+                                                                        justifyContent: "space-between"
+                                                                    }]}>
+                                                                        <View>
+                                                                            <Text style={styles.textNormal}>{item?.Code}</Text>
+                                                                            <Text style={styles.textNormal}>{item?.Name}</Text>
+                                                                        </View>
+                                                                        <View>
+                                                                            <Text style={styles.textBold}>{item?.ItemAmount} {item?.ItemUnitName}</Text>
+                                                                            <TouchableOpacity onPress={() => removeItemFromArray(index)}>
+                                                                                <Image source={require("../../assets/images/deleteIcon1.png")}
+                                                                                    style={{ height: 30, width: 30 }} />
+                                                                            </TouchableOpacity>
+                                                                        </View>
+                                                                    </View>
+                                                                )
+                                                            })
+                                                        }
                                                     </CardView>
                                                     : null
                                             }
