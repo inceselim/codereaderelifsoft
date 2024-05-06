@@ -54,6 +54,10 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
     //
     //Ön Listeye Eklenen Kayıtlar
+    const [modalVisibleList, setModalVisibleList] = useState(false);
+    const [eklenenlerId, setEklenenlerId] = useState("");
+    const [eklenenlerMiktar, setEklenenlerMiktar] = useState("");
+    const [shouldUpdate, setShouldUpdate] = useState(false);
     const [dataEklenenler, setDataEklenenler] = useState<any[]>([]);
     const addItemToArray = (newItem: any) => {
         console.log("newItem: ", newItem)
@@ -61,15 +65,46 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
         // dataEklenenler içinde aynı ItemCode değerine sahip öğe var mı kontrol ediyoruz
         const isDuplicate = dataEklenenler.some(item => item.ItemCode === newItemCode);
-    
+
         if (isDuplicate) {
-          Alert.alert('Uyarı', 'Bu öğe zaten eklenmiş.', [{ text: 'Tamam' }]);
+            Alert.alert('Uyarı', 'Bu öğe zaten eklenmiş.', [
+                {
+                    text: 'İptal',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
+                {
+                    text: 'Ekle', onPress: () => {
+                        setDataEklenenler(prevArray => [...prevArray, newItem])
+                    }
+                },
+            ]);
         } else {
-          setDataEklenenler(prevArray => [...prevArray, newItem]);
+            setDataEklenenler(prevArray => [...prevArray, newItem]);
         }
-        setDataEklenenler((prevArray: any) => [...prevArray, newItem]);
+        setBarcodeMiktar("")
+        setBarcodeText("")
+        setBarcodeTextManuel("")
+        setProductSearch([])
+
+        // setDataEklenenler((prevArray: any) => [...prevArray, newItem]);
         console.log(dataEklenenler)
     };
+    // console.log(dataEklenenler)
+    // console.log(userToken)
+
+    const eklenenlerMiktarGuncelle = () => {
+        console.log("")
+        console.log("eklenenlerId: ", eklenenlerId)
+        const processedText = eklenenlerMiktar.replace(/,/g, '.');
+        console.log("eklenenlerMiktar: ", processedText)
+        const newData = [...dataEklenenler]; // Veriyi kopyalayın
+        newData[parseFloat(eklenenlerId)].ItemAmount = processedText; // Yeni ItemAmount değerini atayın
+        setDataEklenenler(newData);
+        setModalVisibleList(false);
+        setEklenenlerId("");
+        setEklenenlerMiktar("");
+    }
 
     const removeItemFromArray = (indexToRemove: number) => {
         setDataEklenenler(prevData => prevData.filter((_, index) => index !== indexToRemove));
@@ -700,36 +735,35 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                 dataEklenenler?.length > 0 ?
                                                     <CardView>
                                                         <ButtonPrimary text="Gönder" onPress={() => {
-                                                            handleAddList({
-                                                                ItemId: productSearch[0]?.Logicalref,
-                                                                LogoAmount: productSearch[0]?.Onhand
-                                                            })
+                                                            handleAddList(dataEklenenler)
                                                         }} />
                                                         <Text style={styles.textTitle}>Eklenenler</Text>
                                                         {
                                                             dataEklenenler?.map((item: any, index: number) => {
-                                                                console.log("dataEklenenler", item.Code)
-                                                                console.log("dataEklenenler", index)
                                                                 return (
                                                                     <View key={index} style={[styles.textBold, {
-                                                                        paddingVertical: 1,
+                                                                        paddingVertical: 6,
                                                                         flexDirection: "row",
                                                                         justifyContent: "space-between"
                                                                     }]}>
                                                                         <View>
+                                                                            <Text style={styles.textBold}>{item?.Name}</Text>
                                                                             <Text style={styles.textNormal}>{item?.Code}</Text>
-                                                                            <Text style={styles.textNormal}>{item?.Name}</Text>
                                                                         </View>
                                                                         <View>
                                                                             <Text style={styles.textBold}>{item?.ItemAmount} {item?.UnitName}</Text>
-                                                                            <TouchableOpacity onPress={() => removeItemFromArray(index)}>
-                                                                                <Image source={require("../../assets/images/deleteIcon1.png")}
-                                                                                    style={{ height: 30, width: 30 }} />
-                                                                            </TouchableOpacity>
-                                                                            <TouchableOpacity onPress={() => removeItemFromArray(index)}>
-                                                                                <Image source={require("../../assets/images/deleteIcon1.png")}
-                                                                                    style={{ height: 30, width: 30 }} />
-                                                                            </TouchableOpacity>
+                                                                            <View style={styles.viewTwoRowJustify}>
+                                                                                <TouchableOpacity onPress={() => removeItemFromArray(index)}>
+                                                                                    <Image source={require("../../assets/images/deleteIcon1.png")}
+                                                                                        style={{ height: 30, width: 30, marginEnd: 12 }} />
+                                                                                </TouchableOpacity>
+                                                                                <TouchableOpacity onPress={() => {
+                                                                                    setModalVisibleList(!modalVisibleList)
+                                                                                    setEklenenlerId(String(index))
+                                                                                }}>
+                                                                                    <Magicpen size={30} variant="Bulk" color={colors.primaryColor} />
+                                                                                </TouchableOpacity>
+                                                                            </View>
                                                                         </View>
                                                                     </View>
                                                                 )
@@ -740,6 +774,49 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                             }
                                         </View>
                                     </View>
+                                    <Modal
+                                        animationType="slide"
+                                        transparent={true}
+                                        visible={modalVisibleList}
+                                        onRequestClose={() => {
+                                            setModalVisibleList(!modalVisibleList);
+                                        }}>
+                                        <View style={styleModal.centeredView}>
+                                            <View style={styleModal.modalView}>
+                                                <View style={styles.viewTwoRowJustify}>
+                                                    <Text />
+                                                    <Pressable onPress={() => setModalVisibleList(false)}>
+                                                        <Image source={require("../../assets/images/closeIcon2.png")}
+                                                            style={{
+                                                                height: 30,
+                                                                width: 30
+                                                            }}
+                                                        />
+                                                    </Pressable>
+                                                </View>
+                                                <TextInput style={styles.textInput}
+                                                    value={eklenenlerMiktar}
+                                                    keyboardType='decimal-pad'
+                                                    onChangeText={setEklenenlerMiktar}
+                                                    onSubmitEditing={eklenenlerMiktarGuncelle}
+                                                    // onBlur={(e) => handleBlur(e.nativeEvent.text)}
+                                                    // onKeyPress={(event) => {
+                                                    //     console.log(event)
+                                                    //     if (event.nativeEvent.key === 'Enter') {
+                                                    //         eklenenlerMiktarGuncelle();
+                                                    //         Keyboard.dismiss(); // Klavyeyi kapat
+                                                    //     }
+                                                    // }}
+                                                    placeholder='Ürün Miktarı Giriniz...'
+                                                    placeholderTextColor={colors.gray} />
+                                                <ButtonPrimary text={"Güncelle"}
+                                                    disabled={productAmount != null ? false : true}
+                                                    onPress={() => {
+                                                        eklenenlerMiktarGuncelle()
+                                                    }} />
+                                            </View>
+                                        </View>
+                                    </Modal>
                                 </ScrollView>
                                 :
                                 <View style={{ flex: 1 }}>
