@@ -88,7 +88,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
         setProductSearch([])
 
         // setDataEklenenler((prevArray: any) => [...prevArray, newItem]);
-        console.log(dataEklenenler)
+        console.log("dataEklenenler: ",dataEklenenler)
     };
     // console.log(dataEklenenler)
     // console.log(userToken)
@@ -417,76 +417,78 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 setFetchState(false)
             })
     }
-    const handleAddList = async ({ ItemId, LogoAmount }: any) => {
+    // const handleAddList = async ({ ItemId, LogoAmount }: any) => {
+    const handleAddList = async () => {
         setLoadingAddProduct(true);
-        console.log("Id?.Id", Id)
-        console.log("barcodeText", barcodeText)
-        console.log("ItemId", ItemId)
-        console.log("barcodeMiktar", barcodeMiktar)
-        console.log("LogoAmount", LogoAmount)
 
         const formData = new FormData();
-        if (barcodeMiktar != "") {
-            formData.append("values", JSON.stringify({
+        const tmpData: any[] = [];
+        for (let index = 0; index < dataEklenenler.length; index++) {
+            tmpData.push({
                 SayimId: Id,
-                ItemId: ItemId,
-                ItemAmount: barcodeMiktar,
-                LogoItemAmount: LogoAmount
-
-            }))
-        }
-        else {
-            formData.append("values", JSON.stringify({
-                SayimId: Id,
-                ItemId: ItemId,
-                ItemAmount: 1,
-                LogoItemAmount: LogoAmount
-
-            }))
-        }
-        if (ItemId != "") {
-            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
-                headers: {
-                    "Authorization": "Bearer " + userToken,
-                    "Content-Type": "multipart/form-data"
-                }
+                ItemId: dataEklenenler[index].ItemId,
+                ItemAmount: dataEklenenler[index].ItemAmount,
+                LogoItemAmount: dataEklenenler[index].LogoAmount
             })
-                .then((response: any) => {
-                    console.log("URUN EKLE", response.data)
-                    Tts.setDefaultLanguage('tr-TR');
-                    Tts.speak('Eklendi', {
-                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-                        rate: 0.5,
-                        androidParams: {
-                            KEY_PARAM_PAN: 0,
-                            KEY_PARAM_VOLUME: 1.0,
-                            KEY_PARAM_STREAM: 'STREAM_DTMF',
-                        },
-                    });
-                })
-                .catch((error: any) => {
-                    console.log("URUN EKLE", error)
-                    Tts.setDefaultLanguage('tr-TR');
-                    Tts.speak('Hata oluştu', {
-                        iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
-                        rate: 0.5,
-                        androidParams: {
-                            KEY_PARAM_PAN: 0,
-                            KEY_PARAM_VOLUME: 1.0,
-                            KEY_PARAM_STREAM: 'STREAM_DTMF',
-                        },
-                    });
-                })
-                .finally(() => {
-                    setLoadingAddProduct(false);
-                    setBarcodeMiktar("")
-                    setProductSearch([])
-                    setBarcodeText("")
-                    setBarcodeTextState(true)
-                    setFetchState(false)
-                    setBarcodeTextManuel("")
-                })
         }
+        console.log(tmpData)
+
+        // if (barcodeMiktar != "") {
+        // formData.append("values", JSON.stringify(dataEklenenler))
+        formData.append("values", JSON.stringify({
+            SayimId: Id,
+            ItemId: 11,
+            ItemAmount: 11,
+            LogoItemAmount: 1
+        }))
+        console.log(formData)
+        // }
+        // else {
+        //     formData.append("values", JSON.stringify(dataEklenenler))
+        //     console.log(formData)
+        // }
+        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
+            headers: {
+                "Authorization": "Bearer " + userToken,
+                "Content-Type": "multipart/form-data"
+            }
+        })
+            .then((response: any) => {
+                console.log("URUN EKLE", response.data)
+                Tts.setDefaultLanguage('tr-TR');
+                Tts.speak('Eklendi', {
+                    iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                    rate: 0.5,
+                    androidParams: {
+                        KEY_PARAM_PAN: 0,
+                        KEY_PARAM_VOLUME: 1.0,
+                        KEY_PARAM_STREAM: 'STREAM_DTMF',
+                    },
+                });
+                setDataEklenenler([])
+            })
+            .catch((error: any) => {
+                console.log("URUN EKLE", error)
+                Tts.setDefaultLanguage('tr-TR');
+                Tts.speak('Hata oluştu', {
+                    iosVoiceId: 'com.apple.voice.compact.tr-TR.Yelda',
+                    rate: 0.5,
+                    androidParams: {
+                        KEY_PARAM_PAN: 0,
+                        KEY_PARAM_VOLUME: 1.0,
+                        KEY_PARAM_STREAM: 'STREAM_DTMF',
+                    },
+                });
+            })
+            .finally(() => {
+                setLoadingAddProduct(false);
+                setBarcodeMiktar("")
+                setProductSearch([])
+                setBarcodeText("")
+                setBarcodeTextState(true)
+                setFetchState(false)
+                setBarcodeTextManuel("")
+            })
     }
 
     useEffect(() => {
@@ -735,7 +737,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                 dataEklenenler?.length > 0 ?
                                                     <CardView>
                                                         <ButtonPrimary text="Gönder" onPress={() => {
-                                                            handleAddList(dataEklenenler)
+                                                            handleAddList()
                                                         }} />
                                                         <Text style={styles.textTitle}>Eklenenler</Text>
                                                         {
@@ -798,7 +800,8 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                     value={eklenenlerMiktar}
                                                     keyboardType='decimal-pad'
                                                     onChangeText={setEklenenlerMiktar}
-                                                    onSubmitEditing={eklenenlerMiktar != "" ? eklenenlerMiktarGuncelle : Keyboard.dismiss}
+                                                    onSubmitEditing={() => eklenenlerMiktar != "" ?
+                                                        eklenenlerMiktarGuncelle() : setModalVisibleList(false)}
                                                     selectionColor={colors.primaryColor}
                                                     returnKeyType='done'
                                                     // onBlur={(e) => handleBlur(e.nativeEvent.text)}
@@ -812,7 +815,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                     placeholder='Ürün Miktarı Giriniz...'
                                                     placeholderTextColor={colors.gray} />
                                                 <ButtonPrimary text={"Güncelle"}
-                                                    disabled={productAmount != null ? false : true}
+                                                    disabled={eklenenlerMiktar != "" ? false : true}
                                                     onPress={() => {
                                                         eklenenlerMiktarGuncelle()
                                                     }} />
