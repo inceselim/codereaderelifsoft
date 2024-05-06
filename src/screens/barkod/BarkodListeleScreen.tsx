@@ -798,7 +798,9 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                     value={eklenenlerMiktar}
                                                     keyboardType='decimal-pad'
                                                     onChangeText={setEklenenlerMiktar}
-                                                    onSubmitEditing={eklenenlerMiktarGuncelle}
+                                                    onSubmitEditing={eklenenlerMiktar != "" ? eklenenlerMiktarGuncelle : Keyboard.dismiss}
+                                                    selectionColor={colors.primaryColor}
+                                                    returnKeyType='done'
                                                     // onBlur={(e) => handleBlur(e.nativeEvent.text)}
                                                     // onKeyPress={(event) => {
                                                     //     console.log(event)
