@@ -111,7 +111,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
         setLoading(true);
         // console.log("ID: ", Id)
         // console.log("selected COMPANY: ", selectedCompany.Id)
-        await axios.get(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI +
+        await axios.get(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI +
             "?sayimId=" + Id +
             "&companyId=" + selectedCompany?.Id, {
             headers: {
@@ -146,7 +146,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
 
         const handleDelete = async ({ key }: any) => {
             setLoadingDelete(true);
-            await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?key=" + key,
+            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE + "?key=" + key,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken
@@ -200,7 +200,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
         const handleDeleteAll = async () => {
             setLoadingDelete(true);
 
-            await axios.delete(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_DELETE_ALL + "?sayimId=" + Id,
+            await axios.delete(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_DELETE_ALL + "?sayimId=" + Id,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -258,7 +258,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             formData.append("Id", Id)
             formData.append("email", email)
             formData.append("companyId", selectedCompany.Id)
-            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_SEND_MAIL, formData,
+            await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_SEND_MAIL, formData,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -318,7 +318,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             formData.append("key", key)
             formData.append("values", JSON.stringify({ "ItemAmount": productAmount }))
             console.log(formData)
-            await axios.put(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_AMOUNT_UPDATE, formData,
+            await axios.put(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_AMOUNT_UPDATE, formData,
                 {
                     headers: {
                         "Authorization": "Bearer " + userToken,
@@ -364,7 +364,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
         console.log("selectedCompany?.Id", selectedCompany?.Id)
         console.log("barcodeText", barcodeText)
         setLoadingSearch(true);
-        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
+        await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
             "?companyId=" + selectedCompany?.Id + "&name=" + barcodeText + "&garajNo=" + ProjectCode, {}, {
             headers: {
                 "Authorization": "Bearer " + userToken
@@ -392,7 +392,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
         console.log("selectedCompany?.Id", selectedCompany?.Id)
         console.log("barcodeTextManuel", barcodeTextManuel)
         setLoadingSearch(true);
-        await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
+        await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_BUL +
             "?companyId=" + selectedCompany?.Id + "&name=" + barcodeTextManuel + "&garajNo=" + ProjectCode, {}, {
             headers: {
                 "Authorization": "Bearer " + userToken
@@ -436,7 +436,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                 }))
             }
 
-            await axios.post(API_URL.DEV_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
+            await axios.post(API_URL.BASE_URL + API_URL.SAYIM_DETAYLARI_MALZEME_EKLE, formData, {
                 headers: {
                     "Authorization": "Bearer " + userToken,
                     "Content-Type": "multipart/form-data"
@@ -483,6 +483,10 @@ export default function BarkodListeleScreen({ props, route }: any) {
             return item.ItemCode == ItemCode
         });
 
+        console.log("")
+        console.log("ItemCode: ",ItemCode)
+        console.log("isDuplicate", isDuplicate)
+        console.log("")
         if (isDuplicate) {
             Alert.alert('Uyarı', 'Bu öğe zaten eklenmiş.', [
                 {
@@ -580,7 +584,30 @@ export default function BarkodListeleScreen({ props, route }: any) {
             setIsCamera(true)
         }
     }, [productSearch])
-
+    useEffect(() => {
+        if (isOto == true) {
+            if (barcodeTextState == false) {
+                console.log("ItemID: ", productSearch[0]?.Logicalref)
+                if (productSearch.length > 0) {
+                    handleAddList({
+                        ItemCode: productSearch[0]?.Code,
+                        ItemId: productSearch[0]?.Logicalref,
+                        LogoAmount: productSearch[0]?.Onhand
+                    })
+                }
+            }
+            if (productSearch.length > 0) {
+                console.log("ayşe")
+                console.log("fatma")
+                setIsCamera(false)
+            }
+            else {
+                console.log("ayşe")
+                console.log("fatma")
+                setIsCamera(true)
+            }
+        }
+    }, [productSearch])
     // Barkod Miktarında virgül girildiğinde hata oluşuyor
     const handleTextChange = (inputText: any) => {
         // Girilen metindeki virgülleri noktaya dönüştür
@@ -732,7 +759,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                     :
                                                     productSearch?.map((item: any, index) => {
                                                         return (
-                                                            <View key={item?.Code}>
+                                                            <View key={index}>
                                                                 <CardView>
                                                                     <View key={index} style={styles.viewTwoRowJustify}>
                                                                         <Text style={[styles.textLarge, styles.textBold]}>
