@@ -128,7 +128,7 @@ export default function BarkodListeleScreen({ props, route }: any) {
             })
             .finally(() => {
                 setLoading(false)
-                // setBarcodeStatus(true)
+                setBarcodeStatus(true)
             })
     }
 
@@ -640,19 +640,20 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                         laserColor='red' // (default red) optional, color of laser in scanner frame
                                                         frameColor='white' // (default white) optional, color of border of scanner frame
                                                     />
-                                                    {
+                                                    {/* {
                                                         productSearch?.map((item) => {
+                                                            console.log(item)
                                                             return (
                                                                 <View style={{
                                                                     flexDirection: "column",
                                                                 }}>
                                                                     <View>
-                                                                        <Text style={styles.textBold}>{item?.ItemCode}</Text>
-                                                                        <Text style={styles.textNormal}>{item?.ItemBarcode}</Text>
+                                                                        <Text style={styles.textBold}>{item?.Code}</Text>
+                                                                        <Text style={styles.textNormal}>{item?.Name}</Text>
                                                                     </View>
                                                                     <View style={styles.viewTwoRowJustify}>
                                                                         <Text style={[styles.textNormal, { flex: 1 }]}>{item?.ItemName}</Text>
-                                                                        <Text style={[{ paddingEnd: 14, }, styles.textBold]}>{item?.ItemAmount} {item?.ItemUnitName}</Text>
+                                                                        <Text style={[{ paddingEnd: 14, }, styles.textBold]}>{item?.ItemAmount} {item?.UnitName}</Text>
                                                                         {
                                                                             StatusSayim == 1 ?
                                                                                 null :
@@ -674,23 +675,25 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                                 </View>
                                                             )
                                                         })
-                                                    }
+                                                    } */}
+
                                                     {
                                                         productSearch?.length > 0 ?
                                                             <>
                                                                 <ButtonPrimary text={"Temizle"} onPress={() => setProductSearch([])} />
-                                                                <ButtonPrimary text="Listeye Ekle" onPress={() => {
+                                                                {/* <ButtonPrimary text="Listeye Ekle" onPress={() => {
                                                                     // addItemToArray(productSearch[0])
                                                                     handleAddList({
                                                                         ItemId: productSearch[0]?.Logicalref,
                                                                         LogoAmount: productSearch[0]?.Onhand
                                                                     })
-                                                                }} />
+                                                                }} /> */}
                                                                 {/* <ButtonPrimary text={"Ekle"} onPress={() => {
                                                                 }} /> */}
                                                             </>
                                                             : null
                                                     }
+
                                                 </>
                                                 :
                                                 <>
@@ -727,11 +730,11 @@ export default function BarkodListeleScreen({ props, route }: any) {
                                                 productSearch.length == 0 ?
                                                     null
                                                     :
-                                                    productSearch?.map((item: any) => {
+                                                    productSearch?.map((item: any, index) => {
                                                         return (
                                                             <View key={item?.Code}>
                                                                 <CardView>
-                                                                    <View style={styles.viewTwoRowJustify}>
+                                                                    <View key={index} style={styles.viewTwoRowJustify}>
                                                                         <Text style={[styles.textLarge, styles.textBold]}>
                                                                             Ürün Kodu
                                                                         </Text>
